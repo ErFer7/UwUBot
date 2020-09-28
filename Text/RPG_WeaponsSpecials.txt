@@ -1,0 +1,185 @@
+@I
+ comum#-#1.0#0#
+@I+
+ com rachaduras#-1 de dano e 1/100 de chance de quebrar#0.75#0#
+ experiente#1.25x de XP por abate#1.25#0#
+ da ganância#1.25x de Dinheiro por abate#1.25#0#
+ com reforços#+1 de defesa#1.25#0#
+@I++
+ com danos#-1 de dano e 1/20 de chance de quebrar#0.5#0#
+ experiente#1.5x de XP por abate#1.5#0#
+ da ganância#1.5x de Dinheiro por abate#1.5#0#
+ com precisão#Atinge um crítico com 19 ou 20#1.3#0#
+ da agressão#+1 de dano#1.15#0#
+ veloz#+1 ao modificador de destreza#1.25#0#
+ com reforços melhorados#+1 de defesa e +1 ao modificador de força#1.5#0#
+@I-S
+ merda#-1 dano e 1/12 de chance de quebrar#0.25#0#
+ experiente#1.75x de XP por abate#1.75#1#
+ da ganância#1.75x de Dinheiro por abate#1.75#0#
+ com precisão melhorada#Atinge o crítico do 18 ao 20#1.4#0#
+ com reforços agressivos#+1 de dano e +1 de defesa#1.75#0#
+ grande#+2 de dano e -1 ao modificador de destreza#1.75#0#
+ brutal#+1 ao modificador de força#1.75#0#
+@I-L
+ de vidro#+1 de dano e 1/100 de chance de quebrar#1.1#0#
+ experiente#2x de XP por abate#2.0#0#
+ da ganância#2x de Dinheiro por abate#2.0#0#
+ superior#+1 de dano e atinge o crítico com 19 ou 20#1.6#0#
+ com reforços superiores#+2 de dano e +1 de defesa#2.0#0#
+ enorme#+2 de dano, -1 ao modificador de destreza e +1 ao modificador de carisma#2.0#0#
+ com maldição#+1 ao modificador de força e -1 ao modificador de constituição#2.0#0#
+ selvagem#+1 ao modificador de força e -1 ao modificador de inteligência#2.0#0#
+ irracional#+1 ao modificador de força e -1 ao modificador de sabedoria#2.0#0#
+ gaúcha#+1 ao modificador de força, -1 ao modificador de carisma e +100 em homosexualismo#2.0#0#
+@II
+ incomum#-#1.5#1#
+@II+
+ horrível#-2 de dano e 1/12 de chance de quebrar#0.25#0#
+ experiente#2x de XP por abate#2.0#0#
+ da ganância#2x de Dinheiro por abate#2.0#0#
+ com exatidão#+1 de dano e atinge o crítico de 18 a 20#2.0#0#
+ com defesa superior#+2 de defesa#2.5#0#
+ gigante#+4 de dano, +1 ao modificador de carisma e -2 ao modificador de destreza. Pode paralisar o inimigo por 1 turno#2.15#0#
+ com força pesada#+2 ao modificador de força e -1 ao modificador de destreza#2.0#0#
+@II++
+ lixo#-2 de dano e 1/10 de chance de quebrar#0.15#0#
+ experiente#2.25x de XP por abate#2.25#0#
+ da ganância#2.25x de Dinheiro por abate#2.25#0#
+ de prata#Vantagem contra criaturas espectrais e infectados#2.5#0#
+ de tungstênio#Vantagem contra criaturas baseadas em fogo e infernais#2.0#0#
+ ultra leve#+2 ao modificador de destreza e -2 de dano#2.5#0#
+ vital#+1 ao modificador de constituição e -1 dano#2.5#0#
+@II-S
+ completamente lixo#-2 de dano e 1/8 de chance de quebrar#0.1#0#
+ experiente#2.5x de XP por abate#2.5#0#
+ da ganância#2.5x de Dinheiro por abate#2.5#0#
+ de ouro#+2 ao modificador de carisma#5.0#0#
+ necro#Restaura 5 PV em um crítico#3.25#0#
+ intelectual#+1 ao modificador de inteligência#2.15#0#
+ com sabedoria#+1 ao modificador de sabedoria#2.15#0#
+@II-L
+ de vidro letal#+2 de dano, +2 ao modificador de destreza e 1/20 de chance de quebrar#2.5#0#
+ experiente#2.75x de XP por abate#2.75#0#
+ da ganância#2.75x de Dinheiro por abate#2.75#0#
+ de platina#+1 de defesa, +3 de dano e +1 ao modificador de destreza#3.25#0#
+ com encantamentos#+4 de dano, +1 de defesa e tem 1/20 de chance de incêndiar o oponente#4.0#0#
+ com magia de sangue#Causa sangramentos (-1 de PV por turno)#4.0#0#
+ com veneno#Causa envenenamento (-1 de PV por turno)#3.15#0#
+ com congelamento#O inimigo fica congelado por 3 turnos#4.0#0#
+ de ossos#+2 de dano e +2 ao modificador de carisma#3.5#0#
+ com devastação#Pode lançar uma explosão arcana (1d8 de dano) com um cooldown de 4 turnos#4.25#0#
+ com luz perfuradora#Pode lançar um ataque de luz pela parede, quem estiver no outro lado fica cego por 3 turnos. Cooldown 3 turnos#4.0#0#00000000
+ com impacto arcano#Um ataque no chão pode desorientar todos a sua volta (raio 4m) por 3 turnos. Cooldown 3 turnos#3.0#0#
+@III
+ com melhorias#-#3.0#1#
+ de prata e com melhorias#Vantagem contra criaturas espectrais e infectados#3.0#0#
+@III+
+ totalmente merda#-3 de dano e 1/6 de chance de quebrar#0.05#1#
+ experiente#3x de XP por abate#3#1#
+ da ganância#3x de Dinheiro por abate#3.0#1#
+ de força bruta#+2 ao modificador de força e +2 de dano#4.5#1#
+ de destreza imensa#+2 ao modificador de destreza e +2 de dano#4.5#1#
+ de constituição rara#+2 ao modificador de constiuição e +2 de dano#4.5#1#
+ de intelecto superior#+2 ao modificador de inteligência e +2 de danos#4.5#1#
+ de grande sabedoria#+2 ao modificador de sabedoria e +2 de danos#4.5#1#
+ de carisma lendário#+2 ao modificador de carisma e +2 de danos#4.5#1#
+@III++
+ completamente destruído#-3 de dano e 1/4 de chance de quebrar#0.025#1#
+ com magia estimulante#+2 de destreza e +2 de inteligência quando ativada a magia. Cooldown de 8 turnos#5.0#1#
+ flamejante#+2 de dano e pode incêndiar os inimigos por 3 turnos#5.0#1#
+ de gelo mágico#1/4 de chance de congelar os inimigos por 5 turnos#5.5#1#
+ da escuridão#cega os inimigos por 1 turno#5.0#1#
+ com sorte#Críticos acontecem de 17 a 20#5.0#1#
+ de crimanite#1/4 de chance de causar sangramento (-1 PV por 3 turnos) e roubar a vida (+1 PV por turno no sangramento)#5.5#1#
+ com toxinas#1/4 de chance de desmaiar o inimigo#5.0#1#
+ infernal#1/4 de chance de incênciar o inimigo (-1 PV por 6 turnos)#5.0#1#
+@III-S
+ sacana#-3 de dano e 1/2 de chance de quebrar#0.01#1#
+ com fumaça#Libera uma fumaça que cobre um raio de 20 metros (-5 de percepção e causa desvantagem)#5.0#1#
+ com retorno#Retorna para a mão do jogador após ser lançado#5.0#1#
+ com muralha de fogo#Pode levantar uma parede de fogo (-1 PV por turno para quem passar). Cooldown de 6 turnos#5.0#1#
+ com fleche de luz#Lança um fleche que cega todos que olharem por 2 turnos. Cooldown de 3 turnos#5.0#1#
+ com revelação#Lança uma magia que revela todos os inimigos no local por 3 turnos. Cooldown de 6 turnos#5.0#1#
+ de cobalto#+5 de dano e +1 ao modificador de destreza#5.0#1#
+ de paladino#Vantagem contra criaturas infernais#5.0#1#
+@III-L
+ de cristal#+4 de dano, +3 ao modificador de destreza e 1/12 de chance de quebrar#4.5#1#
+ de mitril#+4 de dano, +2 ao modificador de força e -2 ao modificador de destreza#5.5#1#
+ de oricalco#+4 de dano, +2 ao modificador de destreza e -2 ao modificador de força#5.5#1#
+ da devastação#Deixa todos desorientados em um raio de 50 metros. Cooldown 20 turnos#6.0#1#
+ com magias de destruição#Lança um ataque que causa -15 de PV em um raio de 20 metros. Cooldown de 20 turnos#6.0#1#
+ com aura defensiva#Todo dano recebido é inflinjido no inimigo#8.0#1#
+ da ordem#+4 de modificador de destreza e +2 de dano#8.0#1#
+ da desordem#+4 de modificador de força e -1 de moficador de destreza#8.0#1#
+ de diamante encantado#+8 de dano, +2 de modificador de destreza e +2 de modificador de carisma#9.0#1#
+@IV
+ de ligas raras#-#3#3#
+@IV+
+ com melhorias#-#3#3#
+@IV++
+ com melhorias#-#3#3#
+@IV-S
+ com melhorias#-#3#3#
+@IV-L
+ com melhorias#-#3#3#
+@V
+ com aprimoramentos arcanos#-#3#3#
+@V+
+ com melhorias#-#3#3#
+@V++
+ com melhorias#-#3#3#
+@V-S
+ com melhorias#-#3#3#
+@V-L
+ com melhorias#-#3#3#
+@VI
+ com magias desconhecidas#-#3#3#
+@VI+
+ com melhorias#-#3#3#
+@VI++
+ com melhorias#-#3#3#
+@VI-S
+ com melhorias#-#3#3#
+@VI-L
+ com melhorias#-#3#3#
+@VII
+ superior#-#3#3#
+@VII+
+ com melhorias#-#3#3#
+@VII++
+ com melhorias#-#3#3#
+@VII-S
+ com melhorias#-#3#3#
+@VII-L
+ com melhorias#-#3#3#
+@VIII
+ de elite#-#3#3#
+@VIII+
+ com melhorias#-#3#3#
+@VIII++
+ com melhorias#-#3#3#
+@VIII-S
+ com melhorias#-#3#3#
+@VIII-L
+ com melhorias#-#3#3#
+@IX
+ com aprimoramentos lendários#-#3#3#
+@IX+
+ com melhorias#-#3#3#
+@IX++
+ com melhorias#-#3#3#
+@IX-S
+ com melhorias#-#3#3#
+@IX-L
+ com melhorias#-#3#3#
+@X
+ da mais alta qualidade#-#3#3#
+@X+
+ com melhorias#-#3#3#
+@X++
+ com melhorias#-#3#3#
+@X-S
+ com melhorias#-#3#3#
+@X-L
+ com melhorias#-#3#3#
