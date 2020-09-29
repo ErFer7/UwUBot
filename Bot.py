@@ -1,4 +1,4 @@
-# Bot para Discord - 2020/06/26 - V 3.6.3 - Eric Fernandes Evaristo
+# Bot para Discord - 2020/06/26 - V 3.6.4 - Eric Fernandes Evaristo
 # Projeto: Bot-Project
 # Bot: PyGR
 
@@ -20,7 +20,8 @@ from discord.ext.tasks import loop
 TOKEN = "NzI2MTM5MzYxMjQxODU4MTU5.XvY99A.Fh8e071wE-eqGo2tndUlAG3vuCU"
 
 # Variáveis globais
-version = "3.6.3"
+name = "PyGR"
+version = "3.6.4"
 errorCount = 0
 sentErrorCount = 0
 errorList = []
@@ -1370,7 +1371,7 @@ async def SystemControlBefore():
 
     try:
 
-        print("[{0}][Inicialização]: Inicializando PyGR {1}".format(datetime.now(), version))
+        print("[{0}][Inicialização]: Inicializando {1} {2}".format(datetime.now(), name, version))
         print("[{0}][Inicialização]: Inicializando o RNG".format(datetime.now()))
 
         seed(datetime.now())
@@ -1451,7 +1452,7 @@ async def on_ready():
 
     try:
 
-        print("[{0}][Sistema]: GFBot {1} pronto para operar".format(datetime.now(), version))
+        print("[{0}][Sistema]: {1} {2} pronto para operar".format(datetime.now(), name, version))
         print("[{0}][Sistema]: Logado como {1}, no id: {2}".format(datetime.now(), bot.user.name, bot.user.id))
         print("[{0}][Sistema]: Servers conectados: {1}".format(datetime.now(), bot.guilds))
 
@@ -1509,12 +1510,6 @@ async def on_disconnect():
 @bot.event
 async def on_resumed():
     print("[{0}][Sistema]: Resumido".format(datetime.now()))
-
-# Algum usuário está escrevendo
-@bot.event
-async def on_typing(channel, user, when):
-
-    print("[{0}][Sistema]: [{1}] escrevendo no canal [{2}]".format(datetime.now(), user.name, channel.name))
 #endregion
 
 # Execução do bot
