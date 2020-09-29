@@ -1,6 +1,6 @@
 # Bot para Discord - 2020/06/26 - V 3.6.3 - Eric Fernandes Evaristo
 # Projeto: Bot-Project
-# Bot: GFBot
+# Bot: PyGR
 
 # Bibliotecas
 import asyncio
@@ -1219,6 +1219,7 @@ async def SaveImage(ctx):
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
         errorCount += 1
         errorList.append(error)
+
 # Enviar imagem
 @bot.command(name = "imagem")
 async def GetImage(ctx):
@@ -1369,7 +1370,7 @@ async def SystemControlBefore():
 
     try:
 
-        print("[{0}][Inicialização]: Inicializando GRFABot {1}".format(datetime.now(), version))
+        print("[{0}][Inicialização]: Inicializando PyGR {1}".format(datetime.now(), version))
         print("[{0}][Inicialização]: Inicializando o RNG".format(datetime.now()))
 
         seed(datetime.now())
