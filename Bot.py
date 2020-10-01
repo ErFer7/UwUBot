@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 # Bot para Discord - 2020/06/26 - V 3.6.4 - Eric Fernandes Evaristo
 # Projeto: Bot-Project
 # Bot: PyGR
@@ -634,7 +636,7 @@ async def Info(ctx):
 
     try:
 
-        await ctx.send("```GFBot {0} - Criado em 26/06/2020\nMarcando tempo = {1}\nInterações = {2}\nCanal principal (ID) = {3}\nTTS = {4}\nConectado pelo usuário = {5}\nErros = {6}```".format(version, markingTime, allowIndepentInteractions, mainBotChannelID, tts, connectedByUser, errorCount))
+        await ctx.send("```PyGR {0} - Criado em 26/06/2020\nMarcando tempo = {1}\nInterações = {2}\nCanal principal (ID) = {3}\nTTS = {4}\nConectado pelo usuário = {5}\nErros = {6}```".format(version, markingTime, allowIndepentInteractions, mainBotChannelID, tts, connectedByUser, errorCount))
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
