@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Bot para Discord - 2020/06/26 - V 3.6.4 - Eric Fernandes Evaristo
+# Bot para Discord - 2020/06/26 - V 3.6.5 - Eric Fernandes Evaristo
 # Projeto: Bot-Project
 # Bot: PyGR
 
@@ -23,7 +23,7 @@ TOKEN = "NzI2MTM5MzYxMjQxODU4MTU5.XvY99A.Fh8e071wE-eqGo2tndUlAG3vuCU"
 
 # Variáveis globais
 name = "PyGR"
-version = "3.6.4"
+version = "3.6.5"
 errorCount = 0
 sentErrorCount = 0
 errorList = []
@@ -1482,6 +1482,12 @@ async def on_message(message):
         
         # Comandos
         await bot.process_commands(message)
+
+        # Protótipo de moderação
+        if message.content.startswith("-") and message.channel.id != 724437879744626748:
+
+            await message.delete()
+            await message.channel.send("```diff\n- OPA CARA, ACHA QUE ISSO AQUI É BAGUNÇA\n Use o canal \"nlogônia\" para comandos com o bot.```")
 
         if bot.user.mentioned_in(message):
 
