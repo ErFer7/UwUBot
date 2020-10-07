@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Bot para Discord - 2020/06/26 - V 3.6.5 - Eric Fernandes Evaristo
+# Bot para Discord - 2020/06/26 - Eric Fernandes Evaristo
 # Projeto: Bot-Project
 # Bot: PyGR
 
-# Bibliotecas
 import asyncio
 import discord
 import urllib.parse
@@ -1100,71 +1099,6 @@ async def UserInfo(ctx):
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
         errorCount += 1
         errorList.append(error)
-
-# Transforma um string em emojis
-@bot.command(name = "emoji")
-async def Emojify(ctx, *str):
-
-    global errorCount
-    global errorList
-
-    print("[{0}][Comando]: Emojificar (Autor: {1})".format(datetime.now(), ctx.message.author.name))
-
-    try:
-
-        message = " ".join(str).lower()
-        emojifiedMessage = ""
-
-        for c in message:
-
-            if c == " ":
-
-                emojifiedMessage += "   "
-            elif c == "0":
-
-                emojifiedMessage += " :zero:"
-            elif c == "1":
-
-                emojifiedMessage += " :one:"
-            elif c == "2":
-
-                emojifiedMessage += " :two:"
-            elif c =="3":
-
-                emojifiedMessage += " :three:"
-            elif c == "4":
-
-                emojifiedMessage += " :four:"
-            elif c == "5":
-
-                emojifiedMessage += " :five:"
-            elif c == "6":
-
-                emojifiedMessage += " :six:"
-            elif c == "7":
-
-                emojifiedMessage += " :seven:"
-            elif c == "8":
-
-                emojifiedMessage += " :seven:"
-            elif c == "9":
-
-                emojifiedMessage += " :seven:"
-            elif c in ascii_lowercase:
-
-                emojifiedMessage += " :regional_indicator_{0}:".format(c)
-        
-        if len(emojifiedMessage) <= 2000:
-
-            await ctx.send(emojifiedMessage)
-        else:
-
-            await ctx.send("```A mensagem é muito grande!```")
-    except Exception as error:
-
-        print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        errorCount += 1
-        errorList.append(error)
 #endregion
 
 #region Humor
@@ -1321,6 +1255,71 @@ async def Stop(ctx):
     else:
 
         await ctx.send("```Não tô conectado```")
+
+# Transforma um string em emojis
+@bot.command(name = "emoji")
+async def Emojify(ctx, *str):
+
+    global errorCount
+    global errorList
+
+    print("[{0}][Comando]: Emojificar (Autor: {1})".format(datetime.now(), ctx.message.author.name))
+
+    try:
+
+        message = " ".join(str).lower()
+        emojifiedMessage = ""
+
+        for c in message:
+
+            if c == " ":
+
+                emojifiedMessage += "   "
+            elif c == "0":
+
+                emojifiedMessage += " :zero:"
+            elif c == "1":
+
+                emojifiedMessage += " :one:"
+            elif c == "2":
+
+                emojifiedMessage += " :two:"
+            elif c =="3":
+
+                emojifiedMessage += " :three:"
+            elif c == "4":
+
+                emojifiedMessage += " :four:"
+            elif c == "5":
+
+                emojifiedMessage += " :five:"
+            elif c == "6":
+
+                emojifiedMessage += " :six:"
+            elif c == "7":
+
+                emojifiedMessage += " :seven:"
+            elif c == "8":
+
+                emojifiedMessage += " :seven:"
+            elif c == "9":
+
+                emojifiedMessage += " :seven:"
+            elif c in ascii_lowercase:
+
+                emojifiedMessage += " :regional_indicator_{0}:".format(c)
+        
+        if len(emojifiedMessage) <= 2000:
+
+            await ctx.send(emojifiedMessage)
+        else:
+
+            await ctx.send("```A mensagem é muito grande!```")
+    except Exception as error:
+
+        print("[{0}][Erro]: {1}".format(datetime.now(), error))
+        errorCount += 1
+        errorList.append(error)
 #endregion
 #endregion
 
