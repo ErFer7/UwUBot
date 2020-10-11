@@ -4,25 +4,27 @@
 # Projeto: Bot-Project
 # Bot: PyGR
 
+# Atualmente em refatoração
+
 import asyncio
 import discord
 import urllib.parse
 
+from UtilityFunctions import FindWholeWord, RandStr
 from random import randint, choice, seed
 from datetime import datetime, timedelta
-from re import compile, IGNORECASE
 from os import listdir
 from os.path import isfile, join
-from string import ascii_lowercase
 from discord.ext import commands
 from discord.ext.tasks import loop
+from string import ascii_lowercase
 
 # Token. Não compartilhe!
 TOKEN = "NzI2MTM5MzYxMjQxODU4MTU5.XvY99A.Fh8e071wE-eqGo2tndUlAG3vuCU"
 
 # Variáveis globais
 name = "PyGR"
-version = "3.6.5"
+version = "3.7.2"
 errorCount = 0
 sentErrorCount = 0
 errorList = []
@@ -41,30 +43,17 @@ tts = True
 admID = 382542596196663296
 
 # region Functions
-def findWholeWord(word):
-
-    return compile(r'\b({0})\b'.format(word), flags = IGNORECASE).search
-
-def RandStr(length: int):
-
-    letters = ascii_lowercase
-    return "".join(choice(letters) for i in range(length))
-
-def IsMemberOnline(member):
-
-    return str(member.status) == "online" and member != bot.user and not member.bot
-
 def Interact(message: discord.message):
 
-    if findWholeWord("tu é")(message.content.lower()):
+    if FindWholeWord("tu é")(message.content.lower()):
 
-        if findWholeWord("gay")(message.content.lower()):
+        if FindWholeWord("gay")(message.content.lower()):
 
             return message.channel.send("Não. Sou apenas uma máquina. UMA MÁQUINA DE SEXO.", tts = tts)
-        elif findWholeWord("corno")(message.content.lower()):
+        elif FindWholeWord("corno")(message.content.lower()):
 
             return message.channel.send("Um bot sem chifre é um bot indefeso.", tts = tts)
-        elif findWholeWord("comunista")(message.content.lower()):
+        elif FindWholeWord("comunista")(message.content.lower()):
 
             return message.channel.send("Obviamente que sim.", tts = tts)
         else:
@@ -82,7 +71,7 @@ def Interact(message: discord.message):
             else:
 
                 return message.channel.send("Não, mas tu é.", tts = tts)
-    elif findWholeWord("quem é")(message.content.lower()):
+    elif FindWholeWord("quem é")(message.content.lower()):
 
         rng = randint(0, 3)
 
@@ -98,13 +87,13 @@ def Interact(message: discord.message):
         else:
 
             return message.channel.send("Olha, se eu visse esse cara na rua eu deitava no soco.", tts = tts)
-    elif findWholeWord("quando foi")(message.content.lower()):
+    elif FindWholeWord("quando foi")(message.content.lower()):
 
         return message.channel.send("Foi no ano {0}".format(randint(1000, 2019)), tts = tts)
-    elif findWholeWord("quando vai ser")(message.content.lower()):
+    elif FindWholeWord("quando vai ser")(message.content.lower()):
 
         return message.channel.send("Vai ser em {0}".format(randint(2020, 3000)), tts = tts)
-    elif findWholeWord("concorda")(message.content.lower()):
+    elif FindWholeWord("concorda")(message.content.lower()):
 
         rng = randint(0, 4)
 
@@ -174,6 +163,7 @@ def SendImage(channel: discord.channel):
     images = [i for i in listdir("Images") if isfile(join("Images", i))]
     return channel.send(file = discord.File("Images\\" + choice(images)))
 
+# Transferir para Utility Functions
 def ManageSettings(mode: str):
 
     global errorCount
@@ -244,6 +234,7 @@ def ManageSettings(mode: str):
             errorList.append(error)
             return False         
 
+# Transferir para Utility Functions
 def RPGItemGenerator(type: str, level: float):
 
     itemLevel = ""
@@ -635,7 +626,21 @@ async def Info(ctx):
 
     try:
 
-        await ctx.send("```PyGR {0} - Criado em 26/06/2020\nMarcando tempo = {1}\nInterações = {2}\nCanal principal (ID) = {3}\nTTS = {4}\nConectado pelo usuário = {5}\nErros = {6}```".format(version, markingTime, allowIndepentInteractions, mainBotChannelID, tts, connectedByUser, errorCount))
+        header = "{0} {1} - Criado em 26/06/2020".format(name, version)
+        websocket = "Websocket: {0}".format(bot.ws)
+        httpLoop = "Loop HTTP: {0}".format(bot.loop)
+        latency = "Latência interna: {0}".format(bot.latency)
+        guilds = "Servidores: {0}".format(bot.guilds)
+        voiceClients = "Instâncias de voz: {0}".format(bot.voice_clients)
+        markingTimeInfo = "Marcando tempo: {0}".format(markingTime)
+        allowIndepentInteractionsInfo = "Interações: {0}".format(allowIndepentInteractions)
+        mainBotChannelIDInfo = "Canal principal: {0}".format(mainBotChannelID)
+        ttsInfo = "TTS: {0}".format(tts)
+        connectedByUserInfo = "Conectado pelo usuário: {0}".format(connectedByUser)
+        errorsInfo = "Erros: {0}".format(errorCount)
+
+
+        await ctx.send("```{0}\n{1}\n{2}\n{3}\n{4}\n{5}\n{6}\n{7}\n{8}\n{9}\n{10}\n{11}```".format(header, websocket, httpLoop, latency, guilds, voiceClients, markingTimeInfo, allowIndepentInteractionsInfo, mainBotChannelIDInfo, ttsInfo, connectedByUserInfo, errorsInfo))
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
@@ -1503,6 +1508,42 @@ async def on_message(message):
         errorCount += 1
         errorList.append(error)
 
+# Evento de mensagem deletada
+@bot.event
+async def on_message_delete(message):
+
+    global errorCount
+    global errorList
+
+    try:
+
+        print("[{0}][Mensagem]: Mensagem [{1}] deletada".format(datetime.now(), message.content))
+
+        await message.channel.send("```diff\n- Menssagem deletada no canal\n A menssagem era [{0}] de [{1}]```".format(message.content, message.author))
+    except Exception as error:
+
+        print("[{0}][Erro]: {1}".format(datetime.now(), error))
+        errorCount += 1
+        errorList.append(error)
+
+# Evento de mensagem deletada
+@bot.event
+async def on_message_edit(before, after):
+
+    global errorCount
+    global errorList
+
+    try:
+
+        print("[{0}][Mensagem]: Mensagem [{1}] editada para [{2}]".format(datetime.now(), before.content, after.content))
+
+        await after.channel.send("```diff\n- Menssagem de [{0}] editada no canal\n A menssagem era [{1}] antes da edição```".format(before.author, before.content))
+    except Exception as error:
+
+        print("[{0}][Erro]: {1}".format(datetime.now(), error))
+        errorCount += 1
+        errorList.append(error)
+
 # Conexão concluída
 @bot.event
 async def on_connect():
@@ -1517,8 +1558,22 @@ async def on_disconnect():
 @bot.event
 async def on_resumed():
     print("[{0}][Sistema]: Resumido".format(datetime.now()))
-#endregion
 
+# Erro
+@bot.event
+async def on_error(event, *args, **kwargs):
+
+    print("[{0}][Erro]: Erro interno".format(datetime.now()))
+
+# IMPLEMENTAR:
+# on_member_join
+# on_member_remove
+# on_member_update
+# on_user_update
+# on_guild_join
+
+
+#endregion
 # Execução do bot
 SystemControl.start()
 Conscience.start()
