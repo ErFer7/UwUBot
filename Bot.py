@@ -24,7 +24,7 @@ TOKEN = "NzI2MTM5MzYxMjQxODU4MTU5.XvY99A.Fh8e071wE-eqGo2tndUlAG3vuCU"
 
 # Variáveis globais
 name = "PyGR"
-version = "3.7.4"
+version = "3.7.5"
 errorCount = 0
 sentErrorCount = 0
 errorList = []
@@ -1520,7 +1520,7 @@ async def on_message_delete(message):
 
             print("[{0}][Mensagem]: Mensagem [{1}] deletada".format(datetime.now(), message.content))
 
-            await message.channel.send("```diff\n- Menssagem deletada no canal\n A menssagem era [{0}] de [{1}]```".format(message.content, message.author))
+            await message.channel.send("```diff\n- Mensagem deletada no canal\n A mensagem era [{0}] de [{1}]```".format(message.content, message.author))
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
@@ -1539,7 +1539,7 @@ async def on_message_edit(before, after):
         if not before.author.bot:
             print("[{0}][Mensagem]: Mensagem [{1}] editada para [{2}]".format(datetime.now(), before.content, after.content))
 
-            await after.channel.send("```diff\n- Menssagem de [{0}] editada no canal\n A menssagem era [{1}] antes da edição```".format(before.author, before.content))
+            await after.channel.send("```diff\n- Mensagem de [{0}] editada no canal\n A mensagem era [{1}] antes da edição```".format(before.author, before.content))
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
