@@ -24,12 +24,13 @@ TOKEN = "NzI2MTM5MzYxMjQxODU4MTU5.XvY99A.Fh8e071wE-eqGo2tndUlAG3vuCU"
 
 # Variáveis globais
 name = "PyGR"
-version = "3.7.5"
+version = "3.8.0"
 errorCount = 0
 sentErrorCount = 0
 errorList = []
 isReady = False
 connectedByUser = False
+goodMorning = True
 
 initialTime: datetime
 mainGuild: discord.guild
@@ -41,6 +42,11 @@ allowIndepentInteractions = True
 mainBotChannelID = 724437879744626748
 tts = True
 admID = 382542596196663296
+
+# Inicializa intents
+intents = discord.Intents.all()
+intents.presences = True
+intents.members = True
 
 # region Functions
 def Interact(message: discord.message):
@@ -549,7 +555,7 @@ def RPGItemGenerator(type: str, level: float):
     return "```Item: {0}\nDano: {1} {2}\nPreço: {3}\nNível: {4}\nEspecial: {5}\nDescrição: {6}```".format(itemName, itemDamage, itemDamageType, itemPrice, itemLevel, itemSpecial, itemDescription)
 #endregion
 
-bot = commands.Bot(command_prefix = "~", help_command = None)
+bot = commands.Bot(command_prefix = "~", help_command = None, intents = intents)
 
 #region Commands
 #region System Commands
@@ -638,9 +644,9 @@ async def Info(ctx):
         ttsInfo = "TTS: {0}".format(tts)
         connectedByUserInfo = "Conectado pelo usuário: {0}".format(connectedByUser)
         errorsInfo = "Erros: {0}".format(errorCount)
+        goodMorningInfo = "Bom dia: {0}".format(goodMorning)
 
-
-        await ctx.send("```{0}\n{1}\n{2}\n{3}\n{4}\n{5}\n{6}\n{7}\n{8}\n{9}\n{10}\n{11}```".format(header, websocket, httpLoop, latency, guilds, voiceClients, markingTimeInfo, allowIndepentInteractionsInfo, mainBotChannelIDInfo, ttsInfo, connectedByUserInfo, errorsInfo))
+        await ctx.send("```{0}\n{1}\n{2}\n{3}\n{4}\n{5}\n{6}\n{7}\n{8}\n{9}\n{10}\n{11}\n{12}```".format(header, websocket, httpLoop, latency, guilds, voiceClients, markingTimeInfo, allowIndepentInteractionsInfo, mainBotChannelIDInfo, ttsInfo, connectedByUserInfo, errorsInfo, goodMorningInfo))
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
@@ -1536,7 +1542,7 @@ async def on_message_edit(before, after):
 
     try:
 
-        if not before.author.bot:
+        if not before.author.bot and not before.content.startswith("https"):
             print("[{0}][Mensagem]: Mensagem [{1}] editada para [{2}]".format(datetime.now(), before.content, after.content))
 
             await after.channel.send("```diff\n- Mensagem de [{0}] editada no canal\n A mensagem era [{1}] antes da edição```".format(before.author, before.content))
@@ -1567,13 +1573,39 @@ async def on_error(event, *args, **kwargs):
 
     print("[{0}][Erro]: Erro interno".format(datetime.now()))
 
+# Quando um usuário muda o seu perfil
+@bot.event
+async def on_member_update(before, after):
+
+    global errorCount
+    global errorList
+    global goodMorning
+
+    try:
+
+        print("[{0}][Sistema]: Membro [{1}] atualizado no servidor [{2}]".format(datetime.now(), after.name, after.guild.name))
+
+        statusBefore = str(before.status)
+        statusAfter = str(after.status)
+
+        if statusBefore != statusAfter and statusAfter == "online" and after.id == 704540555492720660 and goodMorning and after.guild == mainGuild:
+
+            channel = bot.get_channel(479343684937187330)
+
+            await channel.send("Bom dia {0} {1}!".format(after.mention, choice(bot.emojis)))
+
+            goodMorning = False
+    except Exception as error:
+
+        print("[{0}][Erro]: {1}".format(datetime.now(), error))
+        errorCount += 1
+        errorList.append(error)
+
 # IMPLEMENTAR:
 # on_member_join
 # on_member_remove
-# on_member_update
 # on_user_update
 # on_guild_join
-
 
 #endregion
 # Execução do bot
