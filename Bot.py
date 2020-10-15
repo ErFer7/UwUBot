@@ -18,13 +18,14 @@ from os.path import isfile, join
 from discord.ext import commands
 from discord.ext.tasks import loop
 from string import ascii_lowercase
+from unidecode import unidecode
 
 # Token. Não compartilhe!
 TOKEN = "NzI2MTM5MzYxMjQxODU4MTU5.XvY99A.Fh8e071wE-eqGo2tndUlAG3vuCU"
 
 # Variáveis globais
 name = "PyGR"
-version = "3.8.0"
+version = "3.9.1"
 errorCount = 0
 sentErrorCount = 0
 errorList = []
@@ -1279,9 +1280,10 @@ async def Emojify(ctx, *str):
     try:
 
         message = " ".join(str).lower()
+        normalizedMessage = unidecode(message)
         emojifiedMessage = ""
 
-        for c in message:
+        for c in normalizedMessage:
 
             if c == " ":
 
@@ -1323,6 +1325,41 @@ async def Emojify(ctx, *str):
         if len(emojifiedMessage) <= 2000:
 
             await ctx.send(emojifiedMessage)
+        else:
+
+            await ctx.send("```A mensagem é muito grande!```")
+    except Exception as error:
+
+        print("[{0}][Erro]: {1}".format(datetime.now(), error))
+        errorCount += 1
+        errorList.append(error)
+
+# Aleatoriza um string entre caixa alta e baixa
+@bot.command(name = "zoas")
+async def Mock(ctx, *str):
+
+    global errorCount
+    global errorList
+
+    print("[{0}][Comando]: Zoas (Autor: {1})".format(datetime.now(), ctx.message.author.name))
+
+    try:
+
+        message = " ".join(str).lower()
+        mockedMessage = ""
+
+        for c in message:
+
+            if randint(0, 1) == 0:
+
+                mockedMessage += c.upper()
+            else:
+
+                mockedMessage += c.lower()
+
+        if len(mockedMessage) <= 2000:
+
+            await ctx.send(mockedMessage)
         else:
 
             await ctx.send("```A mensagem é muito grande!```")

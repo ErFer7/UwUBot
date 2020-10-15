@@ -13,4 +13,5 @@ Comandos disponíveis:
 "~rng [min] [max]": gera um número aleatório.
 "~rsg [Tamanho]": gera um string aleatório.
 "~emoji [Mensagem]": transforma uma mensagem em emojis.
+"~zoas [Mensagem]": ZoA uMA mEnSaGeM.
 ```

@@ -17,7 +17,6 @@ def RandStr(length: int):
     return "".join(choice(letters) for i in range(length))
 
 # Não utilizada
-# Verificar se self irá causar problemas
-def IsMemberOnline(self, member):
+def IsMemberOnline(clientUser, member):
 
-    return str(member.status) == "online" and member != self.user and not member.bot
+    return str(member.status) == "online" and member != clientUser and not member.bot
