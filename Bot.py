@@ -25,13 +25,11 @@ TOKEN = "NzI2MTM5MzYxMjQxODU4MTU5.XvY99A.Fh8e071wE-eqGo2tndUlAG3vuCU"
 
 # Variáveis globais
 name = "PyGR"
-version = "3.9.1"
+version = "3.9.2"
 errorCount = 0
 sentErrorCount = 0
 errorList = []
 isReady = False
-connectedByUser = False
-goodMorning = True
 
 initialTime: datetime
 mainGuild: discord.guild
@@ -119,51 +117,6 @@ def Interact(message: discord.message):
         else:
 
             return message.channel.send("Discordo muito.", tts = tts)
-
-def SendMessage(messageContext: int):
-
-    greetings_TI = ["Olá", "Oi", "Opa", "Alô", "Saudações"]
-    greetings_TD = ["Bom dia", "Boa tarde", "Boa noite"]
-    adjectives = ["meu amigo", "safada", "gostosa", "meu consagrado", "corno", "gata", "comunista", "caminhoneiro"]
-
-    # Contextos:
-    # 0: Saudações
-    # 1: Frases aleatórias
-
-    if messageContext == 0:
-
-        if randint(0, 1) == 0:
-
-            hour = datetime.now().hour
-
-            if hour >= 6 and hour < 12:
-
-                return greetings_TD[0] + " " + choice(adjectives)
-            elif hour >= 12 and hour < 18:
-
-                return greetings_TD[1] + " " + choice(adjectives)
-            else:
-
-                return greetings_TD[2] + " " + choice(adjectives)
-        else:
-            
-            return choice(greetings_TI) + " " + choice(adjectives)
-    elif messageContext == 1:
-
-        quotesFile = open("Text\\quotes.txt", "r", encoding = "utf-8")
-        quotesLines = quotesFile.readlines()
-        quotes = []
-        for i in range(len(quotesLines) - 1):
-
-            unprocLine = quotesLines[i]
-            charCount = len(unprocLine)
-            procLine = unprocLine[:charCount - 1]
-            quotes.append(procLine)
-        quotes.append(quotesLines[i + 1])
-        output = choice(quotes)
-        quotesFile.close()
-
-        return output
 
 def SendImage(channel: discord.channel):
     
@@ -609,7 +562,7 @@ async def Say(ctx, channelID, *msg):
             if channel != None:
 
                 message = " ".join(msg)
-                await channel.send(message)
+                await channel.send("{0} {1}".format(message, bot.emojis[len(bot.emojis) - 6]))
             else:
 
                 await ctx.send("```Canal não encontrado```")
@@ -643,11 +596,9 @@ async def Info(ctx):
         allowIndepentInteractionsInfo = "Interações: {0}".format(allowIndepentInteractions)
         mainBotChannelIDInfo = "Canal principal: {0}".format(mainBotChannelID)
         ttsInfo = "TTS: {0}".format(tts)
-        connectedByUserInfo = "Conectado pelo usuário: {0}".format(connectedByUser)
         errorsInfo = "Erros: {0}".format(errorCount)
-        goodMorningInfo = "Bom dia: {0}".format(goodMorning)
 
-        await ctx.send("```{0}\n{1}\n{2}\n{3}\n{4}\n{5}\n{6}\n{7}\n{8}\n{9}\n{10}\n{11}\n{12}```".format(header, websocket, httpLoop, latency, guilds, voiceClients, markingTimeInfo, allowIndepentInteractionsInfo, mainBotChannelIDInfo, ttsInfo, connectedByUserInfo, errorsInfo, goodMorningInfo))
+        await ctx.send("```{0}\n{1}\n{2}\n{3}\n{4}\n{5}\n{6}\n{7}\n{8}\n{9}\n{10}```".format(header, websocket, httpLoop, latency, guilds, voiceClients, markingTimeInfo, allowIndepentInteractionsInfo, mainBotChannelIDInfo, ttsInfo, errorsInfo))
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
@@ -936,7 +887,6 @@ async def Join(ctx):
 
     global errorCount
     global errorList
-    global connectedByUser
 
     print("[{0}][Comando]: Conectar (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
@@ -947,7 +897,6 @@ async def Join(ctx):
             if ctx.voice_client == None or not ctx.voice_client.is_connected():
 
                 await ctx.send("```Entrando```")
-                connectedByUser = True
                 await ctx.author.voice.channel.connect()
             else:
 
@@ -965,14 +914,11 @@ async def Join(ctx):
 @bot.command(name = "desconectar")
 async def Leave(ctx):
 
-    global connectedByUser
-
     print("[{0}][Comando]: Desconectar (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
     if ctx.voice_client != None and ctx.voice_client.is_connected():
 
         await ctx.send("```Saindo```")
-        connectedByUser = False
         await ctx.voice_client.disconnect()
     else:
 
@@ -1368,6 +1314,24 @@ async def Mock(ctx, *str):
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
         errorCount += 1
         errorList.append(error)
+
+# Envia um emoji específico - EXPERIMENTAL
+@bot.command(name = "urso")
+async def Bear(ctx):
+
+    global errorCount
+    global errorList
+
+    print("[{0}][Comando]: Urso (Autor: {1})".format(datetime.now(), ctx.message.author.name))
+
+    try:
+
+        await ctx.send(bot.emojis[40])
+    except Exception as error:
+
+        print("[{0}][Erro]: {1}".format(datetime.now(), error))
+        errorCount += 1
+        errorList.append(error)
 #endregion
 #endregion
 
@@ -1435,6 +1399,7 @@ async def SystemControlBefore():
             print("[{0}][Inicialização]: Escrevendo configurações".format(datetime.now()))
             ManageSettings("w")
 
+        print("[{0}][Inicialização]: Esperando o sistema...".format(datetime.now()))
         await bot.wait_until_ready()
 
         # server
@@ -1445,45 +1410,6 @@ async def SystemControlBefore():
 
         isReady = True
         print("[{0}][Inicialização]: Sistema interno pronto".format(datetime.now()))
-    except Exception as error:
-
-        print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        errorCount += 1
-        errorList.append(error)
-
-# Loop de consciência
-@loop(seconds = 10)
-async def Conscience():
-
-    global mainChannel
-    global errorCount
-    global errorList
-    global connectedByUser
-
-    try:
-
-        if isReady:
-            
-            # Atividades
-            if allowIndepentInteractions:
-                
-                for voice_channel in mainGuild.voice_channels:
-
-                    if len(voice_channel.members) == 1:
-
-                        if bot.user not in voice_channel.members:
-
-                            if randint(1, 1000) == 1000:
-
-                                connectedByUser = False
-                                await voice_channel.connect()
-                        elif bot.user in voice_channel.members and not connectedByUser:
-                            
-                            for voiceClient in bot.voice_clients:
-
-                                if voiceClient.channel == voice_channel:
-
-                                    await voiceClient.disconnect()
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
@@ -1616,22 +1542,11 @@ async def on_member_update(before, after):
 
     global errorCount
     global errorList
-    global goodMorning
 
     try:
 
-        print("[{0}][Sistema]: Membro [{1}] atualizado no servidor [{2}]".format(datetime.now(), after.name, after.guild.name))
+        print("[{0}][Sistema]: Membro [{1}] ficou [{2}] no servidor [{3}]".format(datetime.now(), after.name, after.status, after.guild.name))
 
-        statusBefore = str(before.status)
-        statusAfter = str(after.status)
-
-        if statusBefore != statusAfter and statusAfter == "online" and after.id == 704540555492720660 and goodMorning and after.guild == mainGuild:
-
-            channel = bot.get_channel(479343684937187330)
-
-            await channel.send("Bom dia {0} {1}!".format(after.mention, choice(bot.emojis)))
-
-            goodMorning = False
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
@@ -1641,11 +1556,9 @@ async def on_member_update(before, after):
 # IMPLEMENTAR:
 # on_member_join
 # on_member_remove
-# on_user_update
 # on_guild_join
 
 #endregion
 # Execução do bot
 SystemControl.start()
-Conscience.start()
 bot.run(TOKEN)
