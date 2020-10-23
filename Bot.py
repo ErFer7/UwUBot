@@ -25,7 +25,7 @@ TOKEN = "NzI2MTM5MzYxMjQxODU4MTU5.XvY99A.Fh8e071wE-eqGo2tndUlAG3vuCU"
 
 # Variáveis globais
 name = "PyGR"
-version = "3.9.3"
+version = "3.9.4"
 errorCount = 0
 sentErrorCount = 0
 errorList = []
@@ -117,11 +117,6 @@ def Interact(message: discord.message):
         else:
 
             return message.channel.send("Discordo muito.", tts = tts)
-
-def SendImage(channel: discord.channel):
-    
-    images = [i for i in listdir("Images") if isfile(join("Images", i))]
-    return channel.send(file = discord.File("Images\\" + choice(images)))
 
 # Transferir para Utility Functions
 def ManageSettings(mode: str):
@@ -1085,53 +1080,6 @@ async def FakeCuckLevel(ctx):
     else:
 
         await ctx.send("{0} é 100\\% corno".format(ctx.message.mentions[0].mention), tts = tts)
-
-# Salva imagens
-@bot.command(name = "salvar")
-async def SaveImage(ctx):
-
-    global errorCount
-    global errorList
-
-    print("[{0}][Comando]: Salvar (Autor: {1})".format(datetime.now(), ctx.message.author.name))
-
-    try:
-
-        if len(ctx.message.attachments) > 0:
-
-            extension = ctx.message.attachments[0].filename[-3:]
-            if extension == "png" or extension == "jpg" or extension == "gif":
-                    
-                await ctx.message.attachments[0].save("Images\\{0}.{1}".format(RandStr(8), extension))
-            else:
-
-                await ctx.send("```Formato não suportado```")
-        else:
-
-            await ctx.send("```Não há nenhum arquivo```")
-    except Exception as error:
-
-        print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        errorCount += 1
-        errorList.append(error)
-
-# Enviar imagem
-@bot.command(name = "imagem")
-async def GetImage(ctx):
-
-    global errorCount
-    global errorList
-
-    print("[{0}][Comando]: Imagem (Autor: {1})".format(datetime.now(), ctx.message.author.name))
-
-    try:
-
-        await SendImage(ctx.channel)
-    except Exception as error:
-
-        print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        errorCount += 1
-        errorList.append(error)
 
 # Análise da partida
 @bot.command(name = "valorant")
