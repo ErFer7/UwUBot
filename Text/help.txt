@@ -7,7 +7,6 @@
 ║ "~valorant": faz uma análise da partida;                                 ║
 ║ "~interação": permite que o bot envie mensagens sozinho;                 ║
 ║ "~canal [id do canal]": define o canal de texto para o bot;              ║
-║ "~salvar": salva uma imagem no banco de dados (somente png, jpg ou gif); ║
 ║ "~rpg": utilidades para rpg de mesa;                                     ║
 ║ "~conectar": conecta a um canal de voz;                                  ║
 ║ "~desconectar": se desconecta do canal de voz.                           ║
