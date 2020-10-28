@@ -1052,6 +1052,25 @@ async def UserInfo(ctx):
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
         errorCount += 1
         errorList.append(error)
+
+# Envia a playlist do server - EXPERIMENTAL
+# Feito pelo grande Francisco Gamba (@Ffran33)
+@bot.command(name = "playlist")
+async def Playlist_Link(ctx):
+
+    global errorCount
+    global errorList
+
+    print("[{0}][Comando]: Playlist (Autor: {1})".format(datetime.now(), ctx.message.author.name))
+
+    try:
+
+        await ctx.send("Tá aqui a braba: [playlist](https://open.spotify.com/playlist/5oi7roA6H7tyTjF4Xt0xM6?si=hGKMl78_RRGGgO3If2hosg) ou https://open.spotify.com/playlist/5oi7roA6H7tyTjF4Xt0xM6?si=hGKMl78_RRGGgO3If2hosg")
+    except Exception as error:
+
+        print("[{0}][Erro]: {1}".format(datetime.now(), error))
+        errorCount += 1
+        errorList.append(error)
 #endregion
 
 #region Humor
