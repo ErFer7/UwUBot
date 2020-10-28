@@ -25,7 +25,7 @@ TOKEN = "NzI2MTM5MzYxMjQxODU4MTU5.XvY99A.Fh8e071wE-eqGo2tndUlAG3vuCU"
 
 # Variáveis globais
 name = "PyGR"
-version = "3.9.4"
+version = "3.9.5"
 errorCount = 0
 sentErrorCount = 0
 errorList = []
