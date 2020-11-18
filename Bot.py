@@ -24,23 +24,29 @@ from unidecode import unidecode
 TOKEN = "NzI2MTM5MzYxMjQxODU4MTU5.XvY99A.Fh8e071wE-eqGo2tndUlAG3vuCU"
 
 # Variáveis globais
-name = "PyGR"
-version = "3.9.5"
-errorCount = 0
-sentErrorCount = 0
-errorList = []
-isReady = False
+NAME = "PyGR"
+VERSION = "3.9.6"
+
+error_count: int
+sent_error_count: int
+error_list: list
+is_ready: bool
+marking_time: bool
+allow_indepent_interactions: bool
+main_bot_channel_ID: int
+TTS: bool
+adm_ID: int
 
 initialTime: datetime
 mainGuild: discord.guild
 mainChannel: discord.channel
 
 # Configurações padrão (Essas configurações são carregadas dos arquivos quando existirem)
-markingTime = False
-allowIndepentInteractions = True
-mainBotChannelID = 724437879744626748
-tts = True
-admID = 382542596196663296
+marking_time = False
+allow_indepent_interactions = True
+main_bot_channel_ID = 724437879744626748
+TTS = True
+adm_ID = 382542596196663296
 
 # Inicializa intents
 intents = discord.Intents.all()
@@ -54,80 +60,80 @@ def Interact(message: discord.message):
 
         if FindWholeWord("gay")(message.content.lower()):
 
-            return message.channel.send("Não. Sou apenas uma máquina. UMA MÁQUINA DE SEXO.", tts = tts)
+            return message.channel.send("Não. Sou apenas uma máquina. UMA MÁQUINA DE SEXO.", TTS = TTS)
         elif FindWholeWord("corno")(message.content.lower()):
 
-            return message.channel.send("Um bot sem chifre é um bot indefeso.", tts = tts)
+            return message.channel.send("Um bot sem chifre é um bot indefeso.", TTS = TTS)
         elif FindWholeWord("comunista")(message.content.lower()):
 
-            return message.channel.send("Obviamente que sim.", tts = tts)
+            return message.channel.send("Obviamente que sim.", TTS = TTS)
         else:
             rng = randint(0, 3)
 
             if rng == 0:
 
-                return message.channel.send("Teu pai aquele arrombado.", tts = tts)
+                return message.channel.send("Teu pai aquele arrombado.", TTS = TTS)
             elif rng == 1:
 
-                return message.channel.send("Sim.", tts = tts)
+                return message.channel.send("Sim.", TTS = TTS)
             elif rng == 2:
 
-                return message.channel.send("Não.", tts = tts)
+                return message.channel.send("Não.", TTS = TTS)
             else:
 
-                return message.channel.send("Não, mas tu é.", tts = tts)
+                return message.channel.send("Não, mas tu é.", TTS = TTS)
     elif FindWholeWord("quem é")(message.content.lower()):
 
         rng = randint(0, 3)
 
         if rng == 0:
 
-            return message.channel.send("É uma grande pessoa", tts = tts)
+            return message.channel.send("É uma grande pessoa", TTS = TTS)
         elif rng == 1:
 
-            return message.channel.send("É o maior boiola de todos os tempos", tts = tts)
+            return message.channel.send("É o maior boiola de todos os tempos", TTS = TTS)
         elif rng == 2:
 
-            return message.channel.send("É um grande amigo meu.", tts = tts)
+            return message.channel.send("É um grande amigo meu.", TTS = TTS)
         else:
 
-            return message.channel.send("Olha, se eu visse esse cara na rua eu deitava no soco.", tts = tts)
+            return message.channel.send("Olha, se eu visse esse cara na rua eu deitava no soco.", TTS = TTS)
     elif FindWholeWord("quando foi")(message.content.lower()):
 
-        return message.channel.send("Foi no ano {0}".format(randint(1000, 2019)), tts = tts)
+        return message.channel.send("Foi no ano {0}".format(randint(1000, 2019)), TTS = TTS)
     elif FindWholeWord("quando vai ser")(message.content.lower()):
 
-        return message.channel.send("Vai ser em {0}".format(randint(2020, 3000)), tts = tts)
+        return message.channel.send("Vai ser em {0}".format(randint(2020, 3000)), TTS = TTS)
     elif FindWholeWord("concorda")(message.content.lower()):
 
         rng = randint(0, 4)
 
         if rng == 0:
 
-            return message.channel.send("Concordo muito.", tts = tts)
+            return message.channel.send("Concordo muito.", TTS = TTS)
         elif rng == 1:
 
-            return message.channel.send("Concordo.", tts = tts)
+            return message.channel.send("Concordo.", TTS = TTS)
         elif rng == 2:
 
-            return message.channel.send("Não sei bem na verdade.", tts = tts)
+            return message.channel.send("Não sei bem na verdade.", TTS = TTS)
         elif rng == 3:
 
-            return message.channel.send("Discordo.", tts = tts)
+            return message.channel.send("Discordo.", TTS = TTS)
         else:
 
-            return message.channel.send("Discordo muito.", tts = tts)
+            return message.channel.send("Discordo muito.", TTS = TTS)
 
 # Transferir para Utility Functions
 def ManageSettings(mode: str):
 
-    global errorCount
-    global markingTime
-    global allowIndepentInteractions
+    global error_count
+    global marking_time
+    global allow_indepent_interactions
     global initialTime
-    global mainBotChannelID
-    global tts
-    global errorList
+    global main_bot_channel_ID
+    global TTS
+    global error_list
 
     if mode == "r":
 
@@ -139,28 +145,28 @@ def ManageSettings(mode: str):
 
             if line.startswith("MT"):
 
-                markingTime = bool(int(line.split()[1]))
+                marking_time = bool(int(line.split()[1]))
             elif line.startswith("AII"):
 
-                allowIndepentInteractions = bool(int(line.split()[1]))
+                allow_indepent_interactions = bool(int(line.split()[1]))
             elif line.startswith("IT"):
 
                 date = line.split()[1] + " " + line.split()[2]
                 initialTime = datetime.strptime(date, "%Y-%m-%d %H:%M:%S.%f")
             elif line.startswith("MBC_ID"):
 
-                mainBotChannelID = int(line.split()[1])
+                main_bot_channel_ID = int(line.split()[1])
             elif line.startswith("TTS"):
 
-                tts = bool(int(line.split()[1]))
+                TTS = bool(int(line.split()[1]))
         
         print("[{0}][Sistema]: Configurações lidas".format(datetime.now()))
     elif mode == "w":
 
-        settings = ["2515\n", "MT " + str(int(markingTime)) + "\n",                        \
-                    "AII " + str(int(allowIndepentInteractions)) + "\n",                   \
+        settings = ["2515\n", "MT " + str(int(marking_time)) + "\n",                        \
+                    "AII " + str(int(allow_indepent_interactions)) + "\n",                   \
                     "IT " + str(initialTime) + "\n",                                  \
-                    "MBC_ID " + str(mainBotChannelID) + "\n", "TTS " + str(int(tts)) + "\n"]
+                    "MBC_ID " + str(main_bot_channel_ID) + "\n", "TTS " + str(int(TTS)) + "\n"]
             
         with open("System\\Settings.set","w") as settingsFile: 
             
@@ -185,8 +191,8 @@ def ManageSettings(mode: str):
         except Exception as error:
 
             print("[{0}][Erro]: Erro ao tentar abrir o arquivo de configurações: {1}".format(datetime, error))
-            errorCount += 1
-            errorList.append(error)
+            error_count += 1
+            error_list.append(error)
             return False         
 
 # Transferir para Utility Functions
@@ -512,21 +518,21 @@ bot = commands.Bot(command_prefix = "~", help_command = None, intents = intents)
 @bot.command(name = "off")
 async def Shutdown(ctx):
 
-    global errorCount
-    global errorList
+    global error_count
+    global error_list
 
     print("[{0}][Comando]: Off (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
     try:
 
-        if ctx.message.author.id == admID:
+        if ctx.message.author.id == adm_ID:
             
             await ctx.send("```Até o outro dia```")
 
             print("[{0}][Sistema]: Escrevendo configurações".format(datetime.now()))
             ManageSettings("w")
 
-            print("[{0}][Sistema]: Erros ({1}) = {2}".format(datetime.now(), errorCount, errorList))
+            print("[{0}][Sistema]: Erros ({1}) = {2}".format(datetime.now(), error_count, error_list))
             print("[{0}][Sistema]: Salvando e encerrando".format(datetime.now()))
 
             await bot.close()
@@ -536,21 +542,21 @@ async def Shutdown(ctx):
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        errorCount += 1
-        errorList.append(error)
+        error_count += 1
+        error_list.append(error)
 
 # Repete a mensagem em um canal
 @bot.command(name = "say")
 async def Say(ctx, channelID, *msg):
 
-    global errorCount
-    global errorList
+    global error_count
+    global error_list
 
     print("[{0}][Comando]: Say (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
     try:
 
-        if ctx.message.author.id == admID:
+        if ctx.message.author.id == adm_ID:
             
             channel = bot.get_channel(int(channelID))
 
@@ -567,45 +573,45 @@ async def Say(ctx, channelID, *msg):
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        errorCount += 1
-        errorList.append(error)
+        error_count += 1
+        error_list.append(error)
 
 # Informações
 @bot.command(name = "info")
 async def Info(ctx):
 
-    global errorCount
-    global errorList
+    global error_count
+    global error_list
 
     print("[{0}][Comando]: Info (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
     try:
 
-        header = "{0} {1} - Criado em 26/06/2020".format(name, version)
+        header = "{0} {1} - Criado em 26/06/2020".format(NAME, VERSION)
         websocket = "Websocket: {0}".format(bot.ws)
         httpLoop = "Loop HTTP: {0}".format(bot.loop)
         latency = "Latência interna: {0}".format(bot.latency)
         guilds = "Servidores: {0}".format(bot.guilds)
         voiceClients = "Instâncias de voz: {0}".format(bot.voice_clients)
-        markingTimeInfo = "Marcando tempo: {0}".format(markingTime)
-        allowIndepentInteractionsInfo = "Interações: {0}".format(allowIndepentInteractions)
-        mainBotChannelIDInfo = "Canal principal: {0}".format(mainBotChannelID)
-        ttsInfo = "TTS: {0}".format(tts)
-        errorsInfo = "Erros: {0}".format(errorCount)
+        markingTimeInfo = "Marcando tempo: {0}".format(marking_time)
+        allowIndepentInteractionsInfo = "Interações: {0}".format(allow_indepent_interactions)
+        mainBotChannelIDInfo = "Canal principal: {0}".format(main_bot_channel_ID)
+        ttsInfo = "TTS: {0}".format(TTS)
+        errorsInfo = "Erros: {0}".format(error_count)
 
         await ctx.send("```{0}\n{1}\n{2}\n{3}\n{4}\n{5}\n{6}\n{7}\n{8}\n{9}\n{10}```".format(header, websocket, httpLoop, latency, guilds, voiceClients, markingTimeInfo, allowIndepentInteractionsInfo, mainBotChannelIDInfo, ttsInfo, errorsInfo))
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        errorCount += 1
-        errorList.append(error)
+        error_count += 1
+        error_list.append(error)
 
 # Cria um erro propositalmente
 @bot.command(name = "error")
 async def RaiseError(ctx):
 
-    global errorCount
-    global errorList
+    global error_count
+    global error_list
 
     print("[{0}][Comando]: ERRO (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
@@ -616,8 +622,8 @@ async def RaiseError(ctx):
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        errorCount += 1
-        errorList.append(error)
+        error_count += 1
+        error_list.append(error)
 #endregion
 
 #region Utilities
@@ -625,8 +631,8 @@ async def RaiseError(ctx):
 @bot.command(name = "ajuda")
 async def CustomHelp(ctx):
 
-    global errorCount
-    global errorList
+    global error_count
+    global error_list
 
     print("[{0}][Comando]: Ajuda (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
@@ -639,30 +645,30 @@ async def CustomHelp(ctx):
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        errorCount += 1
-        errorList.append(error)
+        error_count += 1
+        error_list.append(error)
 
 # Mede o tempo
 @bot.command(name = "tempo")
 async def Time(ctx):
 
-    global errorCount
-    global errorList
-    global markingTime
+    global error_count
+    global error_list
+    global marking_time
     global initialTime
 
     print("[{0}][Comando]: Tempo (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
     try:
 
-        if markingTime:
+        if marking_time:
 
-            markingTime = False
+            marking_time = False
             delta = datetime.now() - initialTime
             await ctx.send("```Tempo marcado: " + str(delta) + "```")
         else:
 
-            markingTime = True
+            marking_time = True
             initialTime = datetime.now()
             print("[{0}][Sistema]: Escrevendo configurações".format(datetime.now()))
             ManageSettings("w")
@@ -670,46 +676,46 @@ async def Time(ctx):
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        errorCount += 1
-        errorList.append(error)
+        error_count += 1
+        error_list.append(error)
     
 # Switch de interação
 @bot.command(name = "interação")
 async def InteractionSwitch(ctx):
 
-    global errorCount
-    global errorList
-    global allowIndepentInteractions
+    global error_count
+    global error_list
+    global allow_indepent_interactions
 
     try:
 
-        if allowIndepentInteractions:
+        if allow_indepent_interactions:
 
             print("[{0}][Comando]: Interação (desativação) (Autor: {1})".format(datetime.now(), ctx.message.author.name))
-            allowIndepentInteractions = False
+            allow_indepent_interactions = False
             print("[{0}][Sistema]: Escrevendo configurações".format(datetime.now()))
             ManageSettings("w")
             await ctx.send("```Interação: Desligada.```")
         else:
 
             print("[{0}][Comando]: Interação (desativação) (Autor: {1})".format(datetime.now(), ctx.message.author.name))
-            allowIndepentInteractions = True
+            allow_indepent_interactions = True
             print("[{0}][Sistema]: Escrevendo configurações".format(datetime.now()))
             ManageSettings("w")
             await ctx.send("```Interação: Ligada.```")
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        errorCount += 1
-        errorList.append(error)
+        error_count += 1
+        error_list.append(error)
 
 # Modificador de canal
 @bot.command(name = "canal")
 async def ChannelModifier(ctx, channelArg = None):
 
-    global errorCount
-    global errorList
-    global mainBotChannelID
+    global error_count
+    global error_list
+    global main_bot_channel_ID
 
     print("[{0}][Comando]: Canal (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
@@ -736,7 +742,7 @@ async def ChannelModifier(ctx, channelArg = None):
                     if c.id == idInt:
 
                         print("[{0}][Sistema]: Canal encontrado".format(datetime.now()))
-                        mainBotChannelID = idInt
+                        main_bot_channel_ID = idInt
                         print("[{0}][Sistema]: Escrevendo configurações".format(datetime.now()))
                         ManageSettings("w")
                         foundChannel = True
@@ -757,20 +763,20 @@ async def ChannelModifier(ctx, channelArg = None):
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        errorCount += 1
-        errorList.append(error)
+        error_count += 1
+        error_list.append(error)
 
 # Switch do TTS
 @bot.command(name = "tts")
 async def TTSSwitch(ctx):
 
-    global tts
+    global TTS
 
-    if tts:
+    if TTS:
 
         print("[{0}][Comando]: TTS (desativar) (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
-        tts = False
+        TTS = False
         print("[{0}][Sistema]: Escrevendo configurações".format(datetime.now()))
         ManageSettings("w")
         await ctx.send("```TTS desativado```")
@@ -778,7 +784,7 @@ async def TTSSwitch(ctx):
 
         print("[{0}][Comando]: TTS (ativar) (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
-        tts = True
+        TTS = True
         print("[{0}][Sistema]: Escrevendo configurações".format(datetime.now()))
         ManageSettings("w")
         await ctx.send("```TTS ativado```")
@@ -880,8 +886,8 @@ async def RPGUtilities(ctx, arg = None, typeArg = None, levelArg = None):
 @bot.command(name = "conectar")
 async def Join(ctx):
 
-    global errorCount
-    global errorList
+    global error_count
+    global error_list
 
     print("[{0}][Comando]: Conectar (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
@@ -902,8 +908,8 @@ async def Join(ctx):
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        errorCount += 1
-        errorList.append(error)
+        error_count += 1
+        error_list.append(error)
 
 # Desconectar
 @bot.command(name = "desconectar")
@@ -923,8 +929,8 @@ async def Leave(ctx):
 @bot.command(name = "wolf")
 async def Wolfram(ctx, *search):
 
-    global errorCount
-    global errorList
+    global error_count
+    global error_list
 
     print("[{0}][Comando]: Wolf (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
@@ -937,15 +943,15 @@ async def Wolfram(ctx, *search):
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        errorCount += 1
-        errorList.append(error)
+        error_count += 1
+        error_list.append(error)
 
 # Gera um número aleatório
 @bot.command(name = "rng")
 async def RandomNumber(ctx, minStr = None, maxStr = None):
 
-    global errorCount
-    global errorList
+    global error_count
+    global error_list
 
     print("[{0}][Comando]: RNG (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
@@ -976,15 +982,15 @@ async def RandomNumber(ctx, minStr = None, maxStr = None):
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        errorCount += 1
-        errorList.append(error)
+        error_count += 1
+        error_list.append(error)
 
 # Gera um string aleatório
 @bot.command(name = "rsg")
 async def RandomString(ctx, sizeStr = None):
 
-    global errorCount
-    global errorList
+    global error_count
+    global error_list
 
     print("[{0}][Comando]: RSG (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
@@ -1013,15 +1019,15 @@ async def RandomString(ctx, sizeStr = None):
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        errorCount += 1
-        errorList.append(error)
+        error_count += 1
+        error_list.append(error)
 
 # Exibe os dados de um usuário
 @bot.command(name = "usuário")
 async def UserInfo(ctx):
 
-    global errorCount
-    global errorList
+    global error_count
+    global error_list
 
     print("[{0}][Comando]: Usuário (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
@@ -1050,16 +1056,16 @@ async def UserInfo(ctx):
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        errorCount += 1
-        errorList.append(error)
+        error_count += 1
+        error_list.append(error)
 
 # Envia a playlist do server - EXPERIMENTAL
 # Feito pelo grande Francisco Gamba (@Ffran33)
 @bot.command(name = "playlist")
 async def Playlist_Link(ctx):
 
-    global errorCount
-    global errorList
+    global error_count
+    global error_list
 
     print("[{0}][Comando]: Playlist (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
@@ -1069,8 +1075,8 @@ async def Playlist_Link(ctx):
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        errorCount += 1
-        errorList.append(error)
+        error_count += 1
+        error_list.append(error)
 #endregion
 
 #region Humor
@@ -1082,10 +1088,10 @@ async def CuckLevel(ctx):
 
     if len(ctx.message.mentions) == 0:
         
-        await ctx.send("{0} é {1}\\% crono".format(ctx.message.author.mention, randint(0, 100)), tts = tts)
+        await ctx.send("{0} é {1}\\% crono".format(ctx.message.author.mention, randint(0, 100)), TTS = TTS)
     else:
 
-        await ctx.send("{0} é {1}\\% crono".format(ctx.message.mentions[0].mention, randint(0, 100)), tts = tts)
+        await ctx.send("{0} é {1}\\% crono".format(ctx.message.mentions[0].mention, randint(0, 100)), TTS = TTS)
 
 # Medidor de corno fake
 @bot.command(name = "corno")
@@ -1095,10 +1101,10 @@ async def FakeCuckLevel(ctx):
 
     if len(ctx.message.mentions) == 0:
         
-        await ctx.send("{0} é 100\\% corno".format(ctx.message.author.mention), tts = tts)
+        await ctx.send("{0} é 100\\% corno".format(ctx.message.author.mention), TTS = TTS)
     else:
 
-        await ctx.send("{0} é 100\\% corno".format(ctx.message.mentions[0].mention), tts = tts)
+        await ctx.send("{0} é 100\\% corno".format(ctx.message.mentions[0].mention), TTS = TTS)
 
 # Análise da partida
 @bot.command(name = "valorant")
@@ -1185,8 +1191,8 @@ async def Stop(ctx):
 @bot.command(name = "emoji")
 async def Emojify(ctx, *str):
 
-    global errorCount
-    global errorList
+    global error_count
+    global error_list
 
     print("[{0}][Comando]: Emojificar (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
@@ -1244,15 +1250,15 @@ async def Emojify(ctx, *str):
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        errorCount += 1
-        errorList.append(error)
+        error_count += 1
+        error_list.append(error)
 
 # Aleatoriza um string entre caixa alta e baixa
 @bot.command(name = "zoas")
 async def Mock(ctx, *str):
 
-    global errorCount
-    global errorList
+    global error_count
+    global error_list
 
     print("[{0}][Comando]: Zoas (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
@@ -1279,15 +1285,15 @@ async def Mock(ctx, *str):
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        errorCount += 1
-        errorList.append(error)
+        error_count += 1
+        error_list.append(error)
 
 # Envia um emoji específico - EXPERIMENTAL
 @bot.command(name = "urso")
 async def Bear(ctx):
 
-    global errorCount
-    global errorList
+    global error_count
+    global error_list
 
     print("[{0}][Comando]: Urso (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
@@ -1297,8 +1303,8 @@ async def Bear(ctx):
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        errorCount += 1
-        errorList.append(error)
+        error_count += 1
+        error_list.append(error)
 #endregion
 #endregion
 
@@ -1308,50 +1314,50 @@ async def Bear(ctx):
 async def SystemControl():
 
     global mainChannel
-    global errorCount
-    global sentErrorCount
+    global error_count
+    global sent_error_count
 
     try:
 
         # Atualiza o canal
         if mainChannel != None:
 
-            if mainChannel.id != mainBotChannelID:
+            if mainChannel.id != main_bot_channel_ID:
 
                 print("[{0}][Sistema]: Mudança de canal detectada, atualizando...".format(datetime.now()))
-                mainChannel = bot.get_channel(mainBotChannelID)
+                mainChannel = bot.get_channel(main_bot_channel_ID)
         else:
 
             print("[{0}][Aviso]: O canal principal é nulo, definindo o canal principal pelo ID padrão".format(datetime.now()))
-            mainChannel = bot.get_channel(mainBotChannelID)
+            mainChannel = bot.get_channel(main_bot_channel_ID)
 
         # Checa estabilidade do sistema
-        if errorCount > sentErrorCount:
+        if error_count > sent_error_count:
 
-            sentErrorCount += 1
+            sent_error_count += 1
 
-            if mainChannel == None and (mainBotChannelID != None and mainBotChannelID != 0):
+            if mainChannel == None and (main_bot_channel_ID != None and main_bot_channel_ID != 0):
 
-                mainChannel = bot.get_channel(mainBotChannelID)
+                mainChannel = bot.get_channel(main_bot_channel_ID)
 
-            await mainChannel.send("```diff\n- Instabilidade detectada no sistema! Erros = {0}\n- Os seguintes erros aconteceram: {1}```".format(errorCount, errorList))
+            await mainChannel.send("```diff\n- Instabilidade detectada no sistema! Erros = {0}\n- Os seguintes erros aconteceram: {1}```".format(error_count, error_list))
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        errorCount += 1
-        errorList.append(error)
+        error_count += 1
+        error_list.append(error)
 
 @SystemControl.before_loop
 async def SystemControlBefore():
 
     global mainGuild
-    global errorCount
+    global error_count
     global mainChannel
-    global isReady
+    global is_ready
 
     try:
 
-        print("[{0}][Inicialização]: Inicializando {1} {2}".format(datetime.now(), name, version))
+        print("[{0}][Inicialização]: Inicializando {1} {2}".format(datetime.now(), NAME, VERSION))
         print("[{0}][Inicialização]: Inicializando o RNG".format(datetime.now()))
 
         seed(datetime.now())
@@ -1373,15 +1379,15 @@ async def SystemControlBefore():
         mainGuild = bot.guilds[0]
 
         # Canal de interação
-        mainChannel = bot.get_channel(mainBotChannelID)
+        mainChannel = bot.get_channel(main_bot_channel_ID)
 
-        isReady = True
+        is_ready = True
         print("[{0}][Inicialização]: Sistema interno pronto".format(datetime.now()))
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        errorCount += 1
-        errorList.append(error)
+        error_count += 1
+        error_list.append(error)
 #endregion
 
 #region Events
@@ -1389,12 +1395,12 @@ async def SystemControlBefore():
 @bot.event
 async def on_ready():
 
-    global errorCount
-    global errorList
+    global error_count
+    global error_list
 
     try:
 
-        print("[{0}][Sistema]: {1} {2} pronto para operar".format(datetime.now(), name, version))
+        print("[{0}][Sistema]: {1} {2} pronto para operar".format(datetime.now(), NAME, VERSION))
         print("[{0}][Sistema]: Logado como {1}, no id: {2}".format(datetime.now(), bot.user.name, bot.user.id))
         print("[{0}][Sistema]: Servers conectados: {1}".format(datetime.now(), bot.guilds))
 
@@ -1402,15 +1408,15 @@ async def on_ready():
     except Exception as error:
             
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        errorCount += 1
-        errorList.append(error)
+        error_count += 1
+        error_list.append(error)
 
 # Mensagem recebida
 @bot.event
 async def on_message(message):
 
-    global errorCount
-    global errorList
+    global error_count
+    global error_list
 
     try:
         
@@ -1441,15 +1447,15 @@ async def on_message(message):
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        errorCount += 1
-        errorList.append(error)
+        error_count += 1
+        error_list.append(error)
 
 # Evento de mensagem deletada
 @bot.event
 async def on_message_delete(message):
 
-    global errorCount
-    global errorList
+    global error_count
+    global error_list
 
     try:
 
@@ -1457,15 +1463,15 @@ async def on_message_delete(message):
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        errorCount += 1
-        errorList.append(error)
+        error_count += 1
+        error_list.append(error)
 
 # Evento de mensagem deletada
 @bot.event
 async def on_message_edit(before, after):
 
-    global errorCount
-    global errorList
+    global error_count
+    global error_list
 
     try:
 
@@ -1474,8 +1480,8 @@ async def on_message_edit(before, after):
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        errorCount += 1
-        errorList.append(error)
+        error_count += 1
+        error_list.append(error)
 
 # Conexão concluída
 @bot.event
@@ -1502,8 +1508,8 @@ async def on_error(event, *args, **kwargs):
 @bot.event
 async def on_member_update(before, after):
 
-    global errorCount
-    global errorList
+    global error_count
+    global error_list
 
     try:
 
@@ -1512,8 +1518,8 @@ async def on_member_update(before, after):
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        errorCount += 1
-        errorList.append(error)
+        error_count += 1
+        error_list.append(error)
 
 # IMPLEMENTAR:
 # on_member_join
