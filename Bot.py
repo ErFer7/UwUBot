@@ -167,9 +167,9 @@ def ManageSettings(mode: str):
         print("[{0}][Sistema]: Configurações lidas".format(datetime.now()))
     elif mode == "w":
 
-        settings = ["2515\n", "MT " + str(int(marking_time)) + "\n",                        \
-                    "AII " + str(int(allow_indepent_interactions)) + "\n",                   \
-                    "IT " + str(initialTime) + "\n",                                  \
+        settings = ["2515\n", "MT " + str(int(marking_time)) + "\n",                                \
+                    "AII " + str(int(allow_indepent_interactions)) + "\n",                          \
+                    "IT " + str(initialTime) + "\n",                                                \
                     "MBC_ID " + str(main_bot_channel_ID) + "\n", "TTS " + str(int(TTS)) + "\n"]
             
         with open("System\\Settings.set","w") as settingsFile: 
