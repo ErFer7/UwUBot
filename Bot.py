@@ -25,7 +25,7 @@ TOKEN = "NzI2MTM5MzYxMjQxODU4MTU5.XvY99A.Fh8e071wE-eqGo2tndUlAG3vuCU"
 
 # Variáveis globais
 NAME = "PyGR"
-VERSION = "3.9.6"
+VERSION = "3.9.7"
 
 error_count: int
 sent_error_count: int
@@ -42,6 +42,10 @@ mainGuild: discord.guild
 mainChannel: discord.channel
 
 # Configurações padrão (Essas configurações são carregadas dos arquivos quando existirem)
+error_count = 0
+sent_error_count = 0
+error_list = []
+is_ready = False
 marking_time = False
 allow_indepent_interactions = True
 main_bot_channel_ID = 724437879744626748
