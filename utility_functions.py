@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
-# Funções para utilidades
+'''
+Funções para utilidades
+'''
 
-from re import compile, IGNORECASE
+from re import compile, IGNORECASE # (!) Checar a redefinição de compile
 from string import ascii_lowercase
 from random import choice
 

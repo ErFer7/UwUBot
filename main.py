@@ -1,16 +1,19 @@
 # -*- coding: utf-8 -*-
 
-# Bot para Discord - 2020/06/26 - Eric Fernandes Evaristo
-# Projeto: Bot-Project
-# Bot: PyGR
-
+'''
+Bot para Discord - 2020/06/26 - Eric Fernandes Evaristo
+Projeto: Bot-Project
+Bot: PyGR
+'''
 # Atualmente em refatoração
 
 import asyncio
 import discord
 import urllib.parse
+import pygr_core
 
-from UtilityFunctions import FindWholeWord, RandStr
+from time import time_ns
+from utility_functions import FindWholeWord, RandStr
 from random import randint, choice, seed
 from datetime import datetime, timedelta
 from os import listdir
@@ -25,180 +28,19 @@ TOKEN = "NzI2MTM5MzYxMjQxODU4MTU5.XvY99A.Fh8e071wE-eqGo2tndUlAG3vuCU"
 
 # Variáveis globais
 NAME = "PyGR"
-VERSION = "3.9.7"
-
-error_count: int
-sent_error_count: int
-error_list: list
-is_ready: bool
-marking_time: bool
-allow_indepent_interactions: bool
-main_bot_channel_ID: int
-TTS: bool
-adm_ID: int
-
-initialTime: datetime
-mainGuild: discord.guild
-mainChannel: discord.channel
-
-# Configurações padrão (Essas configurações são carregadas dos arquivos quando existirem)
-error_count = 0
-sent_error_count = 0
-error_list = []
-is_ready = False
-marking_time = False
-allow_indepent_interactions = True
-main_bot_channel_ID = 724437879744626748
-TTS = True
-adm_ID = 382542596196663296
+VERSION = "3.9.7-1"
+ADM_ID = 382542596196663296
 
 # Inicializa intents
 intents = discord.Intents.all()
 intents.presences = True
 intents.members = True
 
+guilds = []
+
+bot = pygr_core.CustomBot(command_prefix = "~", help_command = None, intents = intents)
+
 # region Functions
-def Interact(message: discord.message):
-
-    if FindWholeWord("tu é")(message.content.lower()):
-
-        if FindWholeWord("gay")(message.content.lower()):
-
-            return message.channel.send("Não. Sou apenas uma máquina. UMA MÁQUINA DE SEXO.", TTS = TTS)
-        elif FindWholeWord("corno")(message.content.lower()):
-
-            return message.channel.send("Um bot sem chifre é um bot indefeso.", TTS = TTS)
-        elif FindWholeWord("comunista")(message.content.lower()):
-
-            return message.channel.send("Obviamente que sim.", TTS = TTS)
-        else:
-            rng = randint(0, 3)
-
-            if rng == 0:
-
-                return message.channel.send("Teu pai aquele arrombado.", TTS = TTS)
-            elif rng == 1:
-
-                return message.channel.send("Sim.", TTS = TTS)
-            elif rng == 2:
-
-                return message.channel.send("Não.", TTS = TTS)
-            else:
-
-                return message.channel.send("Não, mas tu é.", TTS = TTS)
-    elif FindWholeWord("quem é")(message.content.lower()):
-
-        rng = randint(0, 3)
-
-        if rng == 0:
-
-            return message.channel.send("É uma grande pessoa", TTS = TTS)
-        elif rng == 1:
-
-            return message.channel.send("É o maior boiola de todos os tempos", TTS = TTS)
-        elif rng == 2:
-
-            return message.channel.send("É um grande amigo meu.", TTS = TTS)
-        else:
-
-            return message.channel.send("Olha, se eu visse esse cara na rua eu deitava no soco.", TTS = TTS)
-    elif FindWholeWord("quando foi")(message.content.lower()):
-
-        return message.channel.send("Foi no ano {0}".format(randint(1000, 2019)), TTS = TTS)
-    elif FindWholeWord("quando vai ser")(message.content.lower()):
-
-        return message.channel.send("Vai ser em {0}".format(randint(2020, 3000)), TTS = TTS)
-    elif FindWholeWord("concorda")(message.content.lower()):
-
-        rng = randint(0, 4)
-
-        if rng == 0:
-
-            return message.channel.send("Concordo muito.", TTS = TTS)
-        elif rng == 1:
-
-            return message.channel.send("Concordo.", TTS = TTS)
-        elif rng == 2:
-
-            return message.channel.send("Não sei bem na verdade.", TTS = TTS)
-        elif rng == 3:
-
-            return message.channel.send("Discordo.", TTS = TTS)
-        else:
-
-            return message.channel.send("Discordo muito.", TTS = TTS)
-
-# Transferir para Utility Functions
-def ManageSettings(mode: str):
-
-    global error_count
-    global marking_time
-    global allow_indepent_interactions
-    global initialTime
-    global main_bot_channel_ID
-    global TTS
-    global error_list
-
-    if mode == "r":
-
-        with open("System\\Settings.set","r") as settingsFile: 
-            
-            settings = settingsFile.readlines()
-
-        for line in settings:
-
-            if line.startswith("MT"):
-
-                marking_time = bool(int(line.split()[1]))
-            elif line.startswith("AII"):
-
-                allow_indepent_interactions = bool(int(line.split()[1]))
-            elif line.startswith("IT"):
-
-                date = line.split()[1] + " " + line.split()[2]
-                initialTime = datetime.strptime(date, "%Y-%m-%d %H:%M:%S.%f")
-            elif line.startswith("MBC_ID"):
-
-                main_bot_channel_ID = int(line.split()[1])
-            elif line.startswith("TTS"):
-
-                TTS = bool(int(line.split()[1]))
-        
-        print("[{0}][Sistema]: Configurações lidas".format(datetime.now()))
-    elif mode == "w":
-
-        settings = ["2515\n", "MT " + str(int(marking_time)) + "\n",                                \
-                    "AII " + str(int(allow_indepent_interactions)) + "\n",                          \
-                    "IT " + str(initialTime) + "\n",                                                \
-                    "MBC_ID " + str(main_bot_channel_ID) + "\n", "TTS " + str(int(TTS)) + "\n"]
-            
-        with open("System\\Settings.set","w") as settingsFile: 
-            
-            settingsFile.writelines(settings)
-        
-        print("[{0}][Sistema]: Configurações escritas".format(datetime.now()))
-    elif mode == "c":
-
-        try:
-
-            with open("System\\Settings.set","r") as settingsFile: 
-                
-                string = settingsFile.read(4)
-                if int(string) == 2515:
-
-                    print("[{0}][Sistema]: Arquivo de configurações válido".format(datetime.now()))
-                    return True
-                else:
-
-                    print("[{0}][Sistema]: Arquivo de configurações inválido".format(datetime.now()))
-                    return False
-        except Exception as error:
-
-            print("[{0}][Erro]: Erro ao tentar abrir o arquivo de configurações: {1}".format(datetime, error))
-            error_count += 1
-            error_list.append(error)
-            return False         
-
 # Transferir para Utility Functions
 def RPGItemGenerator(type: str, level: float):
 
@@ -514,16 +356,11 @@ def RPGItemGenerator(type: str, level: float):
     return "```Item: {0}\nDano: {1} {2}\nPreço: {3}\nNível: {4}\nEspecial: {5}\nDescrição: {6}```".format(itemName, itemDamage, itemDamageType, itemPrice, itemLevel, itemSpecial, itemDescription)
 #endregion
 
-bot = commands.Bot(command_prefix = "~", help_command = None, intents = intents)
-
 #region Commands
 #region System Commands
 # Desliga
 @bot.command(name = "off")
 async def Shutdown(ctx):
-
-    global error_count
-    global error_list
 
     print("[{0}][Comando]: Off (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
@@ -533,11 +370,15 @@ async def Shutdown(ctx):
             
             await ctx.send("```Até o outro dia```")
 
-            print("[{0}][Sistema]: Escrevendo configurações".format(datetime.now()))
-            ManageSettings("w")
+            print("[{0}][Sistema]: Registrando as definições dos servidores".format(datetime.now()))
 
-            print("[{0}][Sistema]: Erros ({1}) = {2}".format(datetime.now(), error_count, error_list))
-            print("[{0}][Sistema]: Salvando e encerrando".format(datetime.now()))
+            for guild in guilds:
+
+                print("[{0}][Sistema]: Definições do servidor {1} registradas".format(datetime.now(), guild.id))
+                guild.write_settings()
+
+            print("[{0}][Sistema]: Erros = {1}".format(datetime.now(), bot.error_list))
+            print("[{0}][Sistema]: Encerrando".format(datetime.now()))
 
             await bot.close()
         else:
@@ -546,8 +387,7 @@ async def Shutdown(ctx):
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        error_count += 1
-        error_list.append(error)
+        bot.error_list.append(error)
 
 # Repete a mensagem em um canal
 @bot.command(name = "say")
@@ -1085,7 +925,7 @@ async def Playlist_Link(ctx):
 
 #region Humor
 # Medidor de corno
-@bot.command(name = "crono")
+@bot.command(name = "corno")
 async def CuckLevel(ctx):
 
     print("[{0}][Comando]: Crono (Autor: {1})".format(datetime.now(), ctx.message.author.name))
@@ -1096,19 +936,6 @@ async def CuckLevel(ctx):
     else:
 
         await ctx.send("{0} é {1}\\% crono".format(ctx.message.mentions[0].mention, randint(0, 100)), TTS = TTS)
-
-# Medidor de corno fake
-@bot.command(name = "corno")
-async def FakeCuckLevel(ctx):
-
-    print("[{0}][Comando]: Corno (Autor: {1})".format(datetime.now(), ctx.message.author.name))
-
-    if len(ctx.message.mentions) == 0:
-        
-        await ctx.send("{0} é 100\\% corno".format(ctx.message.author.mention), TTS = TTS)
-    else:
-
-        await ctx.send("{0} é 100\\% corno".format(ctx.message.mentions[0].mention), TTS = TTS)
 
 # Análise da partida
 @bot.command(name = "valorant")
@@ -1293,22 +1120,22 @@ async def Mock(ctx, *str):
         error_list.append(error)
 
 # Envia um emoji específico - EXPERIMENTAL
-@bot.command(name = "urso")
-async def Bear(ctx):
+# @bot.command(name = "urso")
+# async def Bear(ctx):
 
-    global error_count
-    global error_list
+#     global error_count
+#     global error_list
 
-    print("[{0}][Comando]: Urso (Autor: {1})".format(datetime.now(), ctx.message.author.name))
+#     print("[{0}][Comando]: Urso (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
-    try:
+#     try:
 
-        await ctx.send(bot.emojis[40])
-    except Exception as error:
+#         await ctx.send(bot.emojis[40])
+#     except Exception as error:
 
-        print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        error_count += 1
-        error_list.append(error)
+#         print("[{0}][Erro]: {1}".format(datetime.now(), error))
+#         error_count += 1
+#         error_list.append(error)
 #endregion
 #endregion
 
@@ -1317,81 +1144,41 @@ async def Bear(ctx):
 @loop(seconds = 1)
 async def SystemControl():
 
-    global mainChannel
-    global error_count
-    global sent_error_count
-
     try:
 
-        # Atualiza o canal
-        if mainChannel != None:
-
-            if mainChannel.id != main_bot_channel_ID:
-
-                print("[{0}][Sistema]: Mudança de canal detectada, atualizando...".format(datetime.now()))
-                mainChannel = bot.get_channel(main_bot_channel_ID)
-        else:
-
-            print("[{0}][Aviso]: O canal principal é nulo, definindo o canal principal pelo ID padrão".format(datetime.now()))
-            mainChannel = bot.get_channel(main_bot_channel_ID)
-
-        # Checa estabilidade do sistema
-        if error_count > sent_error_count:
-
-            sent_error_count += 1
-
-            if mainChannel == None and (main_bot_channel_ID != None and main_bot_channel_ID != 0):
-
-                mainChannel = bot.get_channel(main_bot_channel_ID)
-
-            await mainChannel.send("```diff\n- Instabilidade detectada no sistema! Erros = {0}\n- Os seguintes erros aconteceram: {1}```".format(error_count, error_list))
+        pass
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        error_count += 1
-        error_list.append(error)
+        bot.error_list.append(error)
 
 @SystemControl.before_loop
 async def SystemControlBefore():
 
-    global mainGuild
-    global error_count
-    global mainChannel
-    global is_ready
-
     try:
 
-        print("[{0}][Inicialização]: Inicializando {1} {2}".format(datetime.now(), NAME, VERSION))
-        print("[{0}][Inicialização]: Inicializando o RNG".format(datetime.now()))
+        print("[{0}][Sistema]: Inicializando {1} {2}".format(datetime.now(), NAME, VERSION))
+        print("[{0}][Sistema]: Inicializando o RNG".format(datetime.now()))
 
-        seed(datetime.now())
-
-        print("[{0}][Inicialização]: Checando configurações".format(datetime.now()))
-        if ManageSettings("c"):
-
-            print("[{0}][Inicialização]: Lendo configurações".format(datetime.now()))
-            ManageSettings("r")
-        else:
-            
-            print("[{0}][Inicialização]: Escrevendo configurações".format(datetime.now()))
-            ManageSettings("w")
+        seed(time_ns())
 
         print("[{0}][Inicialização]: Esperando o sistema...".format(datetime.now()))
+
         await bot.wait_until_ready()
 
-        # server
-        mainGuild = bot.guilds[0]
+        print("[{0}][Sistema]: Carregando definições dos servidores".format(datetime.now()))
 
-        # Canal de interação
-        mainChannel = bot.get_channel(main_bot_channel_ID)
+        for guild in bot.guilds:
 
-        is_ready = True
-        print("[{0}][Inicialização]: Sistema interno pronto".format(datetime.now()))
+            print("[{0}][Sistema]: Servidor {1} em processamento".format(datetime.now(), guild.id))
+            guilds.append(pygr_core.Guild(guild.id))
+
+        bot.is_ready = True
+        print("[{0}][Sistema]: Sistema pronto".format(datetime.now()))
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        error_count += 1
-        error_list.append(error)
+        bot.error_list.append(error)
 #endregion
 
 #region Events
@@ -1399,28 +1186,20 @@ async def SystemControlBefore():
 @bot.event
 async def on_ready():
 
-    global error_count
-    global error_list
-
     try:
 
         print("[{0}][Sistema]: {1} {2} pronto para operar".format(datetime.now(), NAME, VERSION))
         print("[{0}][Sistema]: Logado como {1}, no id: {2}".format(datetime.now(), bot.user.name, bot.user.id))
-        print("[{0}][Sistema]: Servers conectados: {1}".format(datetime.now(), bot.guilds))
 
-        await bot.change_presence(activity = discord.Game(name = "Palhoça: Alcides Simulator"))
+        await bot.change_presence(activity = discord.Game(name = "Tua mãe na cama"))
     except Exception as error:
             
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        error_count += 1
-        error_list.append(error)
+        bot.error_list.append(error)
 
 # Mensagem recebida
 @bot.event
 async def on_message(message):
-
-    global error_count
-    global error_list
 
     try:
         
@@ -1451,41 +1230,7 @@ async def on_message(message):
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        error_count += 1
-        error_list.append(error)
-
-# Evento de mensagem deletada
-@bot.event
-async def on_message_delete(message):
-
-    global error_count
-    global error_list
-
-    try:
-
-        print("[{0}][Mensagem]: Mensagem [{1}] deletada".format(datetime.now(), message.content))
-    except Exception as error:
-
-        print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        error_count += 1
-        error_list.append(error)
-
-# Evento de mensagem deletada
-@bot.event
-async def on_message_edit(before, after):
-
-    global error_count
-    global error_list
-
-    try:
-
-        print("[{0}][Mensagem]: Mensagem [{1}] editada para [{2}]".format(datetime.now(), before.content, after.content))
-
-    except Exception as error:
-
-        print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        error_count += 1
-        error_list.append(error)
+        bot.error_list.append(error)
 
 # Conexão concluída
 @bot.event
@@ -1512,9 +1257,6 @@ async def on_error(event, *args, **kwargs):
 @bot.event
 async def on_member_update(before, after):
 
-    global error_count
-    global error_list
-
     try:
 
         print("[{0}][Sistema]: Membro [{1}] ficou [{2}] no servidor [{3}]".format(datetime.now(), after.name, after.status, after.guild.name))
@@ -1522,8 +1264,7 @@ async def on_member_update(before, after):
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        error_count += 1
-        error_list.append(error)
+        bot.error_list.append(error)
 
 # IMPLEMENTAR:
 # on_member_join
