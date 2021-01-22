@@ -30,7 +30,7 @@ TOKEN = "NzI2MTM5MzYxMjQxODU4MTU5.XvY99A.Fh8e071wE-eqGo2tndUlAG3vuCU"
 
 # Variáveis globais
 NAME = "PyGR"
-VERSION = "3.9.7-7"
+VERSION = "3.9.7-8"
 ADM_ID = 382542596196663296
 
 # Inicializa intents
@@ -47,20 +47,23 @@ bot = pygr_core.CustomBot(command_prefix = "~", help_command = None, intents = i
 @bot.group()
 async def sys(ctx):
 
+    print("[{0}][Comando]: <sys> (Autor: {1})".format(datetime.now(), ctx.message.author.name))
+
     if ctx.invoked_subcommand is None:
 
-        embed = discord.Embed(description = "Comando inválido\n**Opções possíveis:**\n*off", color = discord.Color.red())
+        embed = discord.Embed(description = "❌  **Comando inválido**\n\n*Opções possíveis:*\n⬩ off\n⬩ repeat\n⬩ info\n⬩ error", color = discord.Color.red())
         await ctx.send(embed = embed)
 
 # Desliga
 @sys.command(name = "off")
 async def shutdown(ctx):
 
-    print("[{0}][Comando]: Off (Autor: {1})".format(datetime.now(), ctx.message.author.name))
+    print("[{0}][Sub-Comando]: <off> (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
     if ctx.message.author.id == ADM_ID:
-            
-        await ctx.send("```Até o outro dia```")
+        
+        embed = discord.Embed(description = "❱❱❱ **Encerrando**\n\n*Até o outro dia*", color = discord.Color.dark_blue())
+        await ctx.send(embed = embed)
 
         print("[{0}][Sistema]: Registrando as definições dos servidores".format(datetime.now()))
 
@@ -75,13 +78,14 @@ async def shutdown(ctx):
         await bot.close()
     else:
 
-        await ctx.send("```Tá querendo me desligar é?```")
+        embed = discord.Embed(description = "❌  **Comando inválido**\n\n*Você não tem permissão para usar este comando*", color = discord.Color.red())
+        await ctx.send(embed = embed)
 
 # Repete a mensagem em um canal
-@bot.command(name = "say")
-async def sat(ctx, channel_ID, *msg):
+@sys.command(name = "repeat")
+async def repeat(ctx, channel_ID, *msg):
 
-    print("[{0}][Comando]: Say (Autor: {1})".format(datetime.now(), ctx.message.author.name))
+    print("[{0}][Sub-Comando]: <repeat> (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
     if ctx.message.author.id == ADM_ID:
             
@@ -107,7 +111,7 @@ async def sat(ctx, channel_ID, *msg):
         await ctx.send("```Você não tem permissão para usar este comando```")
 
 # Informações
-@bot.command(name = "info")
+@sys.command(name = "info")
 async def info(ctx):
 
     print("[{0}][Comando]: Info (Autor: {1})".format(datetime.now(), ctx.message.author.name))
@@ -122,7 +126,7 @@ async def info(ctx):
     await ctx.send("```{0}\n{1}\n{2}\n{3}\n{4}\n{5}```".format(header, websocket, http_loop, latency, guild_list, voice_clients))
 
 # Cria um erro propositalmente
-@bot.command(name = "error")
+@sys.command(name = "error")
 async def raise_error(ctx):
 
     print("[{0}][Comando]: ERRO (Autor: {1})".format(datetime.now(), ctx.message.author.name))
