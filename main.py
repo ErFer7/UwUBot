@@ -28,7 +28,7 @@ TOKEN = "NzI2MTM5MzYxMjQxODU4MTU5.XvY99A.Fh8e071wE-eqGo2tndUlAG3vuCU"
 
 # Variáveis globais
 NAME = "PyGR"
-VERSION = "3.9.7-2"
+VERSION = "3.9.7-3"
 ADM_ID = 382542596196663296
 
 # Inicializa intents
@@ -366,7 +366,7 @@ async def Shutdown(ctx):
 
     try:
 
-        if ctx.message.author.id == adm_ID:
+        if ctx.message.author.id == ADM_ID:
             
             await ctx.send("```Até o outro dia```")
 

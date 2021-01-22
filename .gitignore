@@ -1,4 +1,6 @@
 *.mp3
 
 __pycache__
-System/Settings.set
+Guilds
+Audio
+Logs
