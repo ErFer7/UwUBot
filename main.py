@@ -7,13 +7,14 @@ Bot: PyGR
 '''
 # Atualmente em refatoração
 
+import os
 import asyncio
 import discord
 import urllib.parse
 import pygr_core
 
 from time import time_ns
-from utility_functions import FindWholeWord, RandStr
+from utility_functions import FindWholeWord, RandStr, RPGItemGenerator
 from random import randint, choice, seed
 from datetime import datetime, timedelta
 from os import listdir
@@ -28,7 +29,7 @@ TOKEN = "NzI2MTM5MzYxMjQxODU4MTU5.XvY99A.Fh8e071wE-eqGo2tndUlAG3vuCU"
 
 # Variáveis globais
 NAME = "PyGR"
-VERSION = "3.9.7-3"
+VERSION = "3.9.7-4"
 ADM_ID = 382542596196663296
 
 # Inicializa intents
@@ -36,325 +37,9 @@ intents = discord.Intents.all()
 intents.presences = True
 intents.members = True
 
-guilds = []
+guilds = {}
 
 bot = pygr_core.CustomBot(command_prefix = "~", help_command = None, intents = intents)
-
-# region Functions
-# Transferir para Utility Functions
-def RPGItemGenerator(type: str, level: float):
-
-    itemLevel = ""
-    rng = randint(1, 100)
-
-    if level <= 1:
-
-        if rng == 100:
-            
-            itemLevel = "II"
-        elif rng >= 98 and rng < 100:
-
-            itemLevel = "I-L"
-        elif rng >= 94 and rng < 98:
-
-            itemLevel = "I-S"
-        elif rng >= 86 and rng < 94:
-
-            itemLevel = "I++"
-        elif rng >= 70 and rng < 86:
-
-            itemLevel = "I+"
-        else:
-
-            itemLevel = "I"
-    elif level <= 3:
-
-        if rng == 100:
-
-            itemLevel = "III"
-        elif rng >= 98 and rng < 100:
-
-            itemLevel = "II-L"
-        elif rng >= 94 and rng < 98:
-
-            itemLevel = "II-S"
-        elif rng >= 86 and rng < 94:
-
-            itemLevel = "II++"
-        elif rng >= 70 and rng < 86:
-
-            itemLevel = "II+"
-        else:
-
-            itemLevel = "II"
-    elif level <= 6:
-
-        if rng == 100:
-
-            itemLevel = "IV"
-        elif rng >= 98 and rng < 100:
-
-            itemLevel = "III-L"
-        elif rng >= 94 and rng < 98:
-
-            itemLevel = "III-S"
-        elif rng >= 86 and rng < 94:
-
-            itemLevel = "III++"
-        elif rng >= 70 and rng < 86:
-
-            itemLevel = "III+"
-        else:
-
-            itemLevel = "III"
-    elif level <= 9:
-
-        if rng == 100:
-
-            itemLevel = "V"
-        elif rng >= 98 and rng < 100:
-
-            itemLevel = "IV-L"
-        elif rng >= 94 and rng < 98:
-
-            itemLevel = "IV-S"
-        elif rng >= 86 and rng < 94:
-
-            itemLevel = "IV++"
-        elif rng >= 70 and rng < 86:
-
-            itemLevel = "IV+"
-        else:
-
-            itemLevel = "IV"
-    elif level <= 12:
-
-        if rng == 100:
-
-            itemLevel = "VI"
-        elif rng >= 98 and rng < 100:
-
-            itemLevel = "V-L"
-        elif rng >= 94 and rng < 98:
-
-            itemLevel = "V-S"
-        elif rng >= 86 and rng < 94:
-
-            itemLevel = "V++"
-        elif rng >= 70 and rng < 86:
-
-            itemLevel = "V+"
-        else:
-
-            itemLevel = "V"
-    elif level <= 15:
-
-        if rng == 100:
-
-            itemLevel = "VII"
-        elif rng >= 98 and rng < 100:
-
-            itemLevel = "VI-L"
-        elif rng >= 94 and rng < 98:
-
-            itemLevel = "VI-S"
-        elif rng >= 86 and rng < 94:
-
-            itemLevel = "VI++"
-        elif rng >= 70 and rng < 86:
-
-            itemLevel = "VI+"
-        else:
-
-            itemLevel = "VI"
-    elif level <= 18:
-
-        if rng == 100:
-
-            itemLevel = "VIII"
-        elif rng >= 98 and rng < 100:
-
-            itemLevel = "VII-L"
-        elif rng >= 94 and rng < 98:
-
-            itemLevel = "VII-S"
-        elif rng >= 86 and rng < 94:
-
-            itemLevel = "VII++"
-        elif rng >= 70 and rng < 86:
-
-            itemLevel = "VII+"
-        else:
-
-            itemLevel = "VII"
-    elif level <= 21:
-
-        if rng == 100:
-
-            itemLevel = "IX"
-        elif rng >= 98 and rng < 100:
-
-            itemLevel = "VIII-L"
-        elif rng >= 94 and rng < 98:
-
-            itemLevel = "VIII-S"
-        elif rng >= 86 and rng < 94:
-
-            itemLevel = "VIII++"
-        elif rng >= 70 and rng < 86:
-
-            itemLevel = "VIII+"
-        else:
-
-            itemLevel = "VIII"
-    elif level <= 24:
-
-        if rng == 100:
-
-            itemLevel = "X"
-        elif rng >= 98 and rng < 100:
-
-            itemLevel = "IX-L"
-        elif rng >= 94 and rng < 98:
-
-            itemLevel = "IX-S"
-        elif rng >= 86 and rng < 94:
-
-            itemLevel = "IX++"
-        elif rng >= 70 and rng < 86:
-
-            itemLevel = "IX+"
-        else:
-
-            itemLevel = "IX"
-    elif level <= 27:
-
-        if rng == 100:
-
-            itemLevel = "X-L"
-        elif rng >= 94 and rng < 100:
-
-            itemLevel = "X-S"
-        elif rng >= 78 and rng < 94:
-
-            itemLevel = "X++"
-        elif rng >= 46 and rng < 78:
-
-            itemLevel = "X+"
-        else:
-
-            itemLevel = "X"
-    else:
-
-        if rng >= 50:
-
-            itemLevel = "X-L"
-        else:
-
-            itemLevel = "X-S"
-
-    if type == "weapon":
-
-        with open("Text\\RPG_Weapons.txt", "r", encoding = "utf-8") as weaponsFile:
-
-            weapons = weaponsFile.readlines()
-                        
-        item = choice(weapons).split("#")
-    elif type == "armor":
-
-        with open("Text\\RPG_Armors.txt", "r", encoding = "utf-8") as armorsFile:
-
-            armors = armorsFile.readlines()
-
-        getArmors = False
-        armorsList = []
-
-        for line in armors:
-
-            if getArmors and not line.startswith("@"):
-
-                armorsList.append(line)
-            
-            if line.startswith("@"):
-
-                if line[1:].strip() == itemLevel:
-
-                    getArmors = True
-                else:
-
-                    getArmors = False
-
-        item = choice(armorsList).split("#")
-    else:
-
-        with open("Text\\RPG_Objects.txt", "r", encoding = "utf-8") as objectsFile:
-
-            objects = objectsFile.readlines()
-        
-        getObjects = False
-        objectsList = []
-
-        for line in objects:
-
-            if getObjects and not line.startswith("@"):
-
-                objectsList.append(line)
-            
-            if line.startswith("@"):
-
-                if line[1:].strip() == itemLevel:
-
-                    getObjects = True
-                else:
-
-                    getObjects = False
-
-        item = choice(objectsList).split("#")
-
-    itemName = item[0]
-    itemBaseDamage = item[1]
-    itemDamageType = item[2]
-    itemBasePrice = item[3]
-    itemDescription = item[4]
-
-    if type == "weapon":
-
-        with open("Text\\RPG_WeaponsSpecials.txt", "r", encoding = "utf-8") as levelsFile:
-
-            levels = levelsFile.readlines()
-    
-        getModifiers = False
-        modifiersList = []
-
-        for line in levels:
-
-            if getModifiers and not line.startswith("@"):
-
-                modifiersList.append(line)
-            
-            if line.startswith("@"):
-
-                if line[1:].strip() == itemLevel:
-
-                    getModifiers = True
-                else:
-
-                    getModifiers = False
-
-        modifier = choice(modifiersList).split("#")
-
-        itemName += modifier[0]
-        itemSpecial = modifier[1]
-        itemPrice = int(float(itemBasePrice) * float(modifier[2]))
-        itemDamage = str(int(itemBaseDamage[0]) + int(modifier[3])) + itemBaseDamage[1:]
-    else:
-
-        itemDamage = itemBaseDamage
-        itemPrice = int(float(itemBasePrice))
-        itemSpecial = item[5]
-
-    return "```Item: {0}\nDano: {1} {2}\nPreço: {3}\nNível: {4}\nEspecial: {5}\nDescrição: {6}```".format(itemName, itemDamage, itemDamageType, itemPrice, itemLevel, itemSpecial, itemDescription)
-#endregion
 
 #region Commands
 #region System Commands
@@ -364,98 +49,72 @@ async def Shutdown(ctx):
 
     print("[{0}][Comando]: Off (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
-    try:
-
-        if ctx.message.author.id == ADM_ID:
+    if ctx.message.author.id == ADM_ID:
             
-            await ctx.send("```Até o outro dia```")
+        await ctx.send("```Até o outro dia```")
 
-            print("[{0}][Sistema]: Registrando as definições dos servidores".format(datetime.now()))
+        print("[{0}][Sistema]: Registrando as definições dos servidores".format(datetime.now()))
 
-            for guild in guilds:
+        for guild in guilds:
 
-                print("[{0}][Sistema]: Definições do servidor {1} registradas".format(datetime.now(), guild.id))
-                guild.write_settings()
+            print("[{0}][Sistema]: Definições do servidor {1} registradas".format(datetime.now(), guild.id))
+            guild.write_settings()
 
-            print("[{0}][Sistema]: Erros = {1}".format(datetime.now(), bot.error_list))
-            print("[{0}][Sistema]: Encerrando".format(datetime.now()))
+        print("[{0}][Sistema]: Erros = {1}".format(datetime.now(), bot.error_list))
+        print("[{0}][Sistema]: Encerrando".format(datetime.now()))
 
-            await bot.close()
-        else:
+        await bot.close()
+    else:
 
-            await ctx.send("```Tá querendo me desligar é?```")
-    except Exception as error:
-
-        print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        bot.error_list.append(error)
+        await ctx.send("```Tá querendo me desligar é?```")
 
 # Repete a mensagem em um canal
 @bot.command(name = "say")
-async def Say(ctx, channelID, *msg):
-
-    global error_count
-    global error_list
+async def Say(ctx, channel_ID, *msg):
 
     print("[{0}][Comando]: Say (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
-    try:
-
-        if ctx.message.author.id == adm_ID:
+    if ctx.message.author.id == ADM_ID:
             
-            channel = bot.get_channel(int(channelID))
+        try:
 
-            if channel != None:
+            int(channel_ID)
+        except ValueError as error:
 
-                message = " ".join(msg)
-                await channel.send("{0} {1}".format(message, bot.emojis[len(bot.emojis) - 6]))
-            else:
+            print("[{0}][Erro]: {1}".format(datetime.now(), error))
+            bot.error_list.append(error)
 
-                await ctx.send("```Canal não encontrado```")
+        channel = bot.get_channel(int(channel_ID))
+
+        if channel is not None:
+
+            message = " ".join(msg)
+            await channel.send(message)
         else:
 
-            await ctx.send("```Você não tem permissão para usar este comando```")
-    except Exception as error:
+            await ctx.send("```Canal não encontrado```")
+    else:
 
-        print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        error_count += 1
-        error_list.append(error)
+        await ctx.send("```Você não tem permissão para usar este comando```")
 
 # Informações
 @bot.command(name = "info")
 async def Info(ctx):
 
-    global error_count
-    global error_list
-
     print("[{0}][Comando]: Info (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
-    try:
+    header = "{0} {1} - Criado em 26/06/2020".format(NAME, VERSION)
+    websocket = "Websocket: {0}".format(bot.ws)
+    http_loop = "Loop HTTP: {0}".format(bot.loop)
+    latency = "Latência interna: {0}".format(bot.latency)
+    guild_list = "Servidores: {0}".format(bot.guilds)
+    voice_clients = "Instâncias de voz: {0}".format(bot.voice_clients)
 
-        header = "{0} {1} - Criado em 26/06/2020".format(NAME, VERSION)
-        websocket = "Websocket: {0}".format(bot.ws)
-        httpLoop = "Loop HTTP: {0}".format(bot.loop)
-        latency = "Latência interna: {0}".format(bot.latency)
-        guilds = "Servidores: {0}".format(bot.guilds)
-        voiceClients = "Instâncias de voz: {0}".format(bot.voice_clients)
-        markingTimeInfo = "Marcando tempo: {0}".format(marking_time)
-        allowIndepentInteractionsInfo = "Interações: {0}".format(allow_indepent_interactions)
-        mainBotChannelIDInfo = "Canal principal: {0}".format(main_bot_channel_ID)
-        ttsInfo = "TTS: {0}".format(TTS)
-        errorsInfo = "Erros: {0}".format(error_count)
-
-        await ctx.send("```{0}\n{1}\n{2}\n{3}\n{4}\n{5}\n{6}\n{7}\n{8}\n{9}\n{10}```".format(header, websocket, httpLoop, latency, guilds, voiceClients, markingTimeInfo, allowIndepentInteractionsInfo, mainBotChannelIDInfo, ttsInfo, errorsInfo))
-    except Exception as error:
-
-        print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        error_count += 1
-        error_list.append(error)
+    await ctx.send("```{0}\n{1}\n{2}\n{3}\n{4}\n{5}```".format(header, websocket, http_loop, latency, guild_list, voice_clients))
 
 # Cria um erro propositalmente
 @bot.command(name = "error")
 async def RaiseError(ctx):
-
-    global error_count
-    global error_list
 
     print("[{0}][Comando]: ERRO (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
@@ -463,11 +122,10 @@ async def RaiseError(ctx):
 
         await ctx.send("```Criando erro```")
         raise Exception("Este erro é proposital e pode ser ignorado")
-    except Exception as error:
+    except ValueError as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        error_count += 1
-        error_list.append(error)
+        bot.error_list.append(error)
 #endregion
 
 #region Utilities
@@ -475,124 +133,77 @@ async def RaiseError(ctx):
 @bot.command(name = "ajuda")
 async def CustomHelp(ctx):
 
-    global error_count
-    global error_list
-
     print("[{0}][Comando]: Ajuda (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
     try:
 
-        with open("Text\\help.txt", "r", encoding = "utf-8") as helpFile:
-            helpStr = helpFile.read()
-        
-        await ctx.send(helpStr)
-    except Exception as error:
+        with open(os.path.join("Text", "help.txt"), "r", encoding = "utf-8") as help_file:
+            
+            help_string = help_file.read()
+    except FileNotFoundError as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        error_count += 1
-        error_list.append(error)
+        bot.error_list.append(error)
+        
+    await ctx.send(help_string)
 
 # Mede o tempo
 @bot.command(name = "tempo")
 async def Time(ctx):
 
-    global error_count
-    global error_list
-    global marking_time
-    global initialTime
-
     print("[{0}][Comando]: Tempo (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
     try:
 
-        if marking_time:
+        if guilds[str(ctx.guild.id)].settings["Marking time"]:
 
-            marking_time = False
-            delta = datetime.now() - initialTime
+            guilds[str(ctx.guild.id)].settings["Marking time"] = False
+            delta = datetime.now() - guilds[str(ctx.guild.id)].settings["Initial time"]
             await ctx.send("```Tempo marcado: " + str(delta) + "```")
         else:
 
-            marking_time = True
-            initialTime = datetime.now()
-            print("[{0}][Sistema]: Escrevendo configurações".format(datetime.now()))
-            ManageSettings("w")
+            guilds[str(ctx.guild.id)].settings["Marking time"] = True
+            guilds[str(ctx.guild.id)].settings["Initial time"] = datetime.now()
             await ctx.send("```Marcando o tempo```")
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        error_count += 1
-        error_list.append(error)
-    
-# Switch de interação
-@bot.command(name = "interação")
-async def InteractionSwitch(ctx):
-
-    global error_count
-    global error_list
-    global allow_indepent_interactions
-
-    try:
-
-        if allow_indepent_interactions:
-
-            print("[{0}][Comando]: Interação (desativação) (Autor: {1})".format(datetime.now(), ctx.message.author.name))
-            allow_indepent_interactions = False
-            print("[{0}][Sistema]: Escrevendo configurações".format(datetime.now()))
-            ManageSettings("w")
-            await ctx.send("```Interação: Desligada.```")
-        else:
-
-            print("[{0}][Comando]: Interação (desativação) (Autor: {1})".format(datetime.now(), ctx.message.author.name))
-            allow_indepent_interactions = True
-            print("[{0}][Sistema]: Escrevendo configurações".format(datetime.now()))
-            ManageSettings("w")
-            await ctx.send("```Interação: Ligada.```")
-    except Exception as error:
-
-        print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        error_count += 1
-        error_list.append(error)
+        bot.error_list.append(error)
 
 # Modificador de canal
 @bot.command(name = "canal")
-async def ChannelModifier(ctx, channelArg = None):
-
-    global error_count
-    global error_list
-    global main_bot_channel_ID
+async def ChannelModifier(ctx, channel_arg = None):
 
     print("[{0}][Comando]: Canal (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
     try:
 
-        if channelArg != None:
+        if guilds[str(ctx.guild.id)].settings["Main channel ID"] is not None:
 
             try:
+                
+                id_int = int(channel_arg)
+            except ValueError:
 
-                idInt = int(channelArg)
-            except:
+                id_int = -1
 
-                idInt = -1
+            if id_int != -1:
 
-            if idInt != -1:
-
-                foundChannel = False
+                found_channel = False
                 print("[{0}][Sistema]: Procurando canais pelo ID".format(datetime.now()))
 
-                for c in bot.guilds[0].channels:
+                for channel in guilds[str(ctx.guild.id)].guild.channels:
 
-                    print("[{0}][Sistema]: Canal listado = {1}".format(datetime.now(), str(c.id)))
+                    print("[{0}][Sistema]: Canal listado = {1}".format(datetime.now(), str(channel.id)))
 
-                    if c.id == idInt:
+                    if channel.id == id_int:
 
                         print("[{0}][Sistema]: Canal encontrado".format(datetime.now()))
-                        main_bot_channel_ID = idInt
-                        print("[{0}][Sistema]: Escrevendo configurações".format(datetime.now()))
-                        ManageSettings("w")
-                        foundChannel = True
+                        guilds[str(ctx.guild.id)].settings["Main channel ID"] = id_int
+                        found_channel = True
                         break
                 
-                if foundChannel:
+                if found_channel:
 
                     await ctx.send("```Canal atualizado```")
                 else:
@@ -607,35 +218,11 @@ async def ChannelModifier(ctx, channelArg = None):
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        error_count += 1
-        error_list.append(error)
-
-# Switch do TTS
-@bot.command(name = "tts")
-async def TTSSwitch(ctx):
-
-    global TTS
-
-    if TTS:
-
-        print("[{0}][Comando]: TTS (desativar) (Autor: {1})".format(datetime.now(), ctx.message.author.name))
-
-        TTS = False
-        print("[{0}][Sistema]: Escrevendo configurações".format(datetime.now()))
-        ManageSettings("w")
-        await ctx.send("```TTS desativado```")
-    else:
-
-        print("[{0}][Comando]: TTS (ativar) (Autor: {1})".format(datetime.now(), ctx.message.author.name))
-
-        TTS = True
-        print("[{0}][Sistema]: Escrevendo configurações".format(datetime.now()))
-        ManageSettings("w")
-        await ctx.send("```TTS ativado```")
+        bot.error_list.append(error)
 
 # Utilidades do RPG
 @bot.command(name = "rpg")
-async def RPGUtilities(ctx, arg = None, typeArg = None, levelArg = None):
+async def RPGUtilities(ctx, arg = None, type_arg = None, level_arg = None):
 
     print("[{0}][Comando]: RPG (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
@@ -644,38 +231,38 @@ async def RPGUtilities(ctx, arg = None, typeArg = None, levelArg = None):
         if arg.startswith("d"):
 
             result = 0
-            validCommand = False
+            valid_command = False
 
             if arg == "d4":
 
                 result = randint(1, 4)
-                validCommand = True
+                valid_command = True
             elif arg == "d6":
 
                 result = randint(1, 6)
-                validCommand = True
+                valid_command = True
             elif arg == "d8":
 
                 result = randint(1, 8)
-                validCommand = True
+                valid_command = True
             elif arg == "d10":
 
                 result = randint(1, 10)
-                validCommand = True
+                valid_command = True
             elif arg == "d12":
 
                 result = randint(1, 12)
-                validCommand = True
+                valid_command = True
             elif arg == "d20":
 
                 result = randint(1, 20)
-                validCommand = True
+                valid_command = True
             elif arg == "d100":
 
                 result = randint(1, 100)
-                validCommand = True
+                valid_command = True
                 
-            if validCommand:
+            if valid_command:
 
                 await ctx.send("```Você rolou um dado {0}, resultado: {1}```".format(arg, result))
             else:
@@ -683,25 +270,25 @@ async def RPGUtilities(ctx, arg = None, typeArg = None, levelArg = None):
                 await ctx.send("```Comando inválido pora```")  
         elif arg == "item":
 
-            if typeArg != None:
+            if type_arg != None:
 
-                if typeArg == "arma" or typeArg == "armadura" or typeArg == "objeto":
+                if type_arg == "arma" or type_arg == "armadura" or type_arg == "objeto":
 
-                    if levelArg != None:
+                    if level_arg != None:
 
                         try:
 
-                            level = float(levelArg)
+                            level = float(level_arg)
                         except:
 
                             await ctx.send("```Comando inválido pora```")
                             
                         if level >= 0.0 and level <= 30.0:
 
-                            if typeArg == "arma":
+                            if type_arg == "arma":
 
                                 await ctx.send(RPGItemGenerator("weapon", level))
-                            elif typeArg == "armadura":
+                            elif type_arg == "armadura":
 
                                 await ctx.send(RPGItemGenerator("armor", level))
                             else:
@@ -712,7 +299,7 @@ async def RPGUtilities(ctx, arg = None, typeArg = None, levelArg = None):
                             return ctx.send("```Comando inválido pora```")
                     else:
 
-                        await ctx.send("```Tá errado. Uso: ~rpg item {0} [nível (0 - 30)]```".format(typeArg))
+                        await ctx.send("```Tá errado. Uso: ~rpg item {0} [nível (0 - 30)]```".format(type_arg))
                 else:
 
                     await ctx.send("```Tá errado. Uso: ~rpg item [tipo de item] [nível (0 - 30)]```")
@@ -729,9 +316,6 @@ async def RPGUtilities(ctx, arg = None, typeArg = None, levelArg = None):
 # Conectar
 @bot.command(name = "conectar")
 async def Join(ctx):
-
-    global error_count
-    global error_list
 
     print("[{0}][Comando]: Conectar (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
@@ -752,8 +336,7 @@ async def Join(ctx):
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        error_count += 1
-        error_list.append(error)
+        bot.error_list.append(error)
 
 # Desconectar
 @bot.command(name = "desconectar")
@@ -773,9 +356,6 @@ async def Leave(ctx):
 @bot.command(name = "wolf")
 async def Wolfram(ctx, *search):
 
-    global error_count
-    global error_list
-
     print("[{0}][Comando]: Wolf (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
     try:
@@ -787,32 +367,28 @@ async def Wolfram(ctx, *search):
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        error_count += 1
-        error_list.append(error)
+        bot.error_list.append(error)
 
 # Gera um número aleatório
 @bot.command(name = "rng")
 async def RandomNumber(ctx, minStr = None, maxStr = None):
 
-    global error_count
-    global error_list
-
     print("[{0}][Comando]: RNG (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
     try:
         
-        inputIsValid = False
-        min = 0
-        max = 0
+        input_is_valid = False
+        min_int = 0
+        max_int = 0
 
         try:
 
-            min = int(minStr)
-            max = int(maxStr)
+            min_int = int(minStr)
+            max_int = int(maxStr)
 
-            if min <= max:
+            if min_int <= max_int:
             
-                inputIsValid = True
+                input_is_valid = True
             else:
 
                 raise ValueError
@@ -820,27 +396,23 @@ async def RandomNumber(ctx, minStr = None, maxStr = None):
 
             await ctx.send("```Input inválido```")
 
-        if inputIsValid:
+        if input_is_valid:
 
-            await ctx.send("```{0}```".format(randint(min, max)))
+            await ctx.send("```{0}```".format(randint(min_int, max_int)))
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        error_count += 1
-        error_list.append(error)
+        bot.error_list.append(error)
 
 # Gera um string aleatório
 @bot.command(name = "rsg")
 async def RandomString(ctx, sizeStr = None):
 
-    global error_count
-    global error_list
-
     print("[{0}][Comando]: RSG (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
     try:
         
-        inputIsValid = False
+        input_is_valid = False
         size = 0
 
         try:
@@ -849,7 +421,7 @@ async def RandomString(ctx, sizeStr = None):
 
             if size <= 1994:
 
-                inputIsValid = True
+                input_is_valid = True
             else:
 
                 raise ValueError
@@ -857,41 +429,37 @@ async def RandomString(ctx, sizeStr = None):
 
             await ctx.send("```Input inválido```")
 
-        if inputIsValid:
+        if input_is_valid:
 
             await ctx.send("```{0}```".format(RandStr(size)))
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        error_count += 1
-        error_list.append(error)
+        bot.error_list.append(error)
 
 # Exibe os dados de um usuário
 @bot.command(name = "usuário")
 async def UserInfo(ctx):
-
-    global error_count
-    global error_list
 
     print("[{0}][Comando]: Usuário (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
     try:
 
         user: discord.user
-        joinedAt = ""
+        joined_at = ""
 
         if len(ctx.message.mentions) == 0:
 
             user = ctx.message.author
-            joinedAt = str(mainGuild.get_member(ctx.message.author.id).joined_at)
+            joined_at = str(ctx.guild.get_member(ctx.message.author.id).joined_at)
         else:
 
             user = bot.get_user(ctx.message.mentions[0].id)
-            joinedAt = str(mainGuild.get_member(ctx.message.mentions[0].id).joined_at)
+            joined_at = str(ctx.guild.get_member(ctx.message.mentions[0].id).joined_at)
 
-        if user != None:
+        if user is not None:
 
-            await ctx.send("```Estas são as informações para: {0}\nId: {1}\nDiscriminador: {2}\nBot: {3}\nSistema: {4}\nEntrou no servidor em: {5}```".format(user.name, user.id, user.discriminator, user.bot, user.system, joinedAt))
+            await ctx.send("```Estas são as informações para: {0}\nId: {1}\nDiscriminador: {2}\nBot: {3}\nSistema: {4}\nEntrou no servidor em: {5}```".format(user.name, user.id, user.discriminator, user.bot, user.system, joined_at))
             await ctx.send(user.avatar_url)
         else:
 
@@ -900,16 +468,12 @@ async def UserInfo(ctx):
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        error_count += 1
-        error_list.append(error)
+        bot.error_list.append(error)
 
 # Envia a playlist do server - EXPERIMENTAL
 # Feito pelo grande Francisco Gamba (@Ffran33)
 @bot.command(name = "playlist")
 async def Playlist_Link(ctx):
-
-    global error_count
-    global error_list
 
     print("[{0}][Comando]: Playlist (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
@@ -919,8 +483,7 @@ async def Playlist_Link(ctx):
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        error_count += 1
-        error_list.append(error)
+        bot.error_list.append(error)
 #endregion
 
 #region Humor
@@ -932,10 +495,10 @@ async def CuckLevel(ctx):
 
     if len(ctx.message.mentions) == 0:
         
-        await ctx.send("{0} é {1}\\% crono".format(ctx.message.author.mention, randint(0, 100)), TTS = TTS)
+        await ctx.send("{0} é {1}\\% crono".format(ctx.message.author.mention, randint(0, 100)))
     else:
 
-        await ctx.send("{0} é {1}\\% crono".format(ctx.message.mentions[0].mention, randint(0, 100)), TTS = TTS)
+        await ctx.send("{0} é {1}\\% crono".format(ctx.message.mentions[0].mention, randint(0, 100)))
 
 # Análise da partida
 @bot.command(name = "valorant")
@@ -943,24 +506,24 @@ async def ValorantAnalysis(ctx):
 
     print("[{0}][Comando]: Valorant (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
-    teamA = 0
-    teamB = 0
+    team_A = 0
+    team_B = 0
 
     if randint(0, 1) == 0:
 
-        teamA = 13
+        team_A = 13
     else:
 
-        teamB = 13
+        team_B = 13
 
-    if teamA == 13:
+    if team_A == 13:
 
-        teamB = randint(0, 12)
+        team_B = randint(0, 12)
     else:
 
-        teamA = randint(0, 12)
+        team_A = randint(0, 12)
     
-    await ctx.send("```Resultado: {0} a {1}```".format(teamA, teamB))
+    await ctx.send("```Resultado: {0} a {1}```".format(team_A, team_B))
 
 # Tocar
 @bot.command(name = "tocar")
@@ -968,28 +531,28 @@ async def Play(ctx, audio = None):
 
     print("[{0}][Comando]: Tocar (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
-    if ctx.voice_client != None and ctx.voice_client.is_connected():
+    if ctx.voice_client is not None and ctx.voice_client.is_connected():
 
         if ctx.voice_client.is_playing():
 
             await ctx.send("```Procurando novo áudio...```")
             ctx.voice_client.stop()
             
-        if audio != None:
+        if audio is not None:
 
-            audioFiles = [i for i in listdir("Audio") if isfile(join("Audio", i))]
+            audio_files = [i for i in listdir("Audio") if isfile(join("Audio", i))]
 
-            fileWasFound = False
-            for file in audioFiles:
+            file_was_found = False
+            for file in audio_files:
 
                 if audio == file[:-4]:
 
-                    fileWasFound = True
+                    file_was_found = True
                     ctx.voice_client.play(discord.FFmpegPCMAudio(source = "Audio\\{0}".format(file), executable = "C:\\Users\\ericf\\Documents\\Programas\\FFMpeg\\ffmpeg-4.3-win64-static\\bin\\ffmpeg.exe"))
 
                     await ctx.send("```Arquivo encontrado, tocando...```")
 
-            if not fileWasFound:
+            if not file_was_found:
 
                 await ctx.send("```Arquivo não encontrado```")
         else:
@@ -1005,7 +568,7 @@ async def Stop(ctx):
 
     print("[{0}][Comando]: Parar (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
-    if ctx.voice_client != None and ctx.voice_client.is_connected():
+    if ctx.voice_client is not None and ctx.voice_client.is_connected():
 
         if ctx.voice_client.is_playing():
 
@@ -1022,120 +585,94 @@ async def Stop(ctx):
 @bot.command(name = "emoji")
 async def Emojify(ctx, *str):
 
-    global error_count
-    global error_list
-
     print("[{0}][Comando]: Emojificar (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
     try:
 
         message = " ".join(str).lower()
-        normalizedMessage = unidecode(message)
-        emojifiedMessage = ""
+        normalized_message = unidecode(message)
+        emojified_message = ""
 
-        for c in normalizedMessage:
+        for c in normalized_message:
 
             if c == " ":
 
-                emojifiedMessage += "   "
+                emojified_message += "   "
             elif c == "0":
 
-                emojifiedMessage += " :zero:"
+                emojified_message += " :zero:"
             elif c == "1":
 
-                emojifiedMessage += " :one:"
+                emojified_message += " :one:"
             elif c == "2":
 
-                emojifiedMessage += " :two:"
+                emojified_message += " :two:"
             elif c =="3":
 
-                emojifiedMessage += " :three:"
+                emojified_message += " :three:"
             elif c == "4":
 
-                emojifiedMessage += " :four:"
+                emojified_message += " :four:"
             elif c == "5":
 
-                emojifiedMessage += " :five:"
+                emojified_message += " :five:"
             elif c == "6":
 
-                emojifiedMessage += " :six:"
+                emojified_message += " :six:"
             elif c == "7":
 
-                emojifiedMessage += " :seven:"
+                emojified_message += " :seven:"
             elif c == "8":
 
-                emojifiedMessage += " :seven:"
+                emojified_message += " :seven:"
             elif c == "9":
 
-                emojifiedMessage += " :seven:"
+                emojified_message += " :seven:"
             elif c in ascii_lowercase:
 
-                emojifiedMessage += " :regional_indicator_{0}:".format(c)
+                emojified_message += " :regional_indicator_{0}:".format(c)
         
-        if len(emojifiedMessage) <= 2000:
+        if len(emojified_message) <= 2000:
 
-            await ctx.send(emojifiedMessage)
+            await ctx.send(emojified_message)
         else:
 
             await ctx.send("```A mensagem é muito grande!```")
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        error_count += 1
-        error_list.append(error)
+        bot.error_list.append(error)
 
 # Aleatoriza um string entre caixa alta e baixa
 @bot.command(name = "zoas")
 async def Mock(ctx, *str):
-
-    global error_count
-    global error_list
 
     print("[{0}][Comando]: Zoas (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
     try:
 
         message = " ".join(str).lower()
-        mockedMessage = ""
+        mocked_message = ""
 
         for c in message:
 
             if randint(0, 1) == 0:
 
-                mockedMessage += c.upper()
+                mocked_message += c.upper()
             else:
 
-                mockedMessage += c.lower()
+                mocked_message += c.lower()
 
-        if len(mockedMessage) <= 2000:
+        if len(mocked_message) <= 2000:
 
-            await ctx.send(mockedMessage)
+            await ctx.send(mocked_message)
         else:
 
             await ctx.send("```A mensagem é muito grande!```")
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        error_count += 1
-        error_list.append(error)
-
-# Envia um emoji específico - EXPERIMENTAL
-# @bot.command(name = "urso")
-# async def Bear(ctx):
-
-#     global error_count
-#     global error_list
-
-#     print("[{0}][Comando]: Urso (Autor: {1})".format(datetime.now(), ctx.message.author.name))
-
-#     try:
-
-#         await ctx.send(bot.emojis[40])
-#     except Exception as error:
-
-#         print("[{0}][Erro]: {1}".format(datetime.now(), error))
-#         error_count += 1
-#         error_list.append(error)
+        bot.error_list.append(error)
 #endregion
 #endregion
 
@@ -1171,7 +708,7 @@ async def SystemControlBefore():
         for guild in bot.guilds:
 
             print("[{0}][Sistema]: Servidor {1} em processamento".format(datetime.now(), guild.id))
-            guilds.append(pygr_core.Guild(guild.id))
+            guilds[str(guild.id)] = (pygr_core.Guild(guild.id, bot))
 
         bot.is_ready = True
         print("[{0}][Sistema]: Sistema pronto".format(datetime.now()))
@@ -1224,7 +761,7 @@ async def on_message(message):
 
             awnser = Interact(message)
 
-            if awnser != None:
+            if awnser is not None:
 
                 await awnser
     except Exception as error:
@@ -1265,13 +802,8 @@ async def on_member_update(before, after):
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
         bot.error_list.append(error)
-
-# IMPLEMENTAR:
-# on_member_join
-# on_member_remove
-# on_guild_join
-
 #endregion
+
 # Execução do bot
 SystemControl.start()
 bot.run(TOKEN)

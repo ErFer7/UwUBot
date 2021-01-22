@@ -29,21 +29,24 @@ class Guild():
 
     id: int
     settings: dict
+    guild: discord.guild
 
-    def __init__(self, id):
+    def __init__(self, id, bot):
 
         self.id = id
 
-        if os.path.exists(os.path.join("Guilds", "{0}.json".format(id))):
+        if os.path.exists(os.path.join("Guilds", "{0}.json".format(self.id))):
 
-            with open(os.path.join("Guilds", "{0}.json".format(id)), 'r+') as settings_file:
+            with open(os.path.join("Guilds", "{0}.json".format(self.id)), 'r+') as settings_file:
 
                 settings_json = settings_file.read()
 
             self.settings = json.loads(settings_json)
         else:
 
-            self.settings = {"TESTSET" : 0}
+            self.settings = {"Guild ID" : self.id, "Main channel ID": 0, "Marking time" : False, "Initial time" : None}
+        
+        self.guild = bot.get_guild(self.settings["Guild ID"])
     
     def write_settings(self):
 
