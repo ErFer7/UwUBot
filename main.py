@@ -28,7 +28,7 @@ TOKEN = "NzI2MTM5MzYxMjQxODU4MTU5.XvY99A.Fh8e071wE-eqGo2tndUlAG3vuCU"
 
 # Variáveis globais
 NAME = "PyGR"
-VERSION = "3.9.7-1"
+VERSION = "3.9.7-2"
 ADM_ID = 382542596196663296
 
 # Inicializa intents

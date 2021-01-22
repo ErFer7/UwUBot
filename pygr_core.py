@@ -9,8 +9,9 @@ import json
 import discord
 
 from datetime import datetime
+from discord.ext import commands
 
-class CustomBot(discord.ext.commands.Bot):
+class CustomBot(commands.Bot):
 
     error_list: list
     is_ready: bool
