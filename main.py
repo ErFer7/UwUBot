@@ -12,16 +12,17 @@ import asyncio
 import discord
 import urllib.parse
 import pygr_core
+import legacy
+import utility_functions
 
 from time import time_ns
-from utility_functions import FindWholeWord, RandStr, RPGItemGenerator
 from random import randint, choice, seed
 from datetime import datetime, timedelta
 from os import listdir
 from os.path import isfile, join
+from string import ascii_lowercase
 from discord.ext import commands
 from discord.ext.tasks import loop
-from string import ascii_lowercase
 from unidecode import unidecode
 
 # Token. Não compartilhe!
@@ -29,7 +30,7 @@ TOKEN = "NzI2MTM5MzYxMjQxODU4MTU5.XvY99A.Fh8e071wE-eqGo2tndUlAG3vuCU"
 
 # Variáveis globais
 NAME = "PyGR"
-VERSION = "3.9.7-5"
+VERSION = "3.9.7-7"
 ADM_ID = 382542596196663296
 
 # Inicializa intents
@@ -43,8 +44,16 @@ bot = pygr_core.CustomBot(command_prefix = "~", help_command = None, intents = i
 
 #region Commands
 #region System Commands
+@bot.group()
+async def sys(ctx):
+
+    if ctx.invoked_subcommand is None:
+
+        embed = discord.Embed(description = "Comando inválido\n**Opções possíveis:**\n*off", color = discord.Color.red())
+        await ctx.send(embed = embed)
+
 # Desliga
-@bot.command(name = "off")
+@sys.command(name = "off")
 async def shutdown(ctx):
 
     print("[{0}][Comando]: Off (Autor: {1})".format(datetime.now(), ctx.message.author.name))
@@ -55,10 +64,10 @@ async def shutdown(ctx):
 
         print("[{0}][Sistema]: Registrando as definições dos servidores".format(datetime.now()))
 
-        for guild in guilds:
+        for key in guilds:
 
-            print("[{0}][Sistema]: Definições do servidor {1} registradas".format(datetime.now(), guild.id))
-            guild.write_settings()
+            print("[{0}][Sistema]: Definições do servidor {1} registradas".format(datetime.now(), guilds[key].id))
+            guilds[key].write_settings()
 
         print("[{0}][Sistema]: Erros = {1}".format(datetime.now(), bot.error_list))
         print("[{0}][Sistema]: Encerrando".format(datetime.now()))
@@ -759,7 +768,7 @@ async def on_message(message):
 
             print("[{0}][Mensagem]: Bot Mencionado".format(datetime.now()))
 
-            awnser = Interact(message)
+            awnser = legacy.Interact(message)
 
             if awnser is not None:
 
