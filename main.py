@@ -29,7 +29,7 @@ TOKEN = "NzI2MTM5MzYxMjQxODU4MTU5.XvY99A.Fh8e071wE-eqGo2tndUlAG3vuCU"
 
 # Variáveis globais
 NAME = "PyGR"
-VERSION = "3.9.7-4"
+VERSION = "3.9.7-5"
 ADM_ID = 382542596196663296
 
 # Inicializa intents
@@ -45,7 +45,7 @@ bot = pygr_core.CustomBot(command_prefix = "~", help_command = None, intents = i
 #region System Commands
 # Desliga
 @bot.command(name = "off")
-async def Shutdown(ctx):
+async def shutdown(ctx):
 
     print("[{0}][Comando]: Off (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
@@ -70,7 +70,7 @@ async def Shutdown(ctx):
 
 # Repete a mensagem em um canal
 @bot.command(name = "say")
-async def Say(ctx, channel_ID, *msg):
+async def sat(ctx, channel_ID, *msg):
 
     print("[{0}][Comando]: Say (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
@@ -99,7 +99,7 @@ async def Say(ctx, channel_ID, *msg):
 
 # Informações
 @bot.command(name = "info")
-async def Info(ctx):
+async def info(ctx):
 
     print("[{0}][Comando]: Info (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
@@ -114,7 +114,7 @@ async def Info(ctx):
 
 # Cria um erro propositalmente
 @bot.command(name = "error")
-async def RaiseError(ctx):
+async def raise_error(ctx):
 
     print("[{0}][Comando]: ERRO (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
@@ -131,7 +131,7 @@ async def RaiseError(ctx):
 #region Utilities
 # Ajuda
 @bot.command(name = "ajuda")
-async def CustomHelp(ctx):
+async def custom_help(ctx):
 
     print("[{0}][Comando]: Ajuda (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
@@ -149,7 +149,7 @@ async def CustomHelp(ctx):
 
 # Mede o tempo
 @bot.command(name = "tempo")
-async def Time(ctx):
+async def time(ctx):
 
     print("[{0}][Comando]: Tempo (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
@@ -172,7 +172,7 @@ async def Time(ctx):
 
 # Modificador de canal
 @bot.command(name = "canal")
-async def ChannelModifier(ctx, channel_arg = None):
+async def channel_modifier(ctx, channel_arg = None):
 
     print("[{0}][Comando]: Canal (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
@@ -222,11 +222,11 @@ async def ChannelModifier(ctx, channel_arg = None):
 
 # Utilidades do RPG
 @bot.command(name = "rpg")
-async def RPGUtilities(ctx, arg = None, type_arg = None, level_arg = None):
+async def RPG_utilities(ctx, arg = None, type_arg = None, level_arg = None):
 
     print("[{0}][Comando]: RPG (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
-    if arg != None:
+    if arg is not None:
 
         if arg.startswith("d"):
 
@@ -270,16 +270,16 @@ async def RPGUtilities(ctx, arg = None, type_arg = None, level_arg = None):
                 await ctx.send("```Comando inválido pora```")  
         elif arg == "item":
 
-            if type_arg != None:
+            if type_arg is not None:
 
                 if type_arg == "arma" or type_arg == "armadura" or type_arg == "objeto":
 
-                    if level_arg != None:
+                    if level_arg is not None:
 
                         try:
 
                             level = float(level_arg)
-                        except:
+                        except ValueError:
 
                             await ctx.send("```Comando inválido pora```")
                             
@@ -323,7 +323,7 @@ async def Join(ctx):
 
         if ctx.message.author.voice:
 
-            if ctx.voice_client == None or not ctx.voice_client.is_connected():
+            if ctx.voice_client is None or not ctx.voice_client.is_connected():
 
                 await ctx.send("```Entrando```")
                 await ctx.author.voice.channel.connect()
@@ -344,7 +344,7 @@ async def Leave(ctx):
 
     print("[{0}][Comando]: Desconectar (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
-    if ctx.voice_client != None and ctx.voice_client.is_connected():
+    if ctx.voice_client is not None and ctx.voice_client.is_connected():
 
         await ctx.send("```Saindo```")
         await ctx.voice_client.disconnect()
@@ -392,7 +392,7 @@ async def RandomNumber(ctx, minStr = None, maxStr = None):
             else:
 
                 raise ValueError
-        except:
+        except ValueError:
 
             await ctx.send("```Input inválido```")
 
@@ -425,7 +425,7 @@ async def RandomString(ctx, sizeStr = None):
             else:
 
                 raise ValueError
-        except:
+        except ValueError:
 
             await ctx.send("```Input inválido```")
 
@@ -583,13 +583,13 @@ async def Stop(ctx):
 
 # Transforma um string em emojis
 @bot.command(name = "emoji")
-async def Emojify(ctx, *str):
+async def Emojify(ctx, *string):
 
     print("[{0}][Comando]: Emojificar (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
     try:
 
-        message = " ".join(str).lower()
+        message = " ".join(string).lower()
         normalized_message = unidecode(message)
         emojified_message = ""
 
