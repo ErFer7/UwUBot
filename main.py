@@ -13,9 +13,9 @@ import discord
 import urllib.parse
 import pygr_core
 import legacy
-import utility_functions
+import pygr_functions
 
-from time import time_ns
+from time import time_ns, sleep
 from random import randint, choice, seed
 from datetime import datetime, timedelta
 from os import listdir
@@ -30,7 +30,7 @@ TOKEN = "NzI2MTM5MzYxMjQxODU4MTU5.XvY99A.Fh8e071wE-eqGo2tndUlAG3vuCU"
 
 # Variáveis globais
 NAME = "PyGR"
-VERSION = "3.9.7-8"
+VERSION = "3.9.7-12"
 ADM_ID = 382542596196663296
 
 # Inicializa intents
@@ -51,7 +51,7 @@ async def sys(ctx):
 
     if ctx.invoked_subcommand is None:
 
-        embed = discord.Embed(description = "❌  **Comando inválido**\n\n*Opções possíveis:*\n⬩ off\n⬩ repeat\n⬩ info\n⬩ error", color = discord.Color.red())
+        embed = discord.Embed(description = "❌  **Comando inválido**\n\n*Opções possíveis:*\n⬩ off\n⬩ info", color = discord.Color.red())
         await ctx.send(embed = embed)
 
 # Desliga
@@ -81,64 +81,21 @@ async def shutdown(ctx):
         embed = discord.Embed(description = "❌  **Comando inválido**\n\n*Você não tem permissão para usar este comando*", color = discord.Color.red())
         await ctx.send(embed = embed)
 
-# Repete a mensagem em um canal
-@sys.command(name = "repeat")
-async def repeat(ctx, channel_ID, *msg):
-
-    print("[{0}][Sub-Comando]: <repeat> (Autor: {1})".format(datetime.now(), ctx.message.author.name))
-
-    if ctx.message.author.id == ADM_ID:
-            
-        try:
-
-            int(channel_ID)
-        except ValueError as error:
-
-            print("[{0}][Erro]: {1}".format(datetime.now(), error))
-            bot.error_list.append(error)
-
-        channel = bot.get_channel(int(channel_ID))
-
-        if channel is not None:
-
-            message = " ".join(msg)
-            await channel.send(message)
-        else:
-
-            await ctx.send("```Canal não encontrado```")
-    else:
-
-        await ctx.send("```Você não tem permissão para usar este comando```")
-
 # Informações
 @sys.command(name = "info")
 async def info(ctx):
 
-    print("[{0}][Comando]: Info (Autor: {1})".format(datetime.now(), ctx.message.author.name))
+    print("[{0}][Sub-Comando]: Info (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
-    header = "{0} {1} - Criado em 26/06/2020".format(NAME, VERSION)
-    websocket = "Websocket: {0}".format(bot.ws)
-    http_loop = "Loop HTTP: {0}".format(bot.loop)
-    latency = "Latência interna: {0}".format(bot.latency)
-    guild_list = "Servidores: {0}".format(bot.guilds)
-    voice_clients = "Instâncias de voz: {0}".format(bot.voice_clients)
+    header = "**{0} {1}** - Criado em 26/06/2020".format(NAME, VERSION)
+    websocket = "**Websocket:** {0}".format(bot.ws)
+    http_loop = "**Loop HTTP:** {0}".format(bot.loop)
+    latency = "**Latência interna:** {0}".format(bot.latency)
+    guild_count = "**Servidores conectados:** {0}".format(len(bot.guilds))
+    voice_clients = "**Instâncias de voz:** {0}".format(bot.voice_clients)
 
-    await ctx.send("```{0}\n{1}\n{2}\n{3}\n{4}\n{5}```".format(header, websocket, http_loop, latency, guild_list, voice_clients))
-
-# Cria um erro propositalmente
-@sys.command(name = "error")
-async def raise_error(ctx):
-
-    print("[{0}][Comando]: ERRO (Autor: {1})".format(datetime.now(), ctx.message.author.name))
-
-    try:
-
-        await ctx.send("```Criando erro```")
-        raise Exception("Este erro é proposital e pode ser ignorado")
-    except ValueError as error:
-
-        print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        bot.error_list.append(error)
+    embed = discord.Embed(description = "❱❱❱ **Informações**\n\n⬩ {0}\n\n⬩ {1}\n\n⬩ {2}\n\n⬩ {3}\n\n⬩ {4}\n\n⬩ {5}".format(header, websocket, http_loop, latency, guild_count, voice_clients), color = discord.Color.dark_blue())
+    await ctx.send(embed = embed)
 #endregion
 
 #region Utilities
@@ -148,35 +105,31 @@ async def custom_help(ctx):
 
     print("[{0}][Comando]: Ajuda (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
-    try:
-
-        with open(os.path.join("Text", "help.txt"), "r", encoding = "utf-8") as help_file:
-            
-            help_string = help_file.read()
-    except FileNotFoundError as error:
-
-        print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        bot.error_list.append(error)
-        
-    await ctx.send(help_string)
+    embed = discord.Embed(description = "❱❱❱ **Ajuda**\n\n*Para saber mais sobre cada comando digite <~ajuda [Nome do comando]>*\n\n*Comandos:*\n\n⬩ sys off\n⬩ sys info\n⬩ ajuda\n⬩ tempo cronômetro", color = discord.Color.dark_blue())
+    await ctx.send(embed = embed)
 
 # Mede o tempo
-@bot.command(name = "tempo")
+@bot.group(name = "tempo")
 async def time(ctx):
 
     print("[{0}][Comando]: Tempo (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
+@time.command(name = "cronômetro")
+async def chronometer(ctx):
+
+    print("[{0}][Sub-Comando]: cronômetro (Autor: {1})".format(datetime.now(), ctx.message.author.name))
+
     try:
 
-        if guilds[str(ctx.guild.id)].settings["Marking time"]:
+        if guilds[str(ctx.guild.id)].settings["Chronometer"]:
 
-            guilds[str(ctx.guild.id)].settings["Marking time"] = False
-            delta = datetime.now() - guilds[str(ctx.guild.id)].settings["Initial time"]
+            guilds[str(ctx.guild.id)].settings["Chronometer"] = False
+            delta = datetime.now() - guilds[str(ctx.guild.id)].settings["Chronometer initial time"]
             await ctx.send("```Tempo marcado: " + str(delta) + "```")
         else:
 
-            guilds[str(ctx.guild.id)].settings["Marking time"] = True
-            guilds[str(ctx.guild.id)].settings["Initial time"] = datetime.now()
+            guilds[str(ctx.guild.id)].settings["Chronometer"] = True
+            guilds[str(ctx.guild.id)].settings["Chronometer initial time"] = datetime.now()
             await ctx.send("```Marcando o tempo```")
     except Exception as error:
 
@@ -712,7 +665,7 @@ async def SystemControlBefore():
 
         seed(time_ns())
 
-        print("[{0}][Inicialização]: Esperando o sistema...".format(datetime.now()))
+        print("[{0}][Sistema]: Esperando o sistema...".format(datetime.now()))
 
         await bot.wait_until_ready()
 
@@ -820,3 +773,4 @@ async def on_member_update(before, after):
 # Execução do bot
 SystemControl.start()
 bot.run(TOKEN)
+sleep(0.1)

@@ -5,7 +5,7 @@ Código não utilizado
 '''
 
 import discord
-from utility_functions import FindWholeWord
+from pygr_functions import FindWholeWord
 from random import randint
 
 def Interact(message: discord.message):

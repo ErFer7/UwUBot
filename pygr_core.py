@@ -44,7 +44,7 @@ class Guild():
             self.settings = json.loads(settings_json)
         else:
 
-            self.settings = {"Guild ID" : self.id, "Main channel ID": 0, "Marking time" : False, "Initial time" : None}
+            self.settings = {"Guild ID" : self.id, "Main channel ID": 0, "Chronometer" : False, "Chronometer initial time" : None}
         
         self.guild = bot.get_guild(self.settings["Guild ID"])
     
