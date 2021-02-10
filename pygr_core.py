@@ -8,7 +8,6 @@ import os
 import json
 import discord
 
-from datetime import datetime
 from discord.ext import commands
 
 class CustomBot(commands.Bot):
@@ -44,7 +43,7 @@ class Guild():
             self.settings = json.loads(settings_json)
         else:
 
-            self.settings = {"Guild ID" : self.id, "Main channel ID": 0, "Chronometer" : False, "Chronometer initial time" : None}
+            self.settings = {"Guild ID" : self.id, "Main channel ID": 0, "Chronometer" : False, "Chronometer initial time" : 0}
         
         self.guild = bot.get_guild(self.settings["Guild ID"])
     

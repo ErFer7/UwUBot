@@ -16,12 +16,11 @@ import legacy
 import pygr_functions
 
 from time import time_ns, sleep
-from random import randint, choice, seed
-from datetime import datetime, timedelta
+from random import randint, seed
+from datetime import datetime
 from os import listdir
 from os.path import isfile, join
 from string import ascii_lowercase
-from discord.ext import commands
 from discord.ext.tasks import loop
 from unidecode import unidecode
 
@@ -30,7 +29,7 @@ TOKEN = "NzI2MTM5MzYxMjQxODU4MTU5.XvY99A.Fh8e071wE-eqGo2tndUlAG3vuCU"
 
 # Variáveis globais
 NAME = "PyGR"
-VERSION = "3.9.7-12"
+VERSION = "3.9.7-15"
 ADM_ID = 382542596196663296
 
 # Inicializa intents
@@ -51,7 +50,7 @@ async def sys(ctx):
 
     if ctx.invoked_subcommand is None:
 
-        embed = discord.Embed(description = "❌  **Comando inválido**\n\n*Opções possíveis:*\n⬩ off\n⬩ info", color = discord.Color.red())
+        embed = discord.Embed(description = "❌  **Comando inválido**\n\n*Opções possíveis:*\n⬩ off\n⬩ info\n⬩ save", color = discord.Color.red())
         await ctx.send(embed = embed)
 
 # Desliga
@@ -96,6 +95,16 @@ async def info(ctx):
 
     embed = discord.Embed(description = "❱❱❱ **Informações**\n\n⬩ {0}\n\n⬩ {1}\n\n⬩ {2}\n\n⬩ {3}\n\n⬩ {4}\n\n⬩ {5}".format(header, websocket, http_loop, latency, guild_count, voice_clients), color = discord.Color.dark_blue())
     await ctx.send(embed = embed)
+
+@sys.command(name = "save")
+async def save(ctx):
+
+    print("[{0}][Sub-Comando]: Save (Autor: {1})".format(datetime.now(), ctx.message.author.name))
+
+    guilds[str(ctx.guild.id)].write_settings()
+
+    embed = discord.Embed(description = "❱❱❱ **Salvando...**", color = discord.Color.dark_blue())
+    await ctx.send(embed = embed)
 #endregion
 
 #region Utilities
@@ -105,32 +114,40 @@ async def custom_help(ctx):
 
     print("[{0}][Comando]: Ajuda (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
-    embed = discord.Embed(description = "❱❱❱ **Ajuda**\n\n*Para saber mais sobre cada comando digite <~ajuda [Nome do comando]>*\n\n*Comandos:*\n\n⬩ sys off\n⬩ sys info\n⬩ ajuda\n⬩ tempo cronômetro", color = discord.Color.dark_blue())
+    embed = discord.Embed(description = "❱❱❱ **Ajuda**\n\n*Comandos:*\n\n⬩ sys off\n⬩ sys info\n⬩ ajuda\n⬩ tempo cronômetro", color = discord.Color.dark_blue())
     await ctx.send(embed = embed)
 
 # Mede o tempo
-@bot.group(name = "tempo")
+@bot.group(name = "tempo", aliases = ("tm", "tp"))
 async def time(ctx):
 
     print("[{0}][Comando]: Tempo (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
-@time.command(name = "cronômetro")
+    if ctx.invoked_subcommand is None:
+
+        embed = discord.Embed(description = "❌  **Comando inválido**\n\n*Opções possíveis:*\n⬩ cronômetro", color = discord.Color.red())
+        await ctx.send(embed = embed)
+
+@time.command(name = "cronômetro", aliases = ("cronometro", "crono", "cr"))
 async def chronometer(ctx):
 
-    print("[{0}][Sub-Comando]: cronômetro (Autor: {1})".format(datetime.now(), ctx.message.author.name))
+    print("[{0}][Sub-Comando]: Cronômetro (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
     try:
 
         if guilds[str(ctx.guild.id)].settings["Chronometer"]:
 
             guilds[str(ctx.guild.id)].settings["Chronometer"] = False
-            delta = datetime.now() - guilds[str(ctx.guild.id)].settings["Chronometer initial time"]
-            await ctx.send("```Tempo marcado: " + str(delta) + "```")
+            delta = time_ns() - guilds[str(ctx.guild.id)].settings["Chronometer initial time"]
+            guilds[str(ctx.guild.id)].settings["Chronometer initial time"] = 0
+            embed = discord.Embed(description = "🕒  **Tempo marcado:**\n\n{0}".format(pygr_functions.time_format(delta)), color = discord.Color.green())
+            await ctx.send(embed = embed)
         else:
 
             guilds[str(ctx.guild.id)].settings["Chronometer"] = True
-            guilds[str(ctx.guild.id)].settings["Chronometer initial time"] = datetime.now()
-            await ctx.send("```Marcando o tempo```")
+            guilds[str(ctx.guild.id)].settings["Chronometer initial time"] = time_ns()
+            embed = discord.Embed(description = "🕒  **Marcando o tempo**", color = discord.Color.dark_blue())
+            await ctx.send(embed = embed)
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
