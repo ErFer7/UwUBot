@@ -29,6 +29,7 @@ class Guild():
     id: int
     settings: dict
     guild: discord.guild
+    main_channel: discord.channel
 
     def __init__(self, id, bot):
 
@@ -46,6 +47,11 @@ class Guild():
             self.settings = {"Guild ID" : self.id, "Main channel ID": 0, "Chronometer" : False, "Chronometer initial time" : 0}
         
         self.guild = bot.get_guild(self.settings["Guild ID"])
+        self.main_channel = bot.get_channel(self.settings["Main channel ID"])
+
+        if self.main_channel is None:
+
+            self.main_channel = self.guild.channels[0]
     
     def write_settings(self):
 
@@ -53,3 +59,11 @@ class Guild():
 
             settings_json = json.dumps(self.settings)
             settings_file.write(settings_json)
+    
+    def update_main_channel(self, bot):
+
+        self.main_channel = bot.get_channel(self.settings["Main channel ID"])
+
+        if self.main_channel is None:
+
+            self.main_channel = self.guild.channels[0]

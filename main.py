@@ -4,18 +4,17 @@
 Bot para Discord - 2020/06/26 - Eric Fernandes Evaristo
 Projeto: Bot-Project
 Bot: PyGR
-'''
-# Atualmente em refatoração
 
-import os
-import asyncio
+ATUALMENTE EM REFATORAÇÃO
+'''
+
 import discord
 import urllib.parse
 import pygr_core
 import legacy
 import pygr_functions
 
-from time import time_ns, sleep
+from time import time_ns
 from random import randint, seed
 from datetime import datetime
 from os import listdir
@@ -29,7 +28,7 @@ TOKEN = "NzI2MTM5MzYxMjQxODU4MTU5.XvY99A.Fh8e071wE-eqGo2tndUlAG3vuCU"
 
 # Variáveis globais
 NAME = "PyGR"
-VERSION = "3.9.7-15"
+VERSION = "3.9.7-17"
 ADM_ID = 382542596196663296
 
 # Inicializa intents
@@ -54,10 +53,10 @@ async def sys(ctx):
         await ctx.send(embed = embed)
 
 # Desliga
-@sys.command(name = "off")
+@sys.command(name = "off", aliases = ("desligar", "des"))
 async def shutdown(ctx):
 
-    print("[{0}][Sub-Comando]: <off> (Autor: {1})".format(datetime.now(), ctx.message.author.name))
+    print(f"[{datetime.now()}][Sub-Comando]: <off> (Autor: {ctx.message.author.name})")
 
     if ctx.message.author.id == ADM_ID:
         
@@ -68,11 +67,11 @@ async def shutdown(ctx):
 
         for key in guilds:
 
-            print("[{0}][Sistema]: Definições do servidor {1} registradas".format(datetime.now(), guilds[key].id))
+            print(f"[{datetime.now()}][Sistema]: Definições do servidor {guilds[key].id} registradas")
             guilds[key].write_settings()
 
-        print("[{0}][Sistema]: Erros = {1}".format(datetime.now(), bot.error_list))
-        print("[{0}][Sistema]: Encerrando".format(datetime.now()))
+        print(f"[{datetime.now()}][Sistema]: Erros = {bot.error_list}")
+        print(f"[{datetime.now()}][Sistema]: Encerrando")
 
         await bot.close()
     else:
@@ -84,22 +83,22 @@ async def shutdown(ctx):
 @sys.command(name = "info")
 async def info(ctx):
 
-    print("[{0}][Sub-Comando]: Info (Autor: {1})".format(datetime.now(), ctx.message.author.name))
+    print(f"[{datetime.now()}][Sub-Comando]: Info (Autor: {ctx.message.author.name})")
 
-    header = "**{0} {1}** - Criado em 26/06/2020".format(NAME, VERSION)
-    websocket = "**Websocket:** {0}".format(bot.ws)
-    http_loop = "**Loop HTTP:** {0}".format(bot.loop)
-    latency = "**Latência interna:** {0}".format(bot.latency)
-    guild_count = "**Servidores conectados:** {0}".format(len(bot.guilds))
-    voice_clients = "**Instâncias de voz:** {0}".format(bot.voice_clients)
+    header = f"**{NAME} {VERSION}** - Criado em 26/06/2020"
+    websocket = f"**Websocket:** {bot.ws}"
+    http_loop = f"**Loop HTTP:** {bot.loop}"
+    latency = f"**Latência interna:** {bot.latency}"
+    guild_count = f"**Servidores conectados:** {len(bot.guilds)}"
+    voice_clients = f"**Instâncias de voz:** {bot.voice_clients}"
 
-    embed = discord.Embed(description = "❱❱❱ **Informações**\n\n⬩ {0}\n\n⬩ {1}\n\n⬩ {2}\n\n⬩ {3}\n\n⬩ {4}\n\n⬩ {5}".format(header, websocket, http_loop, latency, guild_count, voice_clients), color = discord.Color.dark_blue())
+    embed = discord.Embed(description = f"❱❱❱ **Informações**\n\n⬩ {header}\n\n⬩ {websocket}\n\n⬩ {http_loop}\n\n⬩ {latency}\n\n⬩ {guild_count}\n\n⬩ {voice_clients}", color = discord.Color.dark_blue())
     await ctx.send(embed = embed)
 
 @sys.command(name = "save")
 async def save(ctx):
 
-    print("[{0}][Sub-Comando]: Save (Autor: {1})".format(datetime.now(), ctx.message.author.name))
+    print(f"[{datetime.now()}][Sub-Comando]: Save (Autor: {ctx.message.author.name})")
 
     guilds[str(ctx.guild.id)].write_settings()
 
@@ -109,10 +108,10 @@ async def save(ctx):
 
 #region Utilities
 # Ajuda
-@bot.command(name = "ajuda")
+@bot.command(name = "ajuda", aliases = ("help", "h", "aj"))
 async def custom_help(ctx):
 
-    print("[{0}][Comando]: Ajuda (Autor: {1})".format(datetime.now(), ctx.message.author.name))
+    print(f"[{datetime.now()}][Comando]: Ajuda (Autor: {ctx.message.author.name})")
 
     embed = discord.Embed(description = "❱❱❱ **Ajuda**\n\n*Comandos:*\n\n⬩ sys off\n⬩ sys info\n⬩ ajuda\n⬩ tempo cronômetro", color = discord.Color.dark_blue())
     await ctx.send(embed = embed)
@@ -121,7 +120,7 @@ async def custom_help(ctx):
 @bot.group(name = "tempo", aliases = ("tm", "tp"))
 async def time(ctx):
 
-    print("[{0}][Comando]: Tempo (Autor: {1})".format(datetime.now(), ctx.message.author.name))
+    print(f"[{datetime.now()}][Comando]: Tempo (Autor: {ctx.message.author.name})")
 
     if ctx.invoked_subcommand is None:
 
@@ -131,7 +130,7 @@ async def time(ctx):
 @time.command(name = "cronômetro", aliases = ("cronometro", "crono", "cr"))
 async def chronometer(ctx):
 
-    print("[{0}][Sub-Comando]: Cronômetro (Autor: {1})".format(datetime.now(), ctx.message.author.name))
+    print(f"[{datetime.now()}][Sub-Comando]: Cronômetro (Autor: {ctx.message.author.name})")
 
     try:
 
@@ -140,7 +139,7 @@ async def chronometer(ctx):
             guilds[str(ctx.guild.id)].settings["Chronometer"] = False
             delta = time_ns() - guilds[str(ctx.guild.id)].settings["Chronometer initial time"]
             guilds[str(ctx.guild.id)].settings["Chronometer initial time"] = 0
-            embed = discord.Embed(description = "🕒  **Tempo marcado:**\n\n{0}".format(pygr_functions.time_format(delta)), color = discord.Color.green())
+            embed = discord.Embed(description = f"🕒  **Tempo marcado:**\n\n{pygr_functions.time_format(delta)}", color = discord.Color.green())
             await ctx.send(embed = embed)
         else:
 
@@ -150,58 +149,36 @@ async def chronometer(ctx):
             await ctx.send(embed = embed)
     except Exception as error:
 
-        print("[{0}][Erro]: {1}".format(datetime.now(), error))
+        print(f"[{datetime.now()}][Erro]: {error}")
         bot.error_list.append(error)
+
+@bot.group(name = "set", aliases = ("st", "s"))
+async def guild_settings(ctx):
+
+    print(f"[{datetime.now()}][Comando]: Set (Autor: {ctx.message.author.name})")
+
+    if ctx.invoked_subcommand is None:
+
+        embed = discord.Embed(description = "❌  **Comando inválido**\n\n*Opções possíveis:*\n⬩ canal", color = discord.Color.red())
+        await ctx.send(embed = embed)
 
 # Modificador de canal
-@bot.command(name = "canal")
-async def channel_modifier(ctx, channel_arg = None):
+@guild_settings.command(name = "canal", aliases = ("channel", "ch"))
+async def channel_modifier(ctx):
 
-    print("[{0}][Comando]: Canal (Autor: {1})".format(datetime.now(), ctx.message.author.name))
+    print(f"[{datetime.now()}][Sub-Comando]: Canal (Autor: {ctx.message.author.name})")
 
-    try:
+    if len(ctx.message.channel_mentions) == 1:
 
-        if guilds[str(ctx.guild.id)].settings["Main channel ID"] is not None:
+        guilds[str(ctx.guild.id)].settings["Main channel ID"] = ctx.message.channel_mentions[0].id
+        guilds[str(ctx.guild.id)].update_main_channel(bot)
 
-            try:
-                
-                id_int = int(channel_arg)
-            except ValueError:
+        embed = discord.Embed(description = f"❱❱❱ **Canal redefinido para: {guilds[str(ctx.guild.id)].main_channel}**", color = discord.Color.dark_blue())
+        await ctx.send(embed = embed)
+    else:
 
-                id_int = -1
-
-            if id_int != -1:
-
-                found_channel = False
-                print("[{0}][Sistema]: Procurando canais pelo ID".format(datetime.now()))
-
-                for channel in guilds[str(ctx.guild.id)].guild.channels:
-
-                    print("[{0}][Sistema]: Canal listado = {1}".format(datetime.now(), str(channel.id)))
-
-                    if channel.id == id_int:
-
-                        print("[{0}][Sistema]: Canal encontrado".format(datetime.now()))
-                        guilds[str(ctx.guild.id)].settings["Main channel ID"] = id_int
-                        found_channel = True
-                        break
-                
-                if found_channel:
-
-                    await ctx.send("```Canal atualizado```")
-                else:
-
-                    await ctx.send("```Canal não encontrado```")
-            else:
-
-                await ctx.send("```ID inválido```")
-        else:
-
-            await ctx.send("```Tá errado, uso correto: !canal [id]```")
-    except Exception as error:
-
-        print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        bot.error_list.append(error)
+        embed = discord.Embed(description = "❌  **Comando inválido**\n\n*Uso correto*\n~set canal #canal", color = discord.Color.red())
+        await ctx.send(embed = embed)
 
 # Utilidades do RPG
 @bot.command(name = "rpg")
@@ -790,4 +767,3 @@ async def on_member_update(before, after):
 # Execução do bot
 SystemControl.start()
 bot.run(TOKEN)
-sleep(0.1)
