@@ -113,7 +113,7 @@ async def custom_help(ctx):
 
     print(f"[{datetime.now()}][Comando]: Ajuda (Autor: {ctx.message.author.name})")
 
-    embed = discord.Embed(description = "❱❱❱ **Ajuda**\n\n*Comandos:*\n\n⬩ sys off\n⬩ sys info\n⬩ ajuda\n⬩ tempo cronômetro", color = discord.Color.dark_blue())
+    embed = discord.Embed(description = "❱❱❱ **Ajuda**\n\n*Comandos:*\n\n⬩ sys off\n⬩ sys info\n⬩ ajuda\n⬩ tempo cronômetro\n⬩ rpg dado", color = discord.Color.dark_blue())
     await ctx.send(embed = embed)
 
 # Mede o tempo
@@ -182,7 +182,7 @@ async def channel_modifier(ctx):
 
 # Utilidades do RPG
 @bot.group(name = "rpg")
-async def RPG_utilities(ctx):
+async def rpg_utilities(ctx):
 
     print(f"[{datetime.now()}][Comando]: RPG (Autor: {ctx.message.author.name})")
 
@@ -191,7 +191,7 @@ async def RPG_utilities(ctx):
         embed = discord.Embed(description = "❌  **Comando inválido**\n\n*Opções possíveis:*\n⬩ dado", color = discord.Color.red())
         await ctx.send(embed = embed)
 
-@RPG_utilities.command(name = "dado", aliases = ('d', "dice"))
+@rpg_utilities.command(name = "dado", aliases = ('d', "dice"))
 async def dice(ctx, *args):
 
     print(f"[{datetime.now()}][Sub-Comando]: RPG (Autor: {ctx.message.author.name})")
