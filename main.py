@@ -361,7 +361,7 @@ async def RandomString(ctx, sizeStr = None):
 
         if input_is_valid:
 
-            await ctx.send("```{0}```".format(RandStr(size)))
+            await ctx.send("```{0}```".format(pygr_functions.RandStr(size)))
     except Exception as error:
 
         print("[{0}][Erro]: {1}".format(datetime.now(), error))
