@@ -35,9 +35,9 @@ class Guild():
 
         self.id = id
 
-        if os.path.exists(os.path.join("Guilds", "{0}.json".format(self.id))):
+        if os.path.exists(os.path.join("Guilds", f"{self.id}.json")):
 
-            with open(os.path.join("Guilds", "{0}.json".format(self.id)), 'r+') as settings_file:
+            with open(os.path.join("Guilds", f"{self.id}.json"), 'r+') as settings_file:
 
                 settings_json = settings_file.read()
 
@@ -55,7 +55,7 @@ class Guild():
     
     def write_settings(self):
 
-        with open(os.path.join("Guilds", "{0}.json".format(self.id)), 'w+') as settings_file:
+        with open(os.path.join("Guilds", f"{self.id}.json"), 'w+') as settings_file:
 
             settings_json = json.dumps(self.settings)
             settings_file.write(settings_json)

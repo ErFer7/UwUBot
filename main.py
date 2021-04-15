@@ -28,7 +28,7 @@ TOKEN = "NzI2MTM5MzYxMjQxODU4MTU5.XvY99A.Fh8e071wE-eqGo2tndUlAG3vuCU"
 
 # Variáveis globais
 NAME = "PyGR"
-VERSION = "3.9.7-17"
+VERSION = "3.9.7-20"
 ADM_ID = 382542596196663296
 
 # Inicializa intents
@@ -181,97 +181,67 @@ async def channel_modifier(ctx):
         await ctx.send(embed = embed)
 
 # Utilidades do RPG
-@bot.command(name = "rpg")
-async def RPG_utilities(ctx, arg = None, type_arg = None, level_arg = None):
+@bot.group(name = "rpg")
+async def RPG_utilities(ctx):
 
-    print("[{0}][Comando]: RPG (Autor: {1})".format(datetime.now(), ctx.message.author.name))
+    print(f"[{datetime.now()}][Comando]: RPG (Autor: {ctx.message.author.name})")
 
-    if arg is not None:
+    if ctx.invoked_subcommand is None:
 
-        if arg.startswith("d"):
+        embed = discord.Embed(description = "❌  **Comando inválido**\n\n*Opções possíveis:*\n⬩ dado", color = discord.Color.red())
+        await ctx.send(embed = embed)
 
-            result = 0
-            valid_command = False
+@RPG_utilities.command(name = "dado", aliases = ('d', "dice"))
+async def dice(ctx, *args):
 
-            if arg == "d4":
+    print(f"[{datetime.now()}][Sub-Comando]: RPG (Autor: {ctx.message.author.name})")
 
-                result = randint(1, 4)
-                valid_command = True
-            elif arg == "d6":
+    valid = True
+    result = "🎲  **Dados jogados**\n\n"
 
-                result = randint(1, 6)
-                valid_command = True
-            elif arg == "d8":
+    if len(args) > 0:
 
-                result = randint(1, 8)
-                valid_command = True
-            elif arg == "d10":
+        for arg in args:
 
-                result = randint(1, 10)
-                valid_command = True
-            elif arg == "d12":
+            amount, num = 0, 0
 
-                result = randint(1, 12)
-                valid_command = True
-            elif arg == "d20":
+            if not arg.startswith('d'):
 
-                result = randint(1, 20)
-                valid_command = True
-            elif arg == "d100":
-
-                result = randint(1, 100)
-                valid_command = True
-                
-            if valid_command:
-
-                await ctx.send("```Você rolou um dado {0}, resultado: {1}```".format(arg, result))
+                amount, num = map(int, arg.split('d'))
             else:
 
-                await ctx.send("```Comando inválido pora```")  
-        elif arg == "item":
+                amount = 1
+                num = int(arg[1:])
 
-            if type_arg is not None:
+            if amount > 0 and num in (4, 6, 8, 10, 12, 20, 100):
 
-                if type_arg == "arma" or type_arg == "armadura" or type_arg == "objeto":
+                dice_res = []
 
-                    if level_arg is not None:
+                for _ in range(amount):
 
-                        try:
+                    dice_res.append(randint(1, num))
 
-                            level = float(level_arg)
-                        except ValueError:
-
-                            await ctx.send("```Comando inválido pora```")
-                            
-                        if level >= 0.0 and level <= 30.0:
-
-                            if type_arg == "arma":
-
-                                await ctx.send(RPGItemGenerator("weapon", level))
-                            elif type_arg == "armadura":
-
-                                await ctx.send(RPGItemGenerator("armor", level))
-                            else:
-
-                                await ctx.send(RPGItemGenerator("object", level))
-                        else:
-
-                            return ctx.send("```Comando inválido pora```")
-                    else:
-
-                        await ctx.send("```Tá errado. Uso: ~rpg item {0} [nível (0 - 30)]```".format(type_arg))
-                else:
-
-                    await ctx.send("```Tá errado. Uso: ~rpg item [tipo de item] [nível (0 - 30)]```")
+                result += arg + " = " + ', '.join(list(map(str, dice_res))) + '\n'
             else:
 
-                await ctx.send("```Tá errado. Uso: ~rpg item [tipo de item] [nível (0 - 30)]```")
-        else:
-
-            await ctx.send("```Tá errado. Uso: ~rpg [dado/item]```")
+                valid = False
+                break
     else:
 
-        await ctx.send("```Tá errado. Uso: ~rpg [dado/item]```")
+        valid = False
+
+    if len(result) > 2048:
+
+        valid = False
+
+    if valid:
+
+        embed = discord.Embed(description = result, color = discord.Color.dark_blue())
+        await ctx.send(embed = embed)
+    else:
+
+        embed = discord.Embed(description = "❌  **Comando inválido**\n\n*Uso correto*\n~rpg dado <Lista de dados; Ex: 2d8 4d6>", color = discord.Color.red())
+        await ctx.send(embed = embed)
 
 # Conectar
 @bot.command(name = "conectar")
@@ -708,12 +678,6 @@ async def on_message(message):
         
         # Comandos
         await bot.process_commands(message)
-
-        # Protótipo de moderação
-        if message.content.startswith("-") and message.channel.id != 724437879744626748:
-
-            await message.delete()
-            await message.channel.send("```diff\n- OPA CARA, ACHA QUE ISSO AQUI É BAGUNÇA\n Use o canal \"nlogônia\" para comandos com o bot.```")
 
         if bot.user.mentioned_in(message):
 
