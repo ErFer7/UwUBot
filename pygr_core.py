@@ -12,6 +12,10 @@ from discord.ext import commands
 
 class CustomBot(commands.Bot):
 
+    '''
+    Bot customizado
+    '''
+
     error_list: list
     is_ready: bool
 
@@ -25,6 +29,10 @@ class CustomBot(commands.Bot):
         self.is_ready = False
 
 class Guild():
+
+    '''
+    Definição de um server
+    '''
 
     id: int
     settings: dict

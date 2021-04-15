@@ -132,25 +132,19 @@ async def chronometer(ctx):
 
     print(f"[{datetime.now()}][Sub-Comando]: Cronômetro (Autor: {ctx.message.author.name})")
 
-    try:
+    if guilds[str(ctx.guild.id)].settings["Chronometer"]:
 
-        if guilds[str(ctx.guild.id)].settings["Chronometer"]:
+        guilds[str(ctx.guild.id)].settings["Chronometer"] = False
+        delta = time_ns() - guilds[str(ctx.guild.id)].settings["Chronometer initial time"]
+        guilds[str(ctx.guild.id)].settings["Chronometer initial time"] = 0
+        embed = discord.Embed(description = f"🕒  **Tempo marcado:**\n\n{pygr_functions.time_format(delta)}", color = discord.Color.green())
+        await ctx.send(embed = embed)
+    else:
 
-            guilds[str(ctx.guild.id)].settings["Chronometer"] = False
-            delta = time_ns() - guilds[str(ctx.guild.id)].settings["Chronometer initial time"]
-            guilds[str(ctx.guild.id)].settings["Chronometer initial time"] = 0
-            embed = discord.Embed(description = f"🕒  **Tempo marcado:**\n\n{pygr_functions.time_format(delta)}", color = discord.Color.green())
-            await ctx.send(embed = embed)
-        else:
-
-            guilds[str(ctx.guild.id)].settings["Chronometer"] = True
-            guilds[str(ctx.guild.id)].settings["Chronometer initial time"] = time_ns()
-            embed = discord.Embed(description = "🕒  **Marcando o tempo**", color = discord.Color.dark_blue())
-            await ctx.send(embed = embed)
-    except Exception as error:
-
-        print(f"[{datetime.now()}][Erro]: {error}")
-        bot.error_list.append(error)
+        guilds[str(ctx.guild.id)].settings["Chronometer"] = True
+        guilds[str(ctx.guild.id)].settings["Chronometer initial time"] = time_ns()
+        embed = discord.Embed(description = "🕒  **Marcando o tempo**", color = discord.Color.dark_blue())
+        await ctx.send(embed = embed)
 
 @bot.group(name = "set", aliases = ("st", "s"))
 async def guild_settings(ctx):
