@@ -10,7 +10,7 @@ ATUALMENTE EM REFATORAÇÃO
 
 import discord
 import urllib.parse
-import pygr_core
+import bot_system
 import legacy
 import pygr_functions
 
@@ -38,7 +38,7 @@ intents.members = True
 
 guilds = {}
 
-bot = pygr_core.CustomBot(command_prefix = "~", help_command = None, intents = intents)
+bot = bot_system.CustomBot(command_prefix = "~", help_command = None, intents = intents)
 
 #region Commands
 #region System Commands
@@ -632,7 +632,7 @@ async def SystemControlBefore():
         for guild in bot.guilds:
 
             print("[{0}][Sistema]: Servidor {1} em processamento".format(datetime.now(), guild.id))
-            guilds[str(guild.id)] = (pygr_core.Guild(guild.id, bot))
+            guilds[str(guild.id)] = (bot_system.Guild(guild.id, bot))
 
         bot.is_ready = True
         print("[{0}][Sistema]: Sistema pronto".format(datetime.now()))
