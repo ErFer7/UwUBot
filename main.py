@@ -29,7 +29,7 @@ TOKEN = "NzI2MTM5MzYxMjQxODU4MTU5.XvY99A.Fh8e071wE-eqGo2tndUlAG3vuCU"
 
 # Variáveis globais
 NAME = "PyGR"
-VERSION = "3.9.8"
+VERSION = "3.9.9"
 ADM_ID = 382542596196663296
 
 # Corrige o erro de saída temporáriamente.
@@ -48,7 +48,7 @@ bot = bot_system.CustomBot(command_prefix = "~", help_command = None, intents = 
 
 #region Commands
 #region System Commands
-@bot.group()
+@bot.group(name = "sys")
 async def system(ctx):
 
     print("[{0}][Comando]: <system> (Autor: {1})".format(datetime.now(), ctx.message.author.name))
