@@ -18,6 +18,7 @@ class CustomBot(commands.Bot):
 
     error_list: list
     is_ready: bool
+    guild_dict: dict
 
     def __init__(self, command_prefix, help_command, intents):
 
@@ -27,6 +28,7 @@ class CustomBot(commands.Bot):
 
         self.error_list = []
         self.is_ready = False
+        self.guild_dict = {}
 
 class Guild():
 
@@ -60,14 +62,14 @@ class Guild():
         if self.main_channel is None:
 
             self.main_channel = self.guild.channels[0]
-    
+
     def write_settings(self):
 
         with open(os.path.join("Guilds", f"{self.id}.json"), 'w+') as settings_file:
 
             settings_json = json.dumps(self.settings)
             settings_file.write(settings_json)
-    
+
     def update_main_channel(self, bot):
 
         self.main_channel = bot.get_channel(self.settings["Main channel ID"])

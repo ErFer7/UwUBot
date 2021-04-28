@@ -29,7 +29,7 @@ TOKEN = "NzI2MTM5MzYxMjQxODU4MTU5.XvY99A.Fh8e071wE-eqGo2tndUlAG3vuCU"
 
 # Variáveis globais
 NAME = "PyGR"
-VERSION = "3.9.9"
+VERSION = "3.9.10"
 ADM_ID = 382542596196663296
 
 # Corrige o erro de saída temporáriamente.
@@ -42,8 +42,6 @@ intents = discord.Intents.all()
 intents.presences = True
 intents.members = True
 
-guilds = {}
-
 bot = bot_system.CustomBot(command_prefix = "~", help_command = None, intents = intents)
 
 #region Commands
@@ -51,7 +49,7 @@ bot = bot_system.CustomBot(command_prefix = "~", help_command = None, intents = 
 @bot.group(name = "sys")
 async def system(ctx):
 
-    print("[{0}][Comando]: <system> (Autor: {1})".format(datetime.now(), ctx.message.author.name))
+    print(f"[{datetime.now()}][Comando]: <system> (Autor: {ctx.message.author.name})")
 
     if ctx.invoked_subcommand is None:
 
@@ -69,12 +67,12 @@ async def shutdown(ctx):
         embed = discord.Embed(description = "❱❱❱ **Encerrando**\n\n*Até o outro dia*", color = discord.Color.dark_blue())
         await ctx.send(embed = embed)
 
-        print("[{0}][Sistema]: Registrando as definições dos servidores".format(datetime.now()))
+        print(f"[{datetime.now()}][Sistema]: Registrando as definições dos servidores")
 
-        for key in guilds:
+        for key in bot.guild_dict:
 
-            print(f"[{datetime.now()}][Sistema]: Definições do servidor {guilds[key].id} registradas")
-            guilds[key].write_settings()
+            print(f"[{datetime.now()}][Sistema]: Definições do servidor {bot.guild_dict[key].id} registradas")
+            bot.guild_dict[key].write_settings()
 
         print(f"[{datetime.now()}][Sistema]: Erros = {bot.error_list}")
         print(f"[{datetime.now()}][Sistema]: Encerrando")
@@ -104,9 +102,9 @@ async def info(ctx):
 @system.command(name = "save")
 async def save(ctx):
 
-    print(f"[{datetime.now()}][Sub-Comando]: Save (Autor: {ctx.message.author.name})")
+    print(f"[{datetime.now()}][Sub-Comando]: <save> (Autor: {ctx.message.author.name})")
 
-    guilds[str(ctx.guild.id)].write_settings()
+    bot.guild_dict[str(ctx.guild.id)].write_settings()
 
     embed = discord.Embed(description = "❱❱❱ **Salvando...**", color = discord.Color.dark_blue())
     await ctx.send(embed = embed)
@@ -117,7 +115,7 @@ async def save(ctx):
 @bot.command(name = "ajuda", aliases = ("help", "h", "aj"))
 async def custom_help(ctx):
 
-    print(f"[{datetime.now()}][Comando]: Ajuda (Autor: {ctx.message.author.name})")
+    print(f"[{datetime.now()}][Comando]: <ajuda> (Autor: {ctx.message.author.name})")
 
     embed = discord.Embed(description = "❱❱❱ **Ajuda**\n\n*Comandos:*\n\n⬩ sys off\n⬩ sys info\n⬩ ajuda\n⬩ tempo cronômetro\n⬩ rpg dado", color = discord.Color.dark_blue())
     await ctx.send(embed = embed)
@@ -126,7 +124,7 @@ async def custom_help(ctx):
 @bot.group(name = "tempo", aliases = ("tm", "tp"))
 async def time(ctx):
 
-    print(f"[{datetime.now()}][Comando]: Tempo (Autor: {ctx.message.author.name})")
+    print(f"[{datetime.now()}][Comando]: <tempo> (Autor: {ctx.message.author.name})")
 
     if ctx.invoked_subcommand is None:
 
@@ -136,26 +134,26 @@ async def time(ctx):
 @time.command(name = "cronômetro", aliases = ("cronometro", "crono", "cr"))
 async def chronometer(ctx):
 
-    print(f"[{datetime.now()}][Sub-Comando]: Cronômetro (Autor: {ctx.message.author.name})")
+    print(f"[{datetime.now()}][Sub-Comando]: <cronômetro> (Autor: {ctx.message.author.name})")
 
-    if guilds[str(ctx.guild.id)].settings["Chronometer"]:
+    if bot.guild_dict[str(ctx.guild.id)].settings["Chronometer"]:
 
-        guilds[str(ctx.guild.id)].settings["Chronometer"] = False
-        delta = time_ns() - guilds[str(ctx.guild.id)].settings["Chronometer initial time"]
-        guilds[str(ctx.guild.id)].settings["Chronometer initial time"] = 0
+        bot.guild_dict[str(ctx.guild.id)].settings["Chronometer"] = False
+        delta = time_ns() - bot.guild_dict[str(ctx.guild.id)].settings["Chronometer initial time"]
+        bot.guild_dict[str(ctx.guild.id)].settings["Chronometer initial time"] = 0
         embed = discord.Embed(description = f"🕒  **Tempo marcado:**\n\n{pygr_functions.time_format(delta)}", color = discord.Color.green())
         await ctx.send(embed = embed)
     else:
 
-        guilds[str(ctx.guild.id)].settings["Chronometer"] = True
-        guilds[str(ctx.guild.id)].settings["Chronometer initial time"] = time_ns()
+        bot.guild_dict[str(ctx.guild.id)].settings["Chronometer"] = True
+        bot.guild_dict[str(ctx.guild.id)].settings["Chronometer initial time"] = time_ns()
         embed = discord.Embed(description = "🕒  **Marcando o tempo**", color = discord.Color.dark_blue())
         await ctx.send(embed = embed)
 
 @bot.group(name = "set", aliases = ("st", "s"))
 async def guild_settings(ctx):
 
-    print(f"[{datetime.now()}][Comando]: Set (Autor: {ctx.message.author.name})")
+    print(f"[{datetime.now()}][Comando]: <set> (Autor: {ctx.message.author.name})")
 
     if ctx.invoked_subcommand is None:
 
@@ -166,14 +164,14 @@ async def guild_settings(ctx):
 @guild_settings.command(name = "canal", aliases = ("channel", "ch"))
 async def channel_modifier(ctx):
 
-    print(f"[{datetime.now()}][Sub-Comando]: Canal (Autor: {ctx.message.author.name})")
+    print(f"[{datetime.now()}][Sub-Comando]: <canal> (Autor: {ctx.message.author.name})")
 
     if len(ctx.message.channel_mentions) == 1:
 
-        guilds[str(ctx.guild.id)].settings["Main channel ID"] = ctx.message.channel_mentions[0].id
-        guilds[str(ctx.guild.id)].update_main_channel(bot)
+        bot.guild_dict[str(ctx.guild.id)].settings["Main channel ID"] = ctx.message.channel_mentions[0].id
+        bot.guild_dict[str(ctx.guild.id)].update_main_channel(bot)
 
-        embed = discord.Embed(description = f"❱❱❱ **Canal redefinido para: {guilds[str(ctx.guild.id)].main_channel}**", color = discord.Color.dark_blue())
+        embed = discord.Embed(description = f"❱❱❱ **Canal redefinido para: {bot.guild_dict[str(ctx.guild.id)].main_channel}**", color = discord.Color.dark_blue())
         await ctx.send(embed = embed)
     else:
 
@@ -184,7 +182,7 @@ async def channel_modifier(ctx):
 @bot.group(name = "rpg")
 async def rpg_utilities(ctx):
 
-    print(f"[{datetime.now()}][Comando]: RPG (Autor: {ctx.message.author.name})")
+    print(f"[{datetime.now()}][Comando]: <rpg> (Autor: {ctx.message.author.name})")
 
     if ctx.invoked_subcommand is None:
 
@@ -194,7 +192,7 @@ async def rpg_utilities(ctx):
 @rpg_utilities.command(name = "dado", aliases = ('d', "dice"))
 async def dice(ctx, *args):
 
-    print(f"[{datetime.now()}][Sub-Comando]: RPG (Autor: {ctx.message.author.name})")
+    print(f"[{datetime.now()}][Sub-Comando]: <dice> (Autor: {ctx.message.author.name})")
 
     valid = True
     result = "🎲  **Dados jogados**\n\n"
@@ -247,26 +245,23 @@ async def dice(ctx, *args):
 @bot.command(name = "conectar")
 async def Join(ctx):
 
-    print("[{0}][Comando]: Conectar (Autor: {1})".format(datetime.now(), ctx.message.author.name))
+    print(f"[{datetime.now()}][Comando]: <conectar> (Autor: {ctx.message.author.name})")
 
-    try:
+    voice_channel = ctx.message.author.voice.channel
 
-        if ctx.message.author.voice:
+    if voice_channel is not None:
 
-            if ctx.voice_client is None or not ctx.voice_client.is_connected():
+        if ctx.voice_client is None or not ctx.voice_client.is_connected():
 
-                await ctx.send("```Entrando```")
-                await ctx.author.voice.channel.connect()
-            else:
-
-                await ctx.send("```Já tô conectado```")
+            await ctx.send("```Entrando```")
+            await voice_channel.connect()
         else:
 
-            await ctx.send("```Não tenho nenhum canal pra me conectar.```")
-    except Exception as error:
+            await ctx.send("```Já tô conectado```")
+    else:
 
-        print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        bot.error_list.append(error)
+        embed = discord.Embed(description = "❌  **Não tenho nenhum canal pra me conectar", color = discord.Color.red())
+        await ctx.send(embed = embed)
 
 # Desconectar
 @bot.command(name = "desconectar")
@@ -638,7 +633,7 @@ async def SystemControlBefore():
         for guild in bot.guilds:
 
             print("[{0}][Sistema]: Servidor {1} em processamento".format(datetime.now(), guild.id))
-            guilds[str(guild.id)] = (bot_system.Guild(guild.id, bot))
+            bot.guild_dict[str(guild.id)] = bot_system.Guild(guild.id, bot)
 
         bot.is_ready = True
         print("[{0}][Sistema]: Sistema pronto".format(datetime.now()))
