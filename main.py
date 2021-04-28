@@ -7,7 +7,8 @@ Bot: PyGR
 
 ATUALMENTE EM REFATORAÇÃO
 '''
-
+import sys
+import asyncio
 import discord
 import urllib.parse
 import bot_system
@@ -28,8 +29,13 @@ TOKEN = "NzI2MTM5MzYxMjQxODU4MTU5.XvY99A.Fh8e071wE-eqGo2tndUlAG3vuCU"
 
 # Variáveis globais
 NAME = "PyGR"
-VERSION = "3.9.7-20"
+VERSION = "3.9.8"
 ADM_ID = 382542596196663296
+
+# Corrige o erro de saída temporáriamente.
+if sys.version_info[0] == 3 and sys.version_info[1] >= 8 and sys.platform.startswith('win'):
+
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 # Inicializa intents
 intents = discord.Intents.all()
@@ -43,9 +49,9 @@ bot = bot_system.CustomBot(command_prefix = "~", help_command = None, intents = 
 #region Commands
 #region System Commands
 @bot.group()
-async def sys(ctx):
+async def system(ctx):
 
-    print("[{0}][Comando]: <sys> (Autor: {1})".format(datetime.now(), ctx.message.author.name))
+    print("[{0}][Comando]: <system> (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
     if ctx.invoked_subcommand is None:
 
@@ -53,7 +59,7 @@ async def sys(ctx):
         await ctx.send(embed = embed)
 
 # Desliga
-@sys.command(name = "off", aliases = ("desligar", "des"))
+@system.command(name = "off", aliases = ("desligar", "des"))
 async def shutdown(ctx):
 
     print(f"[{datetime.now()}][Sub-Comando]: <off> (Autor: {ctx.message.author.name})")
@@ -80,7 +86,7 @@ async def shutdown(ctx):
         await ctx.send(embed = embed)
 
 # Informações
-@sys.command(name = "info")
+@system.command(name = "info")
 async def info(ctx):
 
     print(f"[{datetime.now()}][Sub-Comando]: Info (Autor: {ctx.message.author.name})")
@@ -95,7 +101,7 @@ async def info(ctx):
     embed = discord.Embed(description = f"❱❱❱ **Informações**\n\n⬩ {header}\n\n⬩ {websocket}\n\n⬩ {http_loop}\n\n⬩ {latency}\n\n⬩ {guild_count}\n\n⬩ {voice_clients}", color = discord.Color.dark_blue())
     await ctx.send(embed = embed)
 
-@sys.command(name = "save")
+@system.command(name = "save")
 async def save(ctx):
 
     print(f"[{datetime.now()}][Sub-Comando]: Save (Autor: {ctx.message.author.name})")
