@@ -8,7 +8,7 @@ import time
 
 from re import compile, IGNORECASE # (!) Checar a redefinição de compile
 from string import ascii_lowercase
-from random import randint, choice
+from random import choice
 
 def FindWholeWord(word):
 

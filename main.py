@@ -7,29 +7,36 @@ Bot: PyGR
 
 ATUALMENTE EM REFATORAÇÃO
 '''
+
 import sys
 import asyncio
-import discord
 import urllib.parse
-import bot_system
+
+from random import randint
+from datetime import datetime
+from string import ascii_lowercase
+
+import discord
+
+from unidecode import unidecode
+
 import legacy
 import pygr_functions
 
-from time import time_ns
-from random import randint, seed
-from datetime import datetime
-from os import listdir
-from os.path import isfile, join
-from string import ascii_lowercase
-from discord.ext.tasks import loop
-from unidecode import unidecode
+from bot_system import CustomBot
+from admin_cog import AdminCog
+from help_cog import HelpCog
+from time_cog import TimeCog
+from settings_cog import SettingsCog
+from rpg_cog import RPGCog
+from voice_cog import VoiceCog
 
 # Token. Não compartilhe!
 TOKEN = "NzI2MTM5MzYxMjQxODU4MTU5.XvY99A.Fh8e071wE-eqGo2tndUlAG3vuCU"
 
 # Variáveis globais
 NAME = "PyGR"
-VERSION = "3.9.10"
+VERSION = "3.10"
 ADM_ID = 382542596196663296
 
 # Corrige o erro de saída temporáriamente.
@@ -42,257 +49,24 @@ intents = discord.Intents.all()
 intents.presences = True
 intents.members = True
 
-bot = bot_system.CustomBot(command_prefix = "~", help_command = None, intents = intents)
+bot = CustomBot(command_prefix = "~",
+                help_command = None,
+                intents = intents,
+                name = NAME,
+                version = VERSION)
 
 #region Commands
-#region System Commands
-@bot.group(name = "sys")
-async def system(ctx):
-
-    print(f"[{datetime.now()}][Comando]: <system> (Autor: {ctx.message.author.name})")
-
-    if ctx.invoked_subcommand is None:
-
-        embed = discord.Embed(description = "❌  **Comando inválido**\n\n*Opções possíveis:*\n⬩ off\n⬩ info\n⬩ save", color = discord.Color.red())
-        await ctx.send(embed = embed)
-
-# Desliga
-@system.command(name = "off", aliases = ("desligar", "des"))
-async def shutdown(ctx):
-
-    print(f"[{datetime.now()}][Sub-Comando]: <off> (Autor: {ctx.message.author.name})")
-
-    if ctx.message.author.id == ADM_ID:
-        
-        embed = discord.Embed(description = "❱❱❱ **Encerrando**\n\n*Até o outro dia*", color = discord.Color.dark_blue())
-        await ctx.send(embed = embed)
-
-        print(f"[{datetime.now()}][Sistema]: Registrando as definições dos servidores")
-
-        for key in bot.guild_dict:
-
-            print(f"[{datetime.now()}][Sistema]: Definições do servidor {bot.guild_dict[key].id} registradas")
-            bot.guild_dict[key].write_settings()
-
-        print(f"[{datetime.now()}][Sistema]: Erros = {bot.error_list}")
-        print(f"[{datetime.now()}][Sistema]: Encerrando")
-
-        await bot.close()
-    else:
-
-        embed = discord.Embed(description = "❌  **Comando inválido**\n\n*Você não tem permissão para usar este comando*", color = discord.Color.red())
-        await ctx.send(embed = embed)
-
-# Informações
-@system.command(name = "info")
-async def info(ctx):
-
-    print(f"[{datetime.now()}][Sub-Comando]: Info (Autor: {ctx.message.author.name})")
-
-    header = f"**{NAME} {VERSION}** - Criado em 26/06/2020"
-    websocket = f"**Websocket:** {bot.ws}"
-    http_loop = f"**Loop HTTP:** {bot.loop}"
-    latency = f"**Latência interna:** {bot.latency}"
-    guild_count = f"**Servidores conectados:** {len(bot.guilds)}"
-    voice_clients = f"**Instâncias de voz:** {bot.voice_clients}"
-
-    embed = discord.Embed(description = f"❱❱❱ **Informações**\n\n⬩ {header}\n\n⬩ {websocket}\n\n⬩ {http_loop}\n\n⬩ {latency}\n\n⬩ {guild_count}\n\n⬩ {voice_clients}", color = discord.Color.dark_blue())
-    await ctx.send(embed = embed)
-
-@system.command(name = "save")
-async def save(ctx):
-
-    print(f"[{datetime.now()}][Sub-Comando]: <save> (Autor: {ctx.message.author.name})")
-
-    bot.guild_dict[str(ctx.guild.id)].write_settings()
-
-    embed = discord.Embed(description = "❱❱❱ **Salvando...**", color = discord.Color.dark_blue())
-    await ctx.send(embed = embed)
-#endregion
-
 #region Utilities
-# Ajuda
-@bot.command(name = "ajuda", aliases = ("help", "h", "aj"))
-async def custom_help(ctx):
-
-    print(f"[{datetime.now()}][Comando]: <ajuda> (Autor: {ctx.message.author.name})")
-
-    embed = discord.Embed(description = "❱❱❱ **Ajuda**\n\n*Comandos:*\n\n⬩ sys off\n⬩ sys info\n⬩ ajuda\n⬩ tempo cronômetro\n⬩ rpg dado", color = discord.Color.dark_blue())
-    await ctx.send(embed = embed)
-
-# Mede o tempo
-@bot.group(name = "tempo", aliases = ("tm", "tp"))
-async def time(ctx):
-
-    print(f"[{datetime.now()}][Comando]: <tempo> (Autor: {ctx.message.author.name})")
-
-    if ctx.invoked_subcommand is None:
-
-        embed = discord.Embed(description = "❌  **Comando inválido**\n\n*Opções possíveis:*\n⬩ cronômetro", color = discord.Color.red())
-        await ctx.send(embed = embed)
-
-@time.command(name = "cronômetro", aliases = ("cronometro", "crono", "cr"))
-async def chronometer(ctx):
-
-    print(f"[{datetime.now()}][Sub-Comando]: <cronômetro> (Autor: {ctx.message.author.name})")
-
-    if bot.guild_dict[str(ctx.guild.id)].settings["Chronometer"]:
-
-        bot.guild_dict[str(ctx.guild.id)].settings["Chronometer"] = False
-        delta = time_ns() - bot.guild_dict[str(ctx.guild.id)].settings["Chronometer initial time"]
-        bot.guild_dict[str(ctx.guild.id)].settings["Chronometer initial time"] = 0
-        embed = discord.Embed(description = f"🕒  **Tempo marcado:**\n\n{pygr_functions.time_format(delta)}", color = discord.Color.green())
-        await ctx.send(embed = embed)
-    else:
-
-        bot.guild_dict[str(ctx.guild.id)].settings["Chronometer"] = True
-        bot.guild_dict[str(ctx.guild.id)].settings["Chronometer initial time"] = time_ns()
-        embed = discord.Embed(description = "🕒  **Marcando o tempo**", color = discord.Color.dark_blue())
-        await ctx.send(embed = embed)
-
-@bot.group(name = "set", aliases = ("st", "s"))
-async def guild_settings(ctx):
-
-    print(f"[{datetime.now()}][Comando]: <set> (Autor: {ctx.message.author.name})")
-
-    if ctx.invoked_subcommand is None:
-
-        embed = discord.Embed(description = "❌  **Comando inválido**\n\n*Opções possíveis:*\n⬩ canal", color = discord.Color.red())
-        await ctx.send(embed = embed)
-
-# Modificador de canal
-@guild_settings.command(name = "canal", aliases = ("channel", "ch"))
-async def channel_modifier(ctx):
-
-    print(f"[{datetime.now()}][Sub-Comando]: <canal> (Autor: {ctx.message.author.name})")
-
-    if len(ctx.message.channel_mentions) == 1:
-
-        bot.guild_dict[str(ctx.guild.id)].settings["Main channel ID"] = ctx.message.channel_mentions[0].id
-        bot.guild_dict[str(ctx.guild.id)].update_main_channel(bot)
-
-        embed = discord.Embed(description = f"❱❱❱ **Canal redefinido para: {bot.guild_dict[str(ctx.guild.id)].main_channel}**", color = discord.Color.dark_blue())
-        await ctx.send(embed = embed)
-    else:
-
-        embed = discord.Embed(description = "❌  **Comando inválido**\n\n*Uso correto*\n~set canal #canal", color = discord.Color.red())
-        await ctx.send(embed = embed)
-
-# Utilidades do RPG
-@bot.group(name = "rpg")
-async def rpg_utilities(ctx):
-
-    print(f"[{datetime.now()}][Comando]: <rpg> (Autor: {ctx.message.author.name})")
-
-    if ctx.invoked_subcommand is None:
-
-        embed = discord.Embed(description = "❌  **Comando inválido**\n\n*Opções possíveis:*\n⬩ dado", color = discord.Color.red())
-        await ctx.send(embed = embed)
-
-@rpg_utilities.command(name = "dado", aliases = ('d', "dice"))
-async def dice(ctx, *args):
-
-    print(f"[{datetime.now()}][Sub-Comando]: <dice> (Autor: {ctx.message.author.name})")
-
-    valid = True
-    result = "🎲  **Dados jogados**\n\n"
-
-    if len(args) > 0:
-
-        for arg in args:
-
-            amount, num = 0, 0
-
-            if not arg.startswith('d'):
-
-                amount, num = map(int, arg.split('d'))
-            else:
-
-                amount = 1
-                num = int(arg[1:])
-
-            if amount > 0 and num in (4, 6, 8, 10, 12, 20, 100):
-
-                dice_res = []
-
-                for _ in range(amount):
-
-                    dice_res.append(randint(1, num))
-
-                result += arg + " = " + ', '.join(list(map(str, dice_res))) + '\n'
-            else:
-
-                valid = False
-                break
-    else:
-
-        valid = False
-
-    if len(result) > 2048:
-
-        valid = False
-
-    if valid:
-
-        embed = discord.Embed(description = result, color = discord.Color.dark_blue())
-        await ctx.send(embed = embed)
-    else:
-
-        embed = discord.Embed(description = "❌  **Comando inválido**\n\n*Uso correto*\n~rpg dado <Lista de dados; Ex: 2d8 4d6>", color = discord.Color.red())
-        await ctx.send(embed = embed)
-
-# Conectar
-@bot.command(name = "conectar")
-async def Join(ctx):
-
-    print(f"[{datetime.now()}][Comando]: <conectar> (Autor: {ctx.message.author.name})")
-
-    voice_channel = ctx.message.author.voice.channel
-
-    if voice_channel is not None:
-
-        if ctx.voice_client is None or not ctx.voice_client.is_connected():
-
-            await ctx.send("```Entrando```")
-            await voice_channel.connect()
-        else:
-
-            await ctx.send("```Já tô conectado```")
-    else:
-
-        embed = discord.Embed(description = "❌  **Não tenho nenhum canal pra me conectar", color = discord.Color.red())
-        await ctx.send(embed = embed)
-
-# Desconectar
-@bot.command(name = "desconectar")
-async def Leave(ctx):
-
-    print("[{0}][Comando]: Desconectar (Autor: {1})".format(datetime.now(), ctx.message.author.name))
-
-    if ctx.voice_client is not None and ctx.voice_client.is_connected():
-
-        await ctx.send("```Saindo```")
-        await ctx.voice_client.disconnect()
-    else:
-
-        await ctx.send("```Não tô conectado```")
-
 # Envia a resposta do Wolfram Alpha
 @bot.command(name = "wolf")
 async def Wolfram(ctx, *search):
 
     print("[{0}][Comando]: Wolf (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
-    try:
-        
-        query = " ".join(search)
-        url = "https://www.wolframalpha.com/input/?i=" + urllib.parse.quote(query)
+    query = " ".join(search)
+    url = "https://www.wolframalpha.com/input/?i=" + urllib.parse.quote(query)
 
-        await ctx.send(url)
-    except Exception as error:
-
-        print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        bot.error_list.append(error)
+    await ctx.send(url)
 
 # Gera um número aleatório
 @bot.command(name = "rng")
@@ -301,7 +75,7 @@ async def RandomNumber(ctx, minStr = None, maxStr = None):
     print("[{0}][Comando]: RNG (Autor: {1})".format(datetime.now(), ctx.message.author.name))
 
     try:
-        
+
         input_is_valid = False
         min_int = 0
         max_int = 0
@@ -312,7 +86,7 @@ async def RandomNumber(ctx, minStr = None, maxStr = None):
             max_int = int(maxStr)
 
             if min_int <= max_int:
-            
+
                 input_is_valid = True
             else:
 
@@ -450,62 +224,6 @@ async def ValorantAnalysis(ctx):
     
     await ctx.send("```Resultado: {0} a {1}```".format(team_A, team_B))
 
-# Tocar
-@bot.command(name = "tocar")
-async def Play(ctx, audio = None):
-
-    print("[{0}][Comando]: Tocar (Autor: {1})".format(datetime.now(), ctx.message.author.name))
-
-    if ctx.voice_client is not None and ctx.voice_client.is_connected():
-
-        if ctx.voice_client.is_playing():
-
-            await ctx.send("```Procurando novo áudio...```")
-            ctx.voice_client.stop()
-            
-        if audio is not None:
-
-            audio_files = [i for i in listdir("Audio") if isfile(join("Audio", i))]
-
-            file_was_found = False
-            for file in audio_files:
-
-                if audio == file[:-4]:
-
-                    file_was_found = True
-                    ctx.voice_client.play(discord.FFmpegPCMAudio(source = "Audio\\{0}".format(file), executable = "C:\\Users\\ericf\\Documents\\Programas\\FFMpeg\\ffmpeg-4.3-win64-static\\bin\\ffmpeg.exe"))
-
-                    await ctx.send("```Arquivo encontrado, tocando...```")
-
-            if not file_was_found:
-
-                await ctx.send("```Arquivo não encontrado```")
-        else:
-
-            await ctx.send("```Tá errado. Uso correto: ~tocar [audio]```")
-    else:
-
-        await ctx.send("```Não tô conectado```")
-
-# Parar
-@bot.command(name = "parar")
-async def Stop(ctx):
-
-    print("[{0}][Comando]: Parar (Autor: {1})".format(datetime.now(), ctx.message.author.name))
-
-    if ctx.voice_client is not None and ctx.voice_client.is_connected():
-
-        if ctx.voice_client.is_playing():
-
-            await ctx.send("```Parando o áudio```")
-            ctx.voice_client.stop()
-        else:
-
-            await ctx.send("```Não tem nada tocando```")
-    else:
-
-        await ctx.send("```Não tô conectado```")
-
 # Transforma um string em emojis
 @bot.command(name = "emoji")
 async def Emojify(ctx, *string):
@@ -601,64 +319,7 @@ async def Mock(ctx, *str):
 #endregion
 #endregion
 
-#region Loops
-# Loop do sistema
-@loop(seconds = 1)
-async def SystemControl():
-
-    try:
-
-        pass
-    except Exception as error:
-
-        print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        bot.error_list.append(error)
-
-@SystemControl.before_loop
-async def SystemControlBefore():
-
-    try:
-
-        print("[{0}][Sistema]: Inicializando {1} {2}".format(datetime.now(), NAME, VERSION))
-        print("[{0}][Sistema]: Inicializando o RNG".format(datetime.now()))
-
-        seed(time_ns())
-
-        print("[{0}][Sistema]: Esperando o sistema...".format(datetime.now()))
-
-        await bot.wait_until_ready()
-
-        print("[{0}][Sistema]: Carregando definições dos servidores".format(datetime.now()))
-
-        for guild in bot.guilds:
-
-            print("[{0}][Sistema]: Servidor {1} em processamento".format(datetime.now(), guild.id))
-            bot.guild_dict[str(guild.id)] = bot_system.Guild(guild.id, bot)
-
-        bot.is_ready = True
-        print("[{0}][Sistema]: Sistema pronto".format(datetime.now()))
-    except Exception as error:
-
-        print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        bot.error_list.append(error)
-#endregion
-
 #region Events
-# Bot pronto
-@bot.event
-async def on_ready():
-
-    try:
-
-        print("[{0}][Sistema]: {1} {2} pronto para operar".format(datetime.now(), NAME, VERSION))
-        print("[{0}][Sistema]: Logado como {1}, no id: {2}".format(datetime.now(), bot.user.name, bot.user.id))
-
-        await bot.change_presence(activity = discord.Game(name = "Tua mãe na cama"))
-    except Exception as error:
-            
-        print("[{0}][Erro]: {1}".format(datetime.now(), error))
-        bot.error_list.append(error)
-
 # Mensagem recebida
 @bot.event
 async def on_message(message):
@@ -724,5 +385,11 @@ async def on_member_update(before, after):
 #endregion
 
 # Execução do bot
-SystemControl.start()
+bot.add_cog(AdminCog(bot, ADM_ID))
+bot.add_cog(HelpCog(bot))
+bot.add_cog(TimeCog(bot))
+bot.add_cog(SettingsCog(bot))
+bot.add_cog(RPGCog(bot))
+bot.add_cog(VoiceCog(bot))
+bot.loop.create_task(bot.setup())
 bot.run(TOKEN)

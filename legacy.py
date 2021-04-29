@@ -4,9 +4,11 @@
 Código não utilizado
 '''
 
-import discord
-from pygr_functions import FindWholeWord
 from random import randint
+
+import discord
+
+from pygr_functions import FindWholeWord
 
 def Interact(message: discord.message):
 
