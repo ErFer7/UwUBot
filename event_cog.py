@@ -65,4 +65,4 @@ class EventCog(commands.Cog):
     async def on_member_update(self, before, after):
 
         print(f"[{datetime.now()}][Evento]: " \
-              f"Membro [{after.name}] ficou [{after.status}] no servidor [{after.guild.nam}]")
+              f"Membro [{after.name}] ficou [{after.status}] no servidor [{after.guild.name}]")
