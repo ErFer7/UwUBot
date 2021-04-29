@@ -49,7 +49,6 @@ class AdminCog(commands.Cog):
                 self.bot.guild_dict[key].write_settings()
 
             # Encerra o bot
-            print(f"[{datetime.now()}][Admin]: Erros = {self.bot.error_list}")
             print(f"[{datetime.now()}][Admin]: Encerrando")
             await self.bot.close()
         else:
@@ -97,5 +96,7 @@ class AdminCog(commands.Cog):
 
         self.bot.guild_dict[str(ctx.guild.id)].write_settings()
 
-        embed = discord.Embed(description = "❱❱❱ **Salvando...**", color = discord.Color.dark_blue())
+        embed = discord.Embed(description = "❱❱❱ **Salvando...**",
+                              color = discord.Color.dark_blue())
+
         await ctx.send(embed = embed)

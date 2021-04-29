@@ -23,10 +23,13 @@ class CustomBot(commands.Bot):
 
     name: str
     version: str
-    error_list: list
     guild_dict: dict
 
-    def __init__(self, command_prefix, help_command, intents, name, version):
+    def __init__(self, command_prefix, help_command, name, version):
+
+        intents = discord.Intents.all()
+        intents.presences = True
+        intents.members = True
 
         super().__init__(command_prefix = command_prefix,
                          help_command = help_command,
@@ -34,7 +37,6 @@ class CustomBot(commands.Bot):
 
         self.name = name
         self.version = version
-        self.error_list = []
         self.guild_dict = {}
 
     async def setup(self):

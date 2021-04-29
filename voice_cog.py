@@ -41,7 +41,7 @@ class VoiceCog(commands.Cog):
 
             if ctx.voice_client is None or not ctx.voice_client.is_connected():
 
-                embed = discord.Embed(description = "❱❱❱ **Entrando",
+                embed = discord.Embed(description = "❱❱❱ **Entrando**",
                                       color = discord.Color.dark_blue())
 
                 await ctx.send(embed = embed)
@@ -49,13 +49,13 @@ class VoiceCog(commands.Cog):
                 await voice_channel.connect()
             else:
 
-                embed = discord.Embed(description = "❌  **Já estou conectado",
+                embed = discord.Embed(description = "❌  **Já estou conectado**",
                                       color = discord.Color.red())
 
                 await ctx.send(embed = embed)
         else:
 
-            embed = discord.Embed(description = "❌  **Não tenho nenhum canal pra me conectar",
+            embed = discord.Embed(description = "❌  **Não tenho nenhum canal pra me conectar**",
                                   color = discord.Color.red())
             await ctx.send(embed = embed)
 
@@ -70,7 +70,7 @@ class VoiceCog(commands.Cog):
 
         if ctx.voice_client is not None and ctx.voice_client.is_connected():
 
-            embed = discord.Embed(description = "❱❱❱ **Saindo",
+            embed = discord.Embed(description = "❱❱❱ **Saindo**",
                                   color = discord.Color.dark_blue())
 
             await ctx.send(embed = embed)
@@ -78,7 +78,7 @@ class VoiceCog(commands.Cog):
             await ctx.voice_client.disconnect()
         else:
 
-            embed = discord.Embed(description = "❌  **Não estou conectado",
+            embed = discord.Embed(description = "❌  **Não estou conectado**",
                                   color = discord.Color.red())
 
             await ctx.send(embed = embed)
@@ -90,13 +90,13 @@ class VoiceCog(commands.Cog):
         Toca um áudio
         '''
 
-        print(f"[{datetime.now()}][Voz]: Tocar (Autor: {ctx.message.author.name})")
+        print(f"[{datetime.now()}][Voz]: <tocar> (Autor: {ctx.message.author.name})")
 
         if ctx.voice_client is not None and ctx.voice_client.is_connected():
 
             if ctx.voice_client.is_playing():
 
-                embed = discord.Embed(description = "❱❱❱ **Procurando novo áudio",
+                embed = discord.Embed(description = "❱❱❱ **Procurando novo áudio**",
                                       color = discord.Color.dark_blue())
 
                 await ctx.send(embed = embed)
@@ -121,14 +121,14 @@ class VoiceCog(commands.Cog):
                         ctx.voice_client.play(discord.FFmpegPCMAudio(source = source,
                                                                      executable = executable))
 
-                        embed = discord.Embed(description = "🎵  **Tocando...",
+                        embed = discord.Embed(description = "🎵  **Tocando...**",
                                               color = discord.Color.dark_blue())
 
                         await ctx.send(embed = embed)
 
                 if not file_was_found:
 
-                    embed = discord.Embed(description = "❌  **Arquivo não encontrado",
+                    embed = discord.Embed(description = "❌  **Arquivo não encontrado**",
                                           color = discord.Color.red())
 
                     await ctx.send(embed = embed)
@@ -140,7 +140,7 @@ class VoiceCog(commands.Cog):
                 await ctx.send(embed = embed)
         else:
 
-            embed = discord.Embed(description = "❌  **Não estou conectado",
+            embed = discord.Embed(description = "❌  **Não estou conectado**",
                                   color = discord.Color.red())
 
             await ctx.send(embed = embed)
@@ -152,13 +152,13 @@ class VoiceCog(commands.Cog):
         Para o áudio
         '''
 
-        print(f"[{datetime.now()}][Voz]: Parar (Autor: {ctx.message.author.name})")
+        print(f"[{datetime.now()}][Voz]: <parar> (Autor: {ctx.message.author.name})")
 
         if ctx.voice_client is not None and ctx.voice_client.is_connected():
 
             if ctx.voice_client.is_playing():
 
-                embed = discord.Embed(description = "❱❱❱ **Parando o áudio",
+                embed = discord.Embed(description = "❱❱❱ **Parando o áudio**",
                                       color = discord.Color.dark_blue())
 
                 await ctx.send(embed = embed)
@@ -166,13 +166,13 @@ class VoiceCog(commands.Cog):
                 ctx.voice_client.stop()
             else:
 
-                embed = discord.Embed(description = "❌  **Não tem nada tocando",
+                embed = discord.Embed(description = "❌  **Não tem nada tocando**",
                                       color = discord.Color.red())
 
                 await ctx.send(embed = embed)
         else:
 
-            embed = discord.Embed(description = "❌  **Não estou conectado",
+            embed = discord.Embed(description = "❌  **Não estou conectado**",
                                   color = discord.Color.red())
 
             await ctx.send(embed = embed)

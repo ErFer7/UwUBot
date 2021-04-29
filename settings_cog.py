@@ -40,7 +40,7 @@ class SettingsCog(commands.Cog):
 
             self.bot.guild_dict[key].update_main_channel(self.bot)
 
-            embed = discord.Embed(description = f"❱❱❱ **Canal redefinido para: " \
+            embed = discord.Embed(description = f"❱❱❱ **Canal redefinido para:** " \
                                                 f"{self.bot.guild_dict[key].main_channel}**",
                                   color = discord.Color.dark_blue())
 
