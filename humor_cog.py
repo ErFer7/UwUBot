@@ -47,7 +47,7 @@ class HumorCog(commands.Cog):
 
             await ctx.send(embed = embed)
 
-    @commands.command(name = "cronos")
+    @commands.command(name = "crono")
     async def cuck_level(self, ctx):
 
         '''

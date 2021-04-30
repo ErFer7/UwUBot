@@ -25,7 +25,7 @@ class TimeCog(commands.Cog):
 
         print(f"[{datetime.now()}][Tempo]: Sistema de comandos de tempo inicializado")
 
-    @commands.command(name = "cronômetro", aliases = ("cronometro", "crono", "cr"))
+    @commands.command(name = "cronômetro", aliases = ("cronometro", "cr"))
     async def chronometer(self, ctx):
 
         '''

@@ -31,13 +31,13 @@ class HelpCog(commands.Cog):
 
         print(f"[{datetime.now()}][Ajuda]: <ajuda> (Autor: {ctx.message.author.name})")
 
-        embed = discord.Embed(description = "❱❱❱ **Ajuda**\n\n"    \
-                                            "*Comandos:*\n\n"      \
-                                            "⬩ sys off\n"          \
-                                            "⬩ sys info\n"         \
-                                            "⬩ ajuda\n"            \
-                                            "⬩ tempo cronômetro\n" \
-                                            "⬩ rpg dado",
+        embed = discord.Embed(description = "❱❱❱ **Ajuda**\n\n" \
+                                            "*Comandos:*\n\n"   \
+                                            "⬩ off\n"           \
+                                            "⬩ info\n"          \
+                                            "⬩ ajuda\n"         \
+                                            "⬩ cronômetro\n"    \
+                                            "⬩ dado",
                               color = discord.Color.dark_blue())
 
         await ctx.send(embed = embed)
