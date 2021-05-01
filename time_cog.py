@@ -5,13 +5,11 @@ Módulo para a cog dos comandos de tempo
 '''
 
 from datetime import datetime
-from time import time_ns
+from time import time_ns, strftime, gmtime
 
 import discord
 
 from discord.ext import commands
-
-from pygr_functions import time_format
 
 class TimeCog(commands.Cog):
 
@@ -41,10 +39,11 @@ class TimeCog(commands.Cog):
             self.bot.guild_dict[key].settings["Chronometer"] = False
 
             delta = time_ns() - self.bot.guild_dict[key].settings["Chronometer initial time"]
+            formated_delta = strftime('%H:%M:%S', gmtime(delta // 1000000000))
 
             self.bot.guild_dict[key].settings["Chronometer initial time"] = 0
 
-            embed = discord.Embed(description = f"🕒  **Tempo marcado:**\n\n{time_format(delta)}",
+            embed = discord.Embed(description = f"🕒  **Tempo marcado:**\n\n{formated_delta}",
                                   color = discord.Color.green())
 
             await ctx.send(embed = embed)

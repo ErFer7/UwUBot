@@ -1,75 +1,77 @@
 # -*- coding: utf-8 -*-
 
 '''
-Código não utilizado
+Código que precisa ser descartado
 '''
 
 from random import randint
 
-import discord
+from bot_functions import find_word
 
-from pygr_functions import FindWholeWord
+def interact(string: str):
 
-def Interact(message: discord.message):
+    '''
+    Interage. Esta função precisa ser retrabalhada.
+    '''
 
-    if FindWholeWord("tu é")(message.content.lower()):
+    if find_word("tu é", string):
 
-        if FindWholeWord("gay")(message.content.lower()):
+        if find_word("gay", string):
 
-            return message.channel.send("Não. Sou apenas uma máquina. UMA MÁQUINA DE SEXO.")
-        elif FindWholeWord("corno")(message.content.lower()):
+            return "Não. Sou apenas uma máquina. UMA MÁQUINA DE SEXO."
+        elif find_word("corno", string):
 
-            return message.channel.send("Um bot sem chifre é um bot indefeso.")
-        elif FindWholeWord("comunista")(message.content.lower()):
+            return "Um bot sem chifre é um bot indefeso."
+        elif find_word("comunista", string):
 
-            return message.channel.send("Obviamente que sim.")
+            return "Obviamente que sim."
         else:
             rng = randint(0, 3)
 
             if rng == 0:
 
-                return message.channel.send("Teu pai aquele arrombado.")
+                return "Teu pai aquele arrombado."
             elif rng == 1:
 
-                return message.channel.send("Sim.")
+                return "Sim."
             elif rng == 2:
 
-                return message.channel.send("Não.")
+                return "Não."
             else:
 
-                return message.channel.send("Não, mas tu é.")
-    elif FindWholeWord("quem é")(message.content.lower()):
+                return "Não, mas tu é."
+    elif find_word("quem é", string):
 
         rng = randint(0, 3)
 
         if rng == 0:
 
-            return message.channel.send("É uma grande pessoa")
+            return "É uma grande pessoa"
         elif rng == 1:
 
-            return message.channel.send("É o maior boiola de todos os tempos")
+            return "É o maior boiola de todos os tempos"
         elif rng == 2:
 
-            return message.channel.send("É um grande amigo meu.")
+            return "É um grande amigo meu."
         else:
 
-            return message.channel.send("Olha, se eu visse esse cara na rua eu deitava no soco.")
-    elif FindWholeWord("concorda")(message.content.lower()):
+            return "Olha, se eu visse esse cara na rua eu deitava no soco."
+    elif find_word("concorda", string):
 
         rng = randint(0, 4)
 
         if rng == 0:
 
-            return message.channel.send("Concordo muito.")
+            return "Concordo muito."
         elif rng == 1:
 
-            return message.channel.send("Concordo.")
+            return "Concordo."
         elif rng == 2:
 
-            return message.channel.send("Não sei bem na verdade.")
+            return "Não sei bem na verdade."
         elif rng == 3:
 
-            return message.channel.send("Discordo.")
+            return "Discordo."
         else:
 
-            return message.channel.send("Discordo muito.")
+            return "Discordo muito."

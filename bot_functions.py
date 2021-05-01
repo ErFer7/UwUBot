@@ -4,21 +4,19 @@
 Funções para utilidades
 '''
 
-import time
-
-from re import compile, IGNORECASE # (!) Checar a redefinição de compile
+from re import search, IGNORECASE
 from string import ascii_lowercase
 from random import choice
 
-def FindWholeWord(word):
+def find_word(word, string):
 
     '''
     Encontra o string caso ele seja uma palavra entre espaços
     '''
 
-    return compile(r'\b({0})\b'.format(word), flags = IGNORECASE).search
+    return search(r"\b{0}\b".format(word), string, flags = IGNORECASE)
 
-def RandStr(length: int):
+def rand_str(length: int):
 
     '''
     Gera um string aleatório dentro do comprimento definido
@@ -26,7 +24,3 @@ def RandStr(length: int):
 
     letters = ascii_lowercase
     return "".join(choice(letters) for _ in range(length))
-
-def time_format(time_ns: int):
-
-    return time.strftime('%H:%M:%S', time.gmtime(time_ns // 1000000000))

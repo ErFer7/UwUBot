@@ -13,7 +13,7 @@ import discord
 
 from discord.ext import commands
 
-from pygr_functions import RandStr
+from bot_functions import rand_str
 
 class UtilitiesCog(commands.Cog):
 
@@ -116,7 +116,7 @@ class UtilitiesCog(commands.Cog):
         if input_is_valid:
 
             embed = discord.Embed(description = "❱❱❱ **String gerado:**\n\n" \
-                                                f"*{RandStr(size)}*",
+                                                f"*{rand_str(size)}*",
                                   color = discord.Color.dark_blue())
 
             await ctx.send(embed = embed)
