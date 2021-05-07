@@ -34,7 +34,7 @@ class UtilitiesCog(commands.Cog):
         Envia uma pesquisa no wolfram
         '''
 
-        print(f"[{datetime.now()}][Utilidade]: <wolfram> (Autor: {ctx.message.author.name})")
+        print(f"[{datetime.now()}][Utilidade]: <wolfram> (Autor: {ctx.author.name})")
 
         query = " ".join(search)
         url = "https://www.wolframalpha.com/input/?i=" + urllib.parse.quote(query)
@@ -52,7 +52,7 @@ class UtilitiesCog(commands.Cog):
         Gera um número aleatório
         '''
 
-        print(f"[{datetime.now()}][Utilidade]: <rng> (Autor: {ctx.message.author.name})")
+        print(f"[{datetime.now()}][Utilidade]: <rng> (Autor: {ctx.author.name})")
 
         input_is_valid = False
         min_int = 0
@@ -91,7 +91,7 @@ class UtilitiesCog(commands.Cog):
         Gera um string aleatório
         '''
 
-        print(f"[{datetime.now()}][Utilidade]: <rsg> (Autor: {ctx.message.author.name})")
+        print(f"[{datetime.now()}][Utilidade]: <rsg> (Autor: {ctx.author.name})")
 
         input_is_valid = False
         size = 0
@@ -128,7 +128,7 @@ class UtilitiesCog(commands.Cog):
         Obtém informações do usuário
         '''
 
-        print(f"[{datetime.now()}][Utilidade]: <usuário> (Autor: {ctx.message.author.name})")
+        print(f"[{datetime.now()}][Utilidade]: <usuário> (Autor: {ctx.author.name})")
 
         user = None
         joined_at = ""
@@ -169,7 +169,7 @@ class UtilitiesCog(commands.Cog):
         Envia uma playlist
         '''
 
-        print(f"[{datetime.now()}][Utilidade]: <playlist> (Autor: {ctx.message.author.name})")
+        print(f"[{datetime.now()}][Utilidade]: <playlist> (Autor: {ctx.author.name})")
 
         url = "https://open.spotify.com/playlist/5oi7roA6H7tyTjF4Xt0xM6?si=hGKMl78_RRGGgO3If2hosg"
 

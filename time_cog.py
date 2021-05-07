@@ -30,7 +30,7 @@ class TimeCog(commands.Cog):
         Cronometra o tempo
         '''
 
-        print(f"[{datetime.now()}][Tempo]: <cronômetro> (Autor: {ctx.message.author.name})")
+        print(f"[{datetime.now()}][Tempo]: <cronômetro> (Autor: {ctx.author.name})")
 
         key = str(ctx.guild.id)
 

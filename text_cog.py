@@ -32,7 +32,7 @@ class TextCog(commands.Cog):
         Transforma o texto em emojis
         '''
 
-        print(f"[{datetime.now()}][Texto]: Emojificar (Autor: {ctx.message.author.name})")
+        print(f"[{datetime.now()}][Texto]: Emojificar (Autor: {ctx.author.name})")
 
         message = " ".join(string).lower()
         normalized_message = unidecode(message)
@@ -75,7 +75,7 @@ class TextCog(commands.Cog):
         Zoa o texto
         '''
 
-        print(f"[{datetime.now()}][Comando]: Zoas (Autor: {ctx.message.author.name})")
+        print(f"[{datetime.now()}][Comando]: Zoas (Autor: {ctx.author.name})")
 
         message = " ".join(string).lower()
         mocked_message = ""

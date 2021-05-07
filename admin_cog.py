@@ -25,16 +25,16 @@ class AdminCog(commands.Cog):
 
         print(f"[{datetime.now()}][Admin]: Sistema de comandos do administrador inicializado")
 
-    @commands.command(name = "off", aliases = ("desligar", "des"))
+    @commands.command(name = "off")
     async def shutdown(self, ctx):
 
         '''
         Desliga o bot
         '''
 
-        print(f"[{datetime.now()}][Admin]: <off> (Autor: {ctx.message.author.name})")
+        print(f"[{datetime.now()}][Admin]: <off> (Autor: {ctx.author.name})")
 
-        if ctx.message.author.id == self.admin_id:
+        if ctx.author.id == self.admin_id:
 
             # Envia uma mensagem de saída
             embed = discord.Embed(description = "❱❱❱ **Encerrando**",
@@ -66,7 +66,7 @@ class AdminCog(commands.Cog):
         Exibe informações
         '''
 
-        print(f"[{datetime.now()}][Admin]: Info (Autor: {ctx.message.author.name})")
+        print(f"[{datetime.now()}][Admin]: Info (Autor: {ctx.author.name})")
 
         header = f"**{self.bot.name} {self.bot.version}** - Criado em 26/06/2020"
         websocket = f"**Websocket:** {self.bot.ws}"
@@ -92,7 +92,7 @@ class AdminCog(commands.Cog):
         Salva os servidores
         '''
 
-        print(f"[{datetime.now()}][Admin]: <save> (Autor: {ctx.message.author.name})")
+        print(f"[{datetime.now()}][Admin]: <save> (Autor: {ctx.author.name})")
 
         self.bot.guild_dict[str(ctx.guild.id)].write_settings()
 

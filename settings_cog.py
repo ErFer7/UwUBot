@@ -29,7 +29,7 @@ class SettingsCog(commands.Cog):
         Define o canal principal de bots
         '''
 
-        print(f"[{datetime.now()}][Config]: <canal> (Autor: {ctx.message.author.name})")
+        print(f"[{datetime.now()}][Config]: <canal> (Autor: {ctx.author.name})")
 
         if len(ctx.message.channel_mentions) == 1:
 

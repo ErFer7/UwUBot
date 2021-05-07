@@ -30,11 +30,11 @@ class HumorCog(commands.Cog):
         Retorna que a pessoa tem 100% de nível de corno
         '''
 
-        print(f"[{datetime.now()}][Humor]: <corno> (Autor: {ctx.message.author.name})")
+        print(f"[{datetime.now()}][Humor]: <corno> (Autor: {ctx.author.name})")
 
         if len(ctx.message.mentions) == 0:
 
-            embed = discord.Embed(description = f"🐮 **{ctx.message.author.mention} é:**\n\n" \
+            embed = discord.Embed(description = f"🐮 **{ctx.author.mention} é:**\n\n" \
                                                 "*100%* corno",
                                   color = discord.Color.dark_blue())
 
@@ -54,11 +54,11 @@ class HumorCog(commands.Cog):
         Retorna o nível de corno
         '''
 
-        print(f"[{datetime.now()}][Humor]: <crono> (Autor: {ctx.message.author.name})")
+        print(f"[{datetime.now()}][Humor]: <crono> (Autor: {ctx.author.name})")
 
         if len(ctx.message.mentions) == 0:
 
-            embed = discord.Embed(description = f"🐮 **{ctx.message.author.mention} é:**\n\n" \
+            embed = discord.Embed(description = f"🐮 **{ctx.author.mention} é:**\n\n" \
                                                 f"*{randint(0, 100)}%* corno",
                                   color = discord.Color.dark_blue())
 

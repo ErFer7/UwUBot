@@ -30,7 +30,7 @@ class RPGCog(commands.Cog):
         Rola um dado
         '''
 
-        print(f"[{datetime.now()}][RPG]: <dice> (Autor: {ctx.message.author.name})")
+        print(f"[{datetime.now()}][RPG]: <dice> (Autor: {ctx.author.name})")
 
         valid = True
         result = "🎲  **Dados jogados**\n\n"

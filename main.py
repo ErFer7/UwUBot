@@ -26,7 +26,7 @@ TOKEN = "NzI2MTM5MzYxMjQxODU4MTU5.XvY99A.Fh8e071wE-eqGo2tndUlAG3vuCU"
 
 # Constantes
 NAME = "PyGR"
-VERSION = "4.1"
+VERSION = "4.1.1"
 ADM_ID = 382542596196663296
 
 # Corrige o erro de saída temporáriamente.

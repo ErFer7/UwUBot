@@ -29,7 +29,7 @@ class HelpCog(commands.Cog):
         Envia uma mensagem de ajuda
         '''
 
-        print(f"[{datetime.now()}][Ajuda]: <ajuda> (Autor: {ctx.message.author.name})")
+        print(f"[{datetime.now()}][Ajuda]: <ajuda> (Autor: {ctx.author.name})")
 
         embed = discord.Embed(description = "❱❱❱ **Ajuda**\n\n" \
                                             "*Comandos:*\n\n"   \

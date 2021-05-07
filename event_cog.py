@@ -30,7 +30,7 @@ class EventCog(commands.Cog):
         '''
 
         print(f"[{datetime.now()}][Evento]: " \
-        f"[{message.content}] de [{message.author.name}] no canal [{message.channel}]")
+        f"[{message.author.name}]: [{message.content}] no canal [{message.channel}]")
 
         # Inibe leitura das próprias mensagens
         if message.author == self.bot.user:
@@ -81,4 +81,4 @@ class EventCog(commands.Cog):
         '''
 
         print(f"[{datetime.now()}][Evento]: " \
-              f"Membro [{after.name}] ficou [{after.status}] no servidor [{after.guild.name}]")
+              f"[{after.name}] ficou [{after.status}] no servidor [{after.guild.name}]")
