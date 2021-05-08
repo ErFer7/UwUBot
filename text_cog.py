@@ -34,9 +34,9 @@ class TextCog(commands.Cog):
 
         print(f"[{datetime.now()}][Texto]: Emojificar (Autor: {ctx.author.name})")
 
-        message = " ".join(string).lower()
+        message = ' '.join(string).lower()
         normalized_message = unidecode(message)
-        emojified_message = ""
+        emojified_message = ''
 
         char_dict = {'0': " :zero:",
                      '1': " :one:",
@@ -47,26 +47,74 @@ class TextCog(commands.Cog):
                      '6': " :six:",
                      '7': " :seven:",
                      '8': " :eight:",
-                     '9': " :nine:"}
+                     '9': " :nine:",
+                     ' ': "   "}
 
         for char in normalized_message:
 
-            if char in "0123456789":
+            if char in "0123456789 ":
 
                 emojified_message += char_dict[char]
             elif char in ascii_lowercase:
 
                 emojified_message += f" :regional_indicator_{char}:"
 
-            if len(emojified_message) <= 2000:
+        if len(emojified_message) <= 2000:
 
-                await ctx.send(emojified_message)
-            else:
+            await ctx.send(emojified_message)
+        else:
 
-                embed = discord.Embed(description = "❌  **A mensagem é muito grande**\n\n",
-                                      color = discord.Color.red())
+            embed = discord.Embed(description = "❌  **A mensagem é muito grande**\n\n",
+                                  color = discord.Color.red())
 
-                await ctx.send(embed = embed)
+            await ctx.send(embed = embed)
+
+    @commands.command(name = "emojificar2", aliases = ("emoji2", "emojifier2"))
+    async def emojify_block(self, ctx, *string):
+
+        '''
+        Transforma o texto em um bloco de emojis (Originou de um bug, mas era muito bom)
+        '''
+
+        print(f"[{datetime.now()}][Texto]: Emojificar (Autor: {ctx.author.name})")
+
+        message = ' '.join(string).lower()
+        normalized_message = unidecode(message)
+        striped_message = normalized_message.replace(' ', '')
+        emojified_message = ''
+        diagonal_message = ''
+
+        char_dict = {'0': ":zero:",
+                     '1': ":one:",
+                     '2': ":two:",
+                     '3': ":three:",
+                     '4': ":four:",
+                     '5': ":five:",
+                     '6': ":six:",
+                     '7': ":seven:",
+                     '8': ":eight:",
+                     '9': ":nine:"}
+
+        for char in striped_message:
+
+            if char in "0123456789":
+
+                emojified_message += char_dict[char]
+            elif char in ascii_lowercase:
+
+                emojified_message += f":regional_indicator_{char}:"
+
+            diagonal_message += emojified_message + '\n'
+
+        if len(diagonal_message) <= 2000:
+
+            await ctx.send(diagonal_message)
+        else:
+
+            embed = discord.Embed(description = "❌  **A mensagem é muito grande**\n\n",
+                                  color = discord.Color.red())
+
+            await ctx.send(embed = embed)
 
     @commands.command(name = "zoar", aliases = ("mock", "zoas"))
     async def mock(self, ctx, *string):
