@@ -111,7 +111,7 @@ class Guild():
 
         with open(os.path.join("Guilds", f"{self.id}.json"), 'w+') as settings_file:
 
-            settings_json = json.dumps(self.settings)
+            settings_json = json.dumps(self.settings, indent = 4)
             settings_file.write(settings_json)
 
         print(f"[{datetime.now()}][Sistema]: Servidor {self.id} registrado")
