@@ -30,7 +30,7 @@ class EventCog(commands.Cog):
         '''
 
         print(f"[{datetime.now()}][Evento]: " \
-        f"[{message.author.name}]: [{message.content}] no canal [{message.channel}]")
+        f"[{message.author.name}]: enviou uma mensagem no canal [{message.channel}]")
 
         # Inibe leitura das próprias mensagens
         if message.author == self.bot.user:
@@ -38,7 +38,7 @@ class EventCog(commands.Cog):
 
         if self.bot.user.mentioned_in(message):
 
-            print("[{0}][Evento]: Bot Mencionado".format(datetime.now()))
+            print(f"[{datetime.now()}][Evento]: Bot Mencionado")
 
             awnser = interact(message.content)
 
