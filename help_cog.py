@@ -10,6 +10,7 @@ import discord
 
 from discord.ext import commands
 
+
 class HelpCog(commands.Cog):
 
     '''
@@ -22,7 +23,7 @@ class HelpCog(commands.Cog):
 
         print(f"[{datetime.now()}][Ajuda]: Sistema de comandos de ajuda inicializado")
 
-    @commands.command(name = "ajuda", aliases = ("help", "h", "aj"))
+    @commands.command(name="ajuda", aliases=("help", "h", "aj"))
     async def custom_help(self, ctx):
 
         '''
@@ -31,13 +32,13 @@ class HelpCog(commands.Cog):
 
         print(f"[{datetime.now()}][Ajuda]: <ajuda> (Autor: {ctx.author.name})")
 
-        embed = discord.Embed(description = "❱❱❱ **Ajuda**\n\n" \
-                                            "*Comandos:*\n\n"   \
-                                            "⬩ off\n"           \
-                                            "⬩ info\n"          \
-                                            "⬩ ajuda\n"         \
-                                            "⬩ cronômetro\n"    \
-                                            "⬩ dado",
-                              color = discord.Color.dark_blue())
+        embed = discord.Embed(description="❱❱❱ **Ajuda**\n\n"
+                              "*Comandos:*\n\n"
+                              "⬩ off\n"
+                              "⬩ info\n"
+                              "⬩ ajuda\n"
+                              "⬩ cronômetro\n"
+                              "⬩ dado",
+                              color=discord.Color.dark_blue())
 
-        await ctx.send(embed = embed)
+        await ctx.send(embed=embed)

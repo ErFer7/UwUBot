@@ -8,16 +8,16 @@ from re import search, IGNORECASE
 from string import ascii_lowercase
 from random import choice
 
-def find_word(word, string):
 
+def find_word(word, string):
     '''
     Encontra o string caso ele seja uma palavra entre espaços
     '''
 
-    return search(r"\b{0}\b".format(word), string, flags = IGNORECASE)
+    return search(r"\b{0}\b".format(word), string, flags=IGNORECASE)
+
 
 def rand_str(length: int):
-
     '''
     Gera um string aleatório dentro do comprimento definido
     '''

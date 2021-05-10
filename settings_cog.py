@@ -10,6 +10,7 @@ import discord
 
 from discord.ext import commands
 
+
 class SettingsCog(commands.Cog):
 
     '''
@@ -22,7 +23,7 @@ class SettingsCog(commands.Cog):
 
         print(f"[{datetime.now()}][Config]: Sistema de comandos de configurações inicializado")
 
-    @commands.command(name = "canal", aliases = ("channel", "ch"))
+    @commands.command(name="canal", aliases=("channel", "ch"))
     async def channel_modifier(self, ctx):
 
         '''
@@ -36,18 +37,18 @@ class SettingsCog(commands.Cog):
             key = str(ctx.guild.id)
 
             self.bot.guild_dict[key]. \
-            settings["Main channel ID"] = ctx.message.channel_mentions[0].id
+                settings["Main channel ID"] = ctx.message.channel_mentions[0].id
 
             self.bot.guild_dict[key].update_main_channel(self.bot)
 
-            embed = discord.Embed(description = f"❱❱❱ **Canal redefinido para:** " \
-                                                f"{self.bot.guild_dict[key].main_channel}**",
-                                  color = discord.Color.dark_blue())
+            embed = discord.Embed(description=f"❱❱❱ **Canal redefinido para:** "
+                                  f"{self.bot.guild_dict[key].main_channel}**",
+                                  color=discord.Color.dark_blue())
 
-            await ctx.send(embed = embed)
+            await ctx.send(embed=embed)
         else:
 
-            embed = discord.Embed(description = "❌  **Comando inválido**\n\n" \
-                                                "*Uso correto*\n~canal #canal",
-                                  color = discord.Color.red())
-            await ctx.send(embed = embed)
+            embed = discord.Embed(description="❌  **Comando inválido**\n\n"
+                                  "*Uso correto*\n~canal #canal",
+                                  color=discord.Color.red())
+            await ctx.send(embed=embed)

@@ -13,6 +13,7 @@ import discord
 from discord.ext import commands
 from unidecode import unidecode
 
+
 class TextCog(commands.Cog):
 
     '''
@@ -25,7 +26,7 @@ class TextCog(commands.Cog):
 
         print(f"[{datetime.now()}][Texto]: Sistema de comandos de texto inicializado")
 
-    @commands.command(name = "emojificar", aliases = ("emoji", "emojifier"))
+    @commands.command(name="emojificar", aliases=("emoji", "emojifier"))
     async def emojify(self, ctx, *string):
 
         '''
@@ -64,12 +65,12 @@ class TextCog(commands.Cog):
             await ctx.send(emojified_message)
         else:
 
-            embed = discord.Embed(description = "❌  **A mensagem é muito grande**\n\n",
-                                  color = discord.Color.red())
+            embed = discord.Embed(description="❌  **A mensagem é muito grande**\n\n",
+                                  color=discord.Color.red())
 
-            await ctx.send(embed = embed)
+            await ctx.send(embed=embed)
 
-    @commands.command(name = "emojificar2", aliases = ("emoji2", "emojifier2"))
+    @commands.command(name="emojificar2", aliases=("emoji2", "emojifier2"))
     async def emojify_block(self, ctx, *string):
 
         '''
@@ -111,12 +112,12 @@ class TextCog(commands.Cog):
             await ctx.send(diagonal_message)
         else:
 
-            embed = discord.Embed(description = "❌  **A mensagem é muito grande**\n\n",
-                                  color = discord.Color.red())
+            embed = discord.Embed(description="❌  **A mensagem é muito grande**\n\n",
+                                  color=discord.Color.red())
 
-            await ctx.send(embed = embed)
+            await ctx.send(embed=embed)
 
-    @commands.command(name = "zoar", aliases = ("mock", "zoas"))
+    @commands.command(name="zoar", aliases=("mock", "zoas"))
     async def mock(self, ctx, *string):
 
         '''
@@ -142,7 +143,7 @@ class TextCog(commands.Cog):
             await ctx.send(mocked_message)
         else:
 
-            embed = discord.Embed(description = "❌  **A mensagem é muito grande**\n\n",
-                                  color = discord.Color.red())
+            embed = discord.Embed(description="❌  **A mensagem é muito grande**\n\n",
+                                  color=discord.Color.red())
 
-            await ctx.send(embed = embed)
+            await ctx.send(embed=embed)

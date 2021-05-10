@@ -26,7 +26,7 @@ TOKEN = "NzI2MTM5MzYxMjQxODU4MTU5.XvY99A.Fh8e071wE-eqGo2tndUlAG3vuCU"
 
 # Constantes
 NAME = "PyGR"
-VERSION = "4.2.2"
+VERSION = "4.2.3"
 ADM_ID = 382542596196663296
 
 # Corrige o erro de saída temporáriamente.
@@ -34,10 +34,10 @@ if sys.version_info[0] == 3 and sys.version_info[1] >= 8 and sys.platform.starts
 
     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
-bot = CustomBot(command_prefix = "~",
-                help_command = None,
-                name = NAME,
-                version = VERSION)
+bot = CustomBot(command_prefix="~",
+                help_command=None,
+                name=NAME,
+                version=VERSION)
 
 # Execução do bot
 bot.add_cog(AdminCog(bot, ADM_ID))

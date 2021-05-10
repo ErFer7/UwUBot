@@ -11,6 +11,7 @@ import discord
 
 from discord.ext import commands
 
+
 class TimeCog(commands.Cog):
 
     '''
@@ -23,7 +24,7 @@ class TimeCog(commands.Cog):
 
         print(f"[{datetime.now()}][Tempo]: Sistema de comandos de tempo inicializado")
 
-    @commands.command(name = "cronômetro", aliases = ("cronometro", "cr"))
+    @commands.command(name="cronômetro", aliases=("cronometro", "cr"))
     async def chronometer(self, ctx):
 
         '''
@@ -43,15 +44,15 @@ class TimeCog(commands.Cog):
 
             self.bot.guild_dict[key].settings["Chronometer initial time"] = 0
 
-            embed = discord.Embed(description = f"🕒  **Tempo marcado:**\n\n{formated_delta}",
-                                  color = discord.Color.green())
+            embed = discord.Embed(description=f"🕒  **Tempo marcado:**\n\n{formated_delta}",
+                                  color=discord.Color.green())
 
-            await ctx.send(embed = embed)
+            await ctx.send(embed=embed)
         else:
 
             self.bot.guild_dict[key].settings["Chronometer"] = True
             self.bot.guild_dict[key].settings["Chronometer initial time"] = time_ns()
-            embed = discord.Embed(description = "🕒  **Marcando o tempo**",
-                                  color = discord.Color.dark_blue())
+            embed = discord.Embed(description="🕒  **Marcando o tempo**",
+                                  color=discord.Color.dark_blue())
 
-            await ctx.send(embed = embed)
+            await ctx.send(embed=embed)

@@ -11,6 +11,7 @@ import discord
 
 from discord.ext import commands
 
+
 class HumorCog(commands.Cog):
 
     '''
@@ -23,7 +24,7 @@ class HumorCog(commands.Cog):
 
         print(f"[{datetime.now()}][Humor]: Sistema de comandos de humor inicializado")
 
-    @commands.command(name = "corno")
+    @commands.command(name="corno")
     async def fake_cuck_level(self, ctx):
 
         '''
@@ -34,20 +35,20 @@ class HumorCog(commands.Cog):
 
         if len(ctx.message.mentions) == 0:
 
-            embed = discord.Embed(description = f"🐮 **{ctx.author.mention} é:**\n\n" \
-                                                "*100%* corno",
-                                  color = discord.Color.dark_blue())
+            embed = discord.Embed(description=f"🐮 **{ctx.author.mention} é:**\n\n"
+                                  "*100%* corno",
+                                  color=discord.Color.dark_blue())
 
-            await ctx.send(embed = embed)
+            await ctx.send(embed=embed)
         else:
 
-            embed = discord.Embed(description = f"🐮 **{ctx.message.mentions[0].mention} é:**\n\n" \
-                                                "*100%* corno",
-                                  color = discord.Color.dark_blue())
+            embed = discord.Embed(description=f"🐮 **{ctx.message.mentions[0].mention} é:**\n\n"
+                                  "*100%* corno",
+                                  color=discord.Color.dark_blue())
 
-            await ctx.send(embed = embed)
+            await ctx.send(embed=embed)
 
-    @commands.command(name = "crono")
+    @commands.command(name="crono")
     async def cuck_level(self, ctx):
 
         '''
@@ -58,15 +59,15 @@ class HumorCog(commands.Cog):
 
         if len(ctx.message.mentions) == 0:
 
-            embed = discord.Embed(description = f"🐮 **{ctx.author.mention} é:**\n\n" \
-                                                f"*{randint(0, 100)}%* corno",
-                                  color = discord.Color.dark_blue())
+            embed = discord.Embed(description=f"🐮 **{ctx.author.mention} é:**\n\n"
+                                  f"*{randint(0, 100)}%* corno",
+                                  color=discord.Color.dark_blue())
 
-            await ctx.send(embed = embed)
+            await ctx.send(embed=embed)
         else:
 
-            embed = discord.Embed(description = f"🐮 **{ctx.message.mentions[0].mention} é:**\n\n" \
-                                                f"*{randint(0, 100)}%* corno",
-                                  color = discord.Color.dark_blue())
+            embed = discord.Embed(description=f"🐮 **{ctx.message.mentions[0].mention} é:**\n\n"
+                                  f"*{randint(0, 100)}%* corno",
+                                  color=discord.Color.dark_blue())
 
-            await ctx.send(embed = embed)
+            await ctx.send(embed=embed)

@@ -8,8 +8,8 @@ from random import randint
 
 from bot_functions import find_word
 
-def interact(string: str):
 
+def interact(string: str):
     '''
     Interage. Esta função precisa ser retrabalhada.
     '''

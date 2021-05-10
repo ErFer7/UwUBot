@@ -10,6 +10,7 @@ from discord.ext import commands
 
 from legacy import interact
 
+
 class EventCog(commands.Cog):
 
     '''
@@ -29,8 +30,8 @@ class EventCog(commands.Cog):
         Evento de mensagens
         '''
 
-        print(f"[{datetime.now()}][Evento]: " \
-        f"[{message.author.name}]: enviou uma mensagem no canal [{message.channel}]")
+        print(f"[{datetime.now()}][Evento]: "
+              f"[{message.author.name}] enviou uma mensagem no canal [{message.channel}]")
 
         # Inibe leitura das próprias mensagens
         if message.author == self.bot.user:
@@ -80,5 +81,5 @@ class EventCog(commands.Cog):
         Evento de atualização de usuário
         '''
 
-        print(f"[{datetime.now()}][Evento]: " \
+        print(f"[{datetime.now()}][Evento]: "
               f"[{after.name}] ficou [{after.status}] no servidor [{after.guild.name}]")

@@ -11,6 +11,7 @@ import discord
 
 from discord.ext import commands
 
+
 class RPGCog(commands.Cog):
 
     '''
@@ -23,7 +24,7 @@ class RPGCog(commands.Cog):
 
         print(f"[{datetime.now()}][RPG]: Sistema de comandos de rpg inicializado")
 
-    @commands.command(name = "dado", aliases = ('d', "dice"))
+    @commands.command(name="dado", aliases=('d', "dice"))
     async def dice(self, ctx, *args):
 
         '''
@@ -72,12 +73,12 @@ class RPGCog(commands.Cog):
 
         if valid:
 
-            embed = discord.Embed(description = result, color = discord.Color.dark_blue())
-            await ctx.send(embed = embed)
+            embed = discord.Embed(description=result, color=discord.Color.dark_blue())
+            await ctx.send(embed=embed)
         else:
 
-            embed = discord.Embed(description = "❌  **Comando inválido**\n\n" \
-                                                "*Uso correto*\n"              \
-                                                "~dado <Lista de dados; Ex: 2d8 4d6>",
-                                  color = discord.Color.red())
-            await ctx.send(embed = embed)
+            embed = discord.Embed(description="❌  **Comando inválido**\n\n"
+                                  "*Uso correto*\n"
+                                  "~dado <Lista de dados; Ex: 2d8 4d6>",
+                                  color=discord.Color.red())
+            await ctx.send(embed=embed)

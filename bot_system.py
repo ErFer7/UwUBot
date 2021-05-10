@@ -15,6 +15,7 @@ import discord
 
 from discord.ext import commands
 
+
 class CustomBot(commands.Bot):
 
     '''
@@ -31,9 +32,9 @@ class CustomBot(commands.Bot):
         intents.presences = True
         intents.members = True
 
-        super().__init__(command_prefix = command_prefix,
-                         help_command = help_command,
-                         intents = intents)
+        super().__init__(command_prefix=command_prefix,
+                         help_command=help_command,
+                         intents=intents)
 
         self.name = name
         self.version = version
@@ -63,7 +64,8 @@ class CustomBot(commands.Bot):
         print(f"[{datetime.now()}][Sistema]: {self.name} {self.version} pronto para operar")
         print(f"[{datetime.now()}][Sistema]: Logado como {self.user.name}, no id: {self.user.id}")
 
-        await self.change_presence(activity = discord.Game(name = "Tua mãe na cama"))
+        await self.change_presence(activity=discord.Game(name="Tua mãe na cama"))
+
 
 class Guild():
 
@@ -89,10 +91,10 @@ class Guild():
             self.settings = json.loads(settings_json)
         else:
 
-            self.settings = {"Guild ID" : self.id,
+            self.settings = {"Guild ID": self.id,
                              "Main channel ID": 0,
-                             "Chronometer" : False,
-                             "Chronometer initial time" : 0}
+                             "Chronometer": False,
+                             "Chronometer initial time": 0}
 
         self.guild = bot.get_guild(self.settings["Guild ID"])
         self.main_channel = bot.get_channel(self.settings["Main channel ID"])
@@ -104,20 +106,18 @@ class Guild():
         print(f"[{datetime.now()}][Sistema]: Servidor {self.id} inicializado")
 
     def write_settings(self):
-
         '''
         Escreve as configurações do servidor
         '''
 
         with open(os.path.join("Guilds", f"{self.id}.json"), 'w+') as settings_file:
 
-            settings_json = json.dumps(self.settings, indent = 4)
+            settings_json = json.dumps(self.settings, indent=4)
             settings_file.write(settings_json)
 
         print(f"[{datetime.now()}][Sistema]: Servidor {self.id} registrado")
 
     def update_main_channel(self, bot):
-
         '''
         Atualiza o canal principal
         '''
