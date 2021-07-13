@@ -11,6 +11,8 @@ import discord
 from discord import Permissions
 from discord.ext import commands
 
+from bot_functions import make_embed
+
 class AdminCog(commands.Cog):
 
     '''
@@ -71,7 +73,6 @@ class AdminCog(commands.Cog):
         print(f"[{datetime.now()}][Admin]: Info (Autor: {ctx.author.name})")
 
         header = f"**{self.bot.name} {self.bot.version}** - Criado em 26/06/2020"
-        websocket = f"**Websocket:** {self.bot.ws}"
         http_loop = f"**Loop HTTP:** {self.bot.loop}"
         latency = f"**Latência interna:** {self.bot.latency}"
         guild_count = f"**Servidores conectados:** {len(self.bot.guilds)}"
@@ -79,7 +80,6 @@ class AdminCog(commands.Cog):
 
         embed = discord.Embed(description="❱❱❱ **Informações**\n\n"
                               f"⬩ {header}\n\n"
-                              f"⬩ {websocket}\n\n"
                               f"⬩ {http_loop}\n\n"
                               f"⬩ {latency}\n\n"
                               f"⬩ {guild_count}\n\n"
