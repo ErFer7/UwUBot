@@ -11,7 +11,6 @@ import discord
 from discord import Permissions
 from discord.ext import commands
 
-from bot_functions import make_embed
 
 class AdminCog(commands.Cog):
 

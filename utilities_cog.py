@@ -7,13 +7,12 @@ Módulo para a cog dos comandos de utilidade
 import urllib.parse
 
 from datetime import datetime
-from random import randint
+from random import randint, choice
+from string import ascii_lowercase
 
 import discord
 
 from discord.ext import commands
-
-from bot_functions import rand_str
 
 
 class UtilitiesCog(commands.Cog):
@@ -116,8 +115,10 @@ class UtilitiesCog(commands.Cog):
 
         if input_is_valid:
 
+            random_string = [''.join(choice(ascii_lowercase) for _ in range(size))]
+
             embed = discord.Embed(description="❱❱❱ **String gerado:**\n\n"
-                                  f"*{rand_str(size)}*",
+                                  f"*{random_string}*",
                                   color=discord.Color.dark_blue())
 
             await ctx.send(embed=embed)
