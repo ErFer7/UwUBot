@@ -26,6 +26,78 @@ class TextCog(commands.Cog):
 
         print(f"[{datetime.now()}][Texto]: Sistema de comandos de texto inicializado")
 
+    @commands.command(name="case")
+    async def case(self, ctx, option, *string):
+
+        '''
+        Muda a capitalização do texto
+        '''
+
+        print(f"[{datetime.now()}][Comando]: case (Autor: {ctx.author.name})")
+
+        if option == None or string == None:
+
+            embed = discord.Embed(description="❌  **Uso incorreto*\n\n",
+                                  color=discord.Color.red())
+            await ctx.send(embed=embed)
+            return
+
+        message = " ".join(string)
+
+        if option == "up":
+
+            message = message.upper()
+        elif option == "down":
+
+            message = message.lower()
+        elif option == "swap":
+
+            message = message.swapcase()
+
+        await ctx.send(message)
+
+    @commands.command(name="contar", aliases=("count", "conte"))
+    async def count(self, ctx, target, *string):
+
+        '''
+        Conta quantos caracteres há no texto
+        '''
+
+        print(f"[{datetime.now()}][Comando]: Contar (Autor: {ctx.author.name})")
+
+        if target == None or string == None:
+            embed = discord.Embed(description="❌  **Uso incorreto*\n\n",
+                                  color=discord.Color.red())
+            await ctx.send(embed=embed)
+            return
+
+        message = " ".join(string).lower()
+        count = message.count(target)
+
+        embed = discord.Embed(description=f"❱❱❱ **O string {target} foi encontrada {count}"
+                                            " vezes no texto** ",
+                            color=discord.Color.dark_blue())
+        await ctx.send(embed=embed)
+
+    @commands.command(name="substituir", aliases=("replace", "subs"))
+    async def center(self, ctx, old, new, *string):
+
+        '''
+        Substitui um sub-string
+        '''
+
+        print(f"[{datetime.now()}][Comando]: Substituir (Autor: {ctx.author.name})")
+
+        if old == None or new == None or string == None:
+
+            embed = discord.Embed(description="❌  **Uso incorreto*\n\n",
+                                  color=discord.Color.red())
+            await ctx.send(embed=embed)
+            return
+
+        message = " ".join(string)
+        await ctx.send(message.replace(old, new))
+
     @commands.command(name="emojificar", aliases=("emoji", "emojifier"))
     async def emojify(self, ctx, *string):
 
