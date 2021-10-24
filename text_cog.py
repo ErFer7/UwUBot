@@ -9,6 +9,7 @@ from string import ascii_lowercase
 from random import randint
 
 import discord
+from discord.errors import HTTPException
 
 from discord.ext import commands
 from unidecode import unidecode
@@ -28,7 +29,6 @@ class TextCog(commands.Cog):
 
     @commands.command(name="case")
     async def case(self, ctx, option, *string):
-
         '''
         Muda a capitalização do texto
         '''
@@ -58,14 +58,13 @@ class TextCog(commands.Cog):
 
     @commands.command(name="contar", aliases=("count", "conte"))
     async def count(self, ctx, target, *string):
-
         '''
         Conta quantos caracteres há no texto
         '''
 
         print(f"[{datetime.now()}][Comando]: Contar (Autor: {ctx.author.name})")
 
-        if target == None or string == None:
+        if target is None or string is None:
             embed = discord.Embed(description="❌  **Uso incorreto*\n\n",
                                   color=discord.Color.red())
             await ctx.send(embed=embed)
@@ -75,13 +74,12 @@ class TextCog(commands.Cog):
         count = message.count(target)
 
         embed = discord.Embed(description=f"❱❱❱ **O string {target} foi encontrada {count}"
-                                            " vezes no texto** ",
-                            color=discord.Color.dark_blue())
+                              " vezes no texto** ",
+                              color=discord.Color.dark_blue())
         await ctx.send(embed=embed)
 
     @commands.command(name="substituir", aliases=("replace", "subs"))
     async def center(self, ctx, old, new, *string):
-
         '''
         Substitui um sub-string
         '''
@@ -100,7 +98,6 @@ class TextCog(commands.Cog):
 
     @commands.command(name="emojificar", aliases=("emoji", "emojifier"))
     async def emojify(self, ctx, *string):
-
         '''
         Transforma o texto em emojis
         '''
@@ -144,7 +141,6 @@ class TextCog(commands.Cog):
 
     @commands.command(name="emojificar2", aliases=("emoji2", "emojifier2"))
     async def emojify_block(self, ctx, *string):
-
         '''
         Transforma o texto em um bloco de emojis (Originou de um bug, mas era muito bom)
         '''
@@ -191,7 +187,6 @@ class TextCog(commands.Cog):
 
     @commands.command(name="zoar", aliases=("mock", "zoas"))
     async def mock(self, ctx, *string):
-
         '''
         Zoa o texto
         '''
@@ -219,3 +214,42 @@ class TextCog(commands.Cog):
                                   color=discord.Color.red())
 
             await ctx.send(embed=embed)
+
+    @commands.command(name="contar_canal", aliases=("channel_count", "ct"))
+    async def channel_count(self, ctx, target):
+        '''
+        Conta quantas vezes a mensagem apareceu no canal
+        '''
+
+        print(f"[{datetime.now()}][Comando]: contar_canal (Autor: {ctx.author.name})")
+
+        if target is None:
+            embed = discord.Embed(description="❌  **Uso incorreto*\n\n",
+                                  color=discord.Color.red())
+            await ctx.send(embed=embed)
+            return
+
+        embed = discord.Embed(description="❱❱❱ **Aguarde o processo**",
+                              color=discord.Color.dark_blue())
+        await ctx.send(embed=embed)
+
+        try:
+            message_history = await ctx.channel.history(limit=None).flatten()
+        except HTTPException:
+
+            print(f"[{datetime.now()}][Comando]: Erro HTTP, mensagens não carregadas.")
+
+            embed = discord.Embed(description="❌  **Erro de conexão**\n\n",
+                                  color=discord.Color.red())
+            await ctx.send(embed=embed)
+            return
+
+        count = 0
+
+        for message in message_history:
+            count += message.content.count(target)
+
+        embed = discord.Embed(description=f"❱❱❱ **O string {target} foi encontrada {count}"
+                              f" vezes no texto. {len(message_history)} mensagens foram analisadas**",
+                              color=discord.Color.dark_blue())
+        await ctx.send(embed=embed)

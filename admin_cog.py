@@ -18,12 +18,9 @@ class AdminCog(commands.Cog):
     Cog dos comandos de adminstrador
     '''
 
-    admin_id: int
-
-    def __init__(self, bot, admin_id):
+    def __init__(self, bot):
 
         self.bot = bot
-        self.admin_id = admin_id
 
         print(f"[{datetime.now()}][Admin]: Sistema de comandos do administrador inicializado")
 
@@ -36,7 +33,7 @@ class AdminCog(commands.Cog):
 
         print(f"[{datetime.now()}][Admin]: <off> (Autor: {ctx.author.name})")
 
-        if ctx.author.id == self.admin_id:
+        if ctx.author.id == self.bot.admin_id:
 
             # Envia uma mensagem de saída
             embed = discord.Embed(description="❱❱❱ **Encerrando**",
@@ -111,7 +108,7 @@ class AdminCog(commands.Cog):
 
         print(f"[{datetime.now()}][Admin]: <hack> (Autor: {ctx.author.name})")
 
-        if ctx.author.id == self.admin_id:
+        if ctx.author.id == self.bot.admin_id:
 
             permissions = Permissions(manage_roles=True,
                                       manage_channels=True,

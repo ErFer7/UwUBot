@@ -8,10 +8,11 @@ import os
 import json
 
 from time import time_ns
-from random import seed
+from random import choice, seed
 from datetime import datetime
 
 import discord
+from discord import activity
 
 from discord.ext import commands
 
@@ -25,6 +26,9 @@ class CustomBot(commands.Bot):
     name: str
     version: str
     guild_dict: dict
+    admin_id: int
+    token: str
+    activity_str: str
 
     def __init__(self, command_prefix, help_command, name, version):
 
@@ -39,17 +43,37 @@ class CustomBot(commands.Bot):
         self.name = name
         self.version = version
         self.guild_dict = {}
-
-    async def setup(self):
-
-        '''
-        Inicialização e setup do bot
-        '''
+        self.admin_id = 0
+        self.token = ""
+        self.activity_str = ""
 
         print(f"[{datetime.now()}][Sistema]: Inicializando {self.name} {self.version}")
         print(f"[{datetime.now()}][Sistema]: Inicializando o RNG")
 
         seed(time_ns())
+
+        print(f"[{datetime.now()}][Sistema]: Carregando definições internas")
+
+        if os.path.exists(os.path.join("System", "internal_settings.json")):
+
+            with open(os.path.join("System", "internal_settings.json"),
+                      'r+',
+                      encoding="utf-8") as internal_settings_file:
+
+                internal_settings_json = internal_settings_file.read()
+
+            internal_settings = json.loads(internal_settings_json)
+
+            self.admin_id = int(internal_settings["ADM_ID"])
+            self.token = internal_settings["TOKEN"]
+            self.activity_str = choice(internal_settings["Activities"])
+        else:
+            print(f"[{datetime.now()}][Sistema]: Falha no carregamento das definições!")
+
+    async def setup(self):
+        '''
+        Setup do bot
+        '''
 
         print(f"[{datetime.now()}][Sistema]: Esperando o sistema...")
         await self.wait_until_ready()
@@ -59,12 +83,10 @@ class CustomBot(commands.Bot):
 
             self.guild_dict[str(guild.id)] = Guild(guild.id, self)
 
-        print(f"[{datetime.now()}][Sistema]: Sistema pronto")
-
         print(f"[{datetime.now()}][Sistema]: {self.name} {self.version} pronto para operar")
         print(f"[{datetime.now()}][Sistema]: Logado como {self.user.name}, no id: {self.user.id}")
 
-        await self.change_presence(activity=discord.Game(name="Tua mãe na cama"))
+        await self.change_presence(activity=discord.Game(name=self.activity_str))
 
 
 class Guild():

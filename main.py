@@ -26,8 +26,7 @@ TOKEN = "NzI2MTM5MzYxMjQxODU4MTU5.XvY99A.Fh8e071wE-eqGo2tndUlAG3vuCU"
 
 # Constantes
 NAME = "PyGR"
-VERSION = "4.4"
-ADM_ID = 382542596196663296
+VERSION = "4.5"
 
 # Corrige o erro de saída temporáriamente.
 if sys.version_info[0] == 3 and sys.version_info[1] >= 8 and sys.platform.startswith('win'):
@@ -40,7 +39,7 @@ bot = CustomBot(command_prefix="~",
                 version=VERSION)
 
 # Execução do bot
-bot.add_cog(AdminCog(bot, ADM_ID))
+bot.add_cog(AdminCog(bot))
 bot.add_cog(HelpCog(bot))
 bot.add_cog(TimeCog(bot))
 bot.add_cog(SettingsCog(bot))
@@ -51,4 +50,4 @@ bot.add_cog(HumorCog(bot))
 bot.add_cog(TextCog(bot))
 bot.add_cog(EventCog(bot))
 bot.loop.create_task(bot.setup())
-bot.run(TOKEN)
+bot.run(bot.token)
