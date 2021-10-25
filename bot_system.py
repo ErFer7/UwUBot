@@ -12,7 +12,6 @@ from random import choice, seed
 from datetime import datetime
 
 import discord
-from discord import activity
 
 from discord.ext import commands
 
@@ -106,7 +105,7 @@ class Guild():
 
         if os.path.exists(os.path.join("Guilds", f"{self.id}.json")):
 
-            with open(os.path.join("Guilds", f"{self.id}.json"), 'r+') as settings_file:
+            with open(os.path.join("Guilds", f"{self.id}.json"), 'r+', encoding="utf-8") as settings_file:
 
                 settings_json = settings_file.read()
 
@@ -132,7 +131,7 @@ class Guild():
         Escreve as configurações do servidor
         '''
 
-        with open(os.path.join("Guilds", f"{self.id}.json"), 'w+') as settings_file:
+        with open(os.path.join("Guilds", f"{self.id}.json"), 'w+', encoding="utf-8") as settings_file:
 
             settings_json = json.dumps(self.settings, indent=4)
             settings_file.write(settings_json)

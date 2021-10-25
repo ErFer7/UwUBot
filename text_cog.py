@@ -33,9 +33,9 @@ class TextCog(commands.Cog):
         Muda a capitalização do texto
         '''
 
-        print(f"[{datetime.now()}][Comando]: case (Autor: {ctx.author.name})")
+        print(f"[{datetime.now()}][Comando]: <case> (Autor: {ctx.author.name})")
 
-        if option == None or string == None:
+        if option is None or string is None:
 
             embed = discord.Embed(description="❌  **Uso incorreto*\n\n",
                                   color=discord.Color.red())
@@ -44,15 +44,13 @@ class TextCog(commands.Cog):
 
         message = " ".join(string)
 
-        if option == "up":
-
-            message = message.upper()
-        elif option == "down":
-
-            message = message.lower()
-        elif option == "swap":
-
-            message = message.swapcase()
+        match option:
+            case "up":
+                message = message.upper()
+            case "down":
+                message = message.lower()
+            case "swap":
+                message = message.swapcase()
 
         await ctx.send(message)
 
@@ -62,7 +60,7 @@ class TextCog(commands.Cog):
         Conta quantos caracteres há no texto
         '''
 
-        print(f"[{datetime.now()}][Comando]: Contar (Autor: {ctx.author.name})")
+        print(f"[{datetime.now()}][Comando]: <contar> (Autor: {ctx.author.name})")
 
         if target is None or string is None:
             embed = discord.Embed(description="❌  **Uso incorreto*\n\n",
@@ -79,14 +77,14 @@ class TextCog(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command(name="substituir", aliases=("replace", "subs"))
-    async def center(self, ctx, old, new, *string):
+    async def replace(self, ctx, old, new, *string):
         '''
         Substitui um sub-string
         '''
 
-        print(f"[{datetime.now()}][Comando]: Substituir (Autor: {ctx.author.name})")
+        print(f"[{datetime.now()}][Comando]: <substituir> (Autor: {ctx.author.name})")
 
-        if old == None or new == None or string == None:
+        if old is None or new is None or string is None:
 
             embed = discord.Embed(description="❌  **Uso incorreto*\n\n",
                                   color=discord.Color.red())
@@ -102,7 +100,7 @@ class TextCog(commands.Cog):
         Transforma o texto em emojis
         '''
 
-        print(f"[{datetime.now()}][Texto]: Emojificar (Autor: {ctx.author.name})")
+        print(f"[{datetime.now()}][Texto]: <emojificar> (Autor: {ctx.author.name})")
 
         message = ' '.join(string).lower()
         normalized_message = unidecode(message)
@@ -145,7 +143,7 @@ class TextCog(commands.Cog):
         Transforma o texto em um bloco de emojis (Originou de um bug, mas era muito bom)
         '''
 
-        print(f"[{datetime.now()}][Texto]: Emojificar (Autor: {ctx.author.name})")
+        print(f"[{datetime.now()}][Texto]: <emojificar> (Autor: {ctx.author.name})")
 
         message = ' '.join(string).lower()
         normalized_message = unidecode(message)
@@ -191,7 +189,7 @@ class TextCog(commands.Cog):
         Zoa o texto
         '''
 
-        print(f"[{datetime.now()}][Comando]: Zoas (Autor: {ctx.author.name})")
+        print(f"[{datetime.now()}][Comando]: <zoas> (Autor: {ctx.author.name})")
 
         message = " ".join(string).lower()
         mocked_message = ""
@@ -221,7 +219,7 @@ class TextCog(commands.Cog):
         Conta quantas vezes a mensagem apareceu no canal
         '''
 
-        print(f"[{datetime.now()}][Comando]: contar_canal (Autor: {ctx.author.name})")
+        print(f"[{datetime.now()}][Comando]: <contar_canal> (Autor: {ctx.author.name})")
 
         if target is None:
             embed = discord.Embed(description="❌  **Uso incorreto*\n\n",

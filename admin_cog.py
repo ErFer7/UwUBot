@@ -66,7 +66,7 @@ class AdminCog(commands.Cog):
         Exibe informações
         '''
 
-        print(f"[{datetime.now()}][Admin]: Info (Autor: {ctx.author.name})")
+        print(f"[{datetime.now()}][Admin]: <info> (Autor: {ctx.author.name})")
 
         header = f"**{self.bot.name} {self.bot.version}** - Criado em 26/06/2020"
         http_loop = f"**Loop HTTP:** {self.bot.loop}"
