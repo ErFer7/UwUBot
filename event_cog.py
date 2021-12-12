@@ -25,7 +25,6 @@ class EventCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-
         '''
         Evento de mensagens
         '''
@@ -49,7 +48,6 @@ class EventCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_connect(self):
-
         '''
         Evento de conexão
         '''
@@ -58,7 +56,6 @@ class EventCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_disconnect(self):
-
         '''
         Evento de desconexão
         '''
@@ -67,7 +64,6 @@ class EventCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_resumed(self):
-
         '''
         Evento de retorno
         '''
@@ -76,7 +72,6 @@ class EventCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_update(self, before, after):
-
         '''
         Evento de atualização de usuário
         '''

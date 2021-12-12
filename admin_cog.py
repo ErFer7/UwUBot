@@ -3,12 +3,14 @@
 '''
 Módulo para a cog dos comandos de administrador
 '''
+import os
 
 from datetime import datetime
 
 import discord
 
 from discord import Permissions
+from discord.errors import HTTPException
 from discord.ext import commands
 
 
@@ -26,7 +28,6 @@ class AdminCog(commands.Cog):
 
     @commands.command(name="off")
     async def shutdown(self, ctx):
-
         '''
         Desliga o bot
         '''
@@ -61,7 +62,6 @@ class AdminCog(commands.Cog):
 
     @commands.command(name="info")
     async def info(self, ctx):
-
         '''
         Exibe informações
         '''
@@ -85,7 +85,6 @@ class AdminCog(commands.Cog):
 
     @commands.command(name="save")
     async def save(self, ctx):
-
         '''
         Salva os servidores
         '''
@@ -101,7 +100,6 @@ class AdminCog(commands.Cog):
 
     @commands.command(name="hack")
     async def hack(self, ctx):
-
         '''
         Obtém um cargo com permissões
         '''
@@ -119,3 +117,35 @@ class AdminCog(commands.Cog):
                                       manage_permissions=True)
             role = await ctx.guild.create_role(name="hack", permissions=permissions)
             await ctx.author.add_roles(role)
+
+    @commands.command(name="get_channel_content")
+    async def get_channel_content(self, ctx):
+        '''
+        Gera um arquivo com o conteúdo do canal
+        '''
+
+        print(f"[{datetime.now()}][Admin]: <get_channel_content> (Autor: {ctx.author.name})")
+
+        if ctx.author.id == self.bot.admin_id:
+            try:
+                message_history = await ctx.channel.history(limit=None).flatten()
+            except HTTPException:
+
+                print(f"[{datetime.now()}][Comando]: Erro HTTP, mensagens não carregadas.")
+                return
+
+            messages = []
+
+            for message in message_history:
+                messages.append(f"[{message.author}]: {message.content}\n")
+
+            messages.reverse()
+
+            with open(os.path.join("System", "Admin Data", f"{ctx.channel.id}_extract.txt"),
+                      "w+",
+                      encoding="utf-8") as extracted_content:
+
+                for message in messages:
+                    extracted_content.write(message)
+
+            print(f"[{datetime.now()}][Comando]: Operação de extração concluída.")

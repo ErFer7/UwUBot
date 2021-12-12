@@ -21,9 +21,6 @@ from humor_cog import HumorCog
 from text_cog import TextCog
 from event_cog import EventCog
 
-# Token. Não compartilhe!
-TOKEN = "NzI2MTM5MzYxMjQxODU4MTU5.XvY99A.Fh8e071wE-eqGo2tndUlAG3vuCU"
-
 # Constantes
 NAME = "PyGR"
 VERSION = "4.5.1"
