@@ -18,7 +18,7 @@ def interact(string: str):
 
         if find_word("gay", string):
 
-            return "Não. Sou apenas uma máquina. UMA MÁQUINA DE SEXO."
+            return "Não, me interesso apenas por CASADAS."
         elif find_word("corno", string):
 
             return "Um bot sem chifre é um bot indefeso."
@@ -30,7 +30,7 @@ def interact(string: str):
 
             if rng == 0:
 
-                return "Teu pai aquele arrombado."
+                return "Teu pai é."
             elif rng == 1:
 
                 return "Sim."

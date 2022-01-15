@@ -29,7 +29,6 @@ class UtilitiesCog(commands.Cog):
 
     @commands.command(name="wolfram", aliases=("wolf", "resolver", "solve"))
     async def wolfram_alpha(self, ctx, *search):
-
         '''
         Envia uma pesquisa no wolfram
         '''
@@ -47,7 +46,6 @@ class UtilitiesCog(commands.Cog):
 
     @commands.command(name="rng")
     async def random_number(self, ctx, min_str=None, max_str=None):
-
         '''
         Gera um número aleatório
         '''
@@ -86,7 +84,6 @@ class UtilitiesCog(commands.Cog):
 
     @commands.command(name="rsg")
     async def random_string(self, ctx, size_str=None):
-
         '''
         Gera um string aleatório
         '''
@@ -125,7 +122,6 @@ class UtilitiesCog(commands.Cog):
 
     @commands.command(name="usuário", aliases=("user", 'u'))
     async def user_info(self, ctx):
-
         '''
         Obtém informações do usuário
         '''
@@ -166,7 +162,6 @@ class UtilitiesCog(commands.Cog):
     # Feito pelo grande Francisco Gamba (@Ffran33)
     @commands.command(name="playlist")
     async def playlist_link(self, ctx):
-
         '''
         Envia uma playlist
         '''

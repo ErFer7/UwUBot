@@ -17,7 +17,6 @@ class InteractionProcessor():
     interactions: list
 
     def __init__(self):
-
         self.temper = 0.0
 
     def process_message(self, message: str):

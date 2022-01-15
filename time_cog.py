@@ -26,7 +26,6 @@ class TimeCog(commands.Cog):
 
     @commands.command(name="cronômetro", aliases=("cronometro", "cr"))
     async def chronometer(self, ctx):
-
         '''
         Cronometra o tempo
         '''

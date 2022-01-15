@@ -43,10 +43,9 @@ class AdminCog(commands.Cog):
             await ctx.send(embed=embed)
 
             # Salva todos os servidores
-            print(
-                f"[{datetime.now()}][Admin]: Registrando as definições dos servidores")
-            for key in self.bot.guild_dict:
+            print(f"[{datetime.now()}][Admin]: Registrando as definições dos servidores")
 
+            for key in self.bot.guild_dict:
                 self.bot.guild_dict[key].write_settings()
 
             # Encerra o bot

@@ -25,7 +25,6 @@ class HelpCog(commands.Cog):
 
     @commands.command(name="ajuda", aliases=("help", "h", "aj"))
     async def custom_help(self, ctx):
-
         '''
         Envia uma mensagem de ajuda
         '''

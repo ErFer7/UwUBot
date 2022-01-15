@@ -149,7 +149,7 @@ def value_to_string(values: list):
 
     for value in values:
         string += chr(int(value * 255))
-    
+
     return string
 
 # seed(0)

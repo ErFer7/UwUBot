@@ -29,7 +29,6 @@ class VoiceCog(commands.Cog):
 
     @commands.command(name="conectar", aliases=("connect", "entrar", "join"))
     async def join(self, ctx):
-
         '''
         Entra em uma chamada
         '''
@@ -62,7 +61,6 @@ class VoiceCog(commands.Cog):
 
     @commands.command(name="desconectar", aliases=("disconnect", "sair", "leave"))
     async def leave(self, ctx):
-
         '''
         Sai da chamada
         '''
@@ -86,7 +84,6 @@ class VoiceCog(commands.Cog):
 
     @commands.command(name="tocar", aliases=("play", 'p'))
     async def play(self, ctx, audio=None):
-
         '''
         Toca um áudio
         '''
@@ -148,7 +145,6 @@ class VoiceCog(commands.Cog):
 
     @commands.command(name="parar", aliases=("stop", 's'))
     async def stop(self, ctx):
-
         '''
         Para o áudio
         '''

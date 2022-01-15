@@ -26,7 +26,6 @@ class RPGCog(commands.Cog):
 
     @commands.command(name="dado", aliases=('d', "dice"))
     async def dice(self, ctx, *args):
-
         '''
         Rola um dado
         '''
@@ -68,7 +67,6 @@ class RPGCog(commands.Cog):
             valid = False
 
         if len(result) > 2048:
-
             valid = False
 
         if valid:

@@ -79,7 +79,6 @@ class CustomBot(commands.Bot):
 
         print(f"[{datetime.now()}][Sistema]: Carregando definições dos servidores")
         for guild in self.guilds:
-
             self.guild_dict[str(guild.id)] = Guild(guild.id, self)
 
         print(f"[{datetime.now()}][Sistema]: {self.name} {self.version} pronto para operar")
@@ -106,7 +105,6 @@ class Guild():
         if os.path.exists(os.path.join("Guilds", f"{self.id}.json")):
 
             with open(os.path.join("Guilds", f"{self.id}.json"), 'r+', encoding="utf-8") as settings_file:
-
                 settings_json = settings_file.read()
 
             self.settings = json.loads(settings_json)
@@ -121,7 +119,6 @@ class Guild():
         self.main_channel = bot.get_channel(self.settings["Main channel ID"])
 
         if self.main_channel is None:
-
             self.main_channel = self.guild.channels[0]
 
         print(f"[{datetime.now()}][Sistema]: Servidor {self.id} inicializado")
@@ -146,7 +143,6 @@ class Guild():
         self.main_channel = bot.get_channel(self.settings["Main channel ID"])
 
         if self.main_channel is None:
-
             self.main_channel = self.guild.channels[0]
 
         print(f"[{datetime.now()}][Sistema]: Canal principal do servidor {self.id} atualizado")

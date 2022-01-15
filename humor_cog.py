@@ -26,7 +26,6 @@ class HumorCog(commands.Cog):
 
     @commands.command(name="corno")
     async def fake_cuck_level(self, ctx):
-
         '''
         Retorna que a pessoa tem 100% de nível de corno
         '''
@@ -50,7 +49,6 @@ class HumorCog(commands.Cog):
 
     @commands.command(name="crono")
     async def cuck_level(self, ctx):
-
         '''
         Retorna o nível de corno
         '''

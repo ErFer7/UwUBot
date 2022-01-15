@@ -23,11 +23,10 @@ from event_cog import EventCog
 
 # Constantes
 NAME = "PyGR"
-VERSION = "4.5.1"
+VERSION = "4.5.1-exp"
 
 # Corrige o erro de saída temporáriamente.
 if sys.version_info[0] == 3 and sys.version_info[1] >= 8 and sys.platform.startswith('win'):
-
     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 bot = CustomBot(command_prefix="~",

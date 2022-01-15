@@ -25,7 +25,6 @@ class SettingsCog(commands.Cog):
 
     @commands.command(name="canal", aliases=("channel", "ch"))
     async def channel_modifier(self, ctx):
-
         '''
         Define o canal principal de bots
         '''

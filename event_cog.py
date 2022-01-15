@@ -40,11 +40,13 @@ class EventCog(commands.Cog):
 
             print(f"[{datetime.now()}][Evento]: Bot Mencionado")
 
-            awnser = interact(message.content)
+            # Sistema de interação desabilitado
 
-            if awnser is not None:
+            # awnser = interact(message.content)
 
-                await message.channel.send(awnser)
+            # if awnser is not None:
+
+            #     await message.channel.send(awnser)
 
     @commands.Cog.listener()
     async def on_connect(self):
