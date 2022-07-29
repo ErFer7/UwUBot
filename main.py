@@ -17,7 +17,7 @@ from settings_cog import SettingsCog
 from rpg_cog import RPGCog
 from voice_cog import VoiceCog
 from utilities_cog import UtilitiesCog
-from humor_cog import HumorCog
+from humour_cog import HumorCog
 from text_cog import TextCog
 from event_cog import EventCog
 

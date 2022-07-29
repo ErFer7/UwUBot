@@ -8,8 +8,6 @@ from datetime import datetime
 
 from discord.ext import commands
 
-from legacy import interact
-
 
 class EventCog(commands.Cog):
 
@@ -37,16 +35,7 @@ class EventCog(commands.Cog):
             return
 
         if self.bot.user.mentioned_in(message):
-
             print(f"[{datetime.now()}][Evento]: Bot Mencionado")
-
-            # Sistema de interação desabilitado
-
-            # awnser = interact(message.content)
-
-            # if awnser is not None:
-
-            #     await message.channel.send(awnser)
 
     @commands.Cog.listener()
     async def on_connect(self):

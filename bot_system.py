@@ -25,7 +25,7 @@ class CustomBot(commands.Bot):
     name: str
     version: str
     guild_dict: dict
-    admin_id: int
+    admins_id: int
     token: str
     activity_str: str
 
@@ -42,7 +42,7 @@ class CustomBot(commands.Bot):
         self.name = name
         self.version = version
         self.guild_dict = {}
-        self.admin_id = 0
+        self.admins_id = []
         self.token = ""
         self.activity_str = ""
 
@@ -63,7 +63,7 @@ class CustomBot(commands.Bot):
 
             internal_settings = json.loads(internal_settings_json)
 
-            self.admin_id = int(internal_settings["ADM_ID"])
+            self.admins_id = list(map(int, internal_settings["ADM_ID"]))
             self.token = internal_settings["TOKEN"]
             self.activity_str = choice(internal_settings["Activities"])
         else:
