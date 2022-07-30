@@ -1,29 +1,36 @@
 # -*- coding: utf-8 -*-
 
 '''
-Bot para Discord - 2020/06/26 - Eric Fernandes Evaristo
+Bot para Discord - 2020-06-26 - Eric Fernandes Evaristo
 Projeto: Bot-Project
-Bot: PyGR
+Bot: OwOBot
+
+ ██████╗ ██╗    ██╗ ██████╗
+██╔═══██╗██║    ██║██╔═══██╗
+██║   ██║██║ █╗ ██║██║   ██║
+██║   ██║██║███╗██║██║   ██║
+╚██████╔╝╚███╔███╔╝╚██████╔╝
+ ╚═════╝  ╚══╝╚══╝  ╚═════╝
 '''
 
 import sys
 import asyncio
 
-from bot_system import CustomBot
-from admin_cog import AdminCog
-from help_cog import HelpCog
-from time_cog import TimeCog
-from settings_cog import SettingsCog
-from rpg_cog import RPGCog
-from voice_cog import VoiceCog
-from utilities_cog import UtilitiesCog
-from humour_cog import HumorCog
-from text_cog import TextCog
-from event_cog import EventCog
+from source.bot_system import CustomBot
+from source.admin_cog import AdminCog
+from source.help_cog import HelpCog
+from source.time_cog import TimeCog
+from source.settings_cog import SettingsCog
+from source.rpg_cog import RPGCog
+from source.voice_cog import VoiceCog
+from source.utilities_cog import UtilitiesCog
+from source.humour_cog import HumorCog
+from source.text_cog import TextCog
+from source.event_cog import EventCog
 
 # Constantes
-NAME = "PyGR"
-VERSION = "4.5.1-exp"
+NAME = "OwOBot"
+VERSION = "5.0-dev"
 
 # Corrige o erro de saída temporáriamente.
 if sys.version_info[0] == 3 and sys.version_info[1] >= 8 and sys.platform.startswith('win'):

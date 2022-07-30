@@ -10,7 +10,7 @@ from datetime import datetime
 from discord.errors import HTTPException
 from discord.ext import commands
 
-from utilities import DiscordUtilities
+from source.utilities import DiscordUtilities
 
 
 class AdminCog(commands.Cog):
