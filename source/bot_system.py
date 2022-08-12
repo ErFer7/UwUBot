@@ -22,6 +22,7 @@ class CustomBot(commands.Bot):
     Bot customizado
     '''
 
+    # Atributos -----------------------------------------------
     name: str
     version: str
     guild_dict: dict
@@ -29,7 +30,8 @@ class CustomBot(commands.Bot):
     token: str
     activity_str: str
 
-    def __init__(self, command_prefix, help_command, name, version):
+    # Construtor ----------------------------------------------
+    def __init__(self, command_prefix, help_command, name, version) -> None:
 
         intents = discord.Intents.all()
         intents.presences = True
