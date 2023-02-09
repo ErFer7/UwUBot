@@ -14,6 +14,8 @@ from discord.errors import HTTPException
 from discord.ext import commands
 from unidecode import unidecode
 
+from discpybotframe.utilities import DiscordUtilities
+
 
 class TextCog(commands.Cog):
 
@@ -21,14 +23,14 @@ class TextCog(commands.Cog):
     Cog dos comandos de texto
     '''
 
-    def __init__(self, bot):
+    _bot: None
 
-        self.bot = bot
-
+    def __init__(self, bot) -> None:
+        self._bot = bot
         print(f"[{datetime.now()}][Texto]: Sistema de comandos de texto inicializado")
 
     @commands.command(name="case")
-    async def case(self, ctx, option, *string):
+    async def case(self, ctx, option, *string) -> None:
         '''
         Muda a capitalização do texto
         '''
@@ -36,10 +38,7 @@ class TextCog(commands.Cog):
         print(f"[{datetime.now()}][Comando]: <case> (Autor: {ctx.author.name})")
 
         if option is None or string is None:
-
-            embed = discord.Embed(description="❌  **Uso incorreto*\n\n",
-                                  color=discord.Color.red())
-            await ctx.send(embed=embed)
+            await DiscordUtilities.send_message(ctx, "Uso incorreto", '', '', True)
             return
 
         message = " ".join(string)
@@ -55,7 +54,7 @@ class TextCog(commands.Cog):
         await ctx.send(message)
 
     @commands.command(name="contar", aliases=("count", "conte"))
-    async def count(self, ctx, target, *string):
+    async def count(self, ctx, target, *string) -> None:
         '''
         Conta quantos caracteres há no texto
         '''
@@ -63,21 +62,20 @@ class TextCog(commands.Cog):
         print(f"[{datetime.now()}][Comando]: <contar> (Autor: {ctx.author.name})")
 
         if target is None or string is None:
-            embed = discord.Embed(description="❌  **Uso incorreto*\n\n",
-                                  color=discord.Color.red())
-            await ctx.send(embed=embed)
+            await DiscordUtilities.send_message(ctx, "Uso incorreto", '', '', True)
             return
 
         message = " ".join(string).lower()
         count = message.count(target)
 
-        embed = discord.Embed(description=f"❱❱❱ **O string {target} foi encontrada {count}"
-                              " vezes no texto** ",
-                              color=discord.Color.dark_blue())
-        await ctx.send(embed=embed)
+        await DiscordUtilities.send_message(ctx,
+                                            "Contagem",
+                                            f"**O string {target} foi encontrada {count}"
+                                            " vezes no texto** " ,
+                                            '')
 
     @commands.command(name="substituir", aliases=("replace", "subs"))
-    async def replace(self, ctx, old, new, *string):
+    async def replace(self, ctx, old, new, *string) -> None:
         '''
         Substitui um sub-string
         '''
@@ -85,17 +83,14 @@ class TextCog(commands.Cog):
         print(f"[{datetime.now()}][Comando]: <substituir> (Autor: {ctx.author.name})")
 
         if old is None or new is None or string is None:
-
-            embed = discord.Embed(description="❌  **Uso incorreto*\n\n",
-                                  color=discord.Color.red())
-            await ctx.send(embed=embed)
+            await DiscordUtilities.send_message(ctx, "Uso incorreto", '', '', True)
             return
 
         message = " ".join(string)
         await ctx.send(message.replace(old, new))
 
     @commands.command(name="emojificar", aliases=("emoji", "emojifier"))
-    async def emojify(self, ctx, *string):
+    async def emojify(self, ctx, *string) -> None:
         '''
         Transforma o texto em emojis
         '''
@@ -128,17 +123,12 @@ class TextCog(commands.Cog):
                 emojified_message += f" :regional_indicator_{char}:"
 
         if len(emojified_message) <= 2000:
-
             await ctx.send(emojified_message)
         else:
-
-            embed = discord.Embed(description="❌  **A mensagem é muito grande**\n\n",
-                                  color=discord.Color.red())
-
-            await ctx.send(embed=embed)
+            await DiscordUtilities.send_message(ctx, "Uso incorreto", "A mensagem é muito grande", '', True)
 
     @commands.command(name="emojificar2", aliases=("emoji2", "emojifier2"))
-    async def emojify_block(self, ctx, *string):
+    async def emojify_block(self, ctx, *string) -> None:
         '''
         Transforma o texto em um bloco de emojis (Originou de um bug, mas era muito bom)
         '''
@@ -174,17 +164,12 @@ class TextCog(commands.Cog):
             diagonal_message += emojified_message + '\n'
 
         if len(diagonal_message) <= 2000:
-
             await ctx.send(diagonal_message)
         else:
-
-            embed = discord.Embed(description="❌  **A mensagem é muito grande**\n\n",
-                                  color=discord.Color.red())
-
-            await ctx.send(embed=embed)
+            await DiscordUtilities.send_message(ctx, "Uso incorreto", "A mensagem é muito grande", '', True)
 
     @commands.command(name="zoar", aliases=("mock", "zoas"))
-    async def mock(self, ctx, *string):
+    async def mock(self, ctx, *string) -> None:
         '''
         Zoa o texto
         '''
@@ -204,17 +189,12 @@ class TextCog(commands.Cog):
                 mocked_message += char.lower()
 
         if len(mocked_message) <= 2000:
-
             await ctx.send(mocked_message)
         else:
-
-            embed = discord.Embed(description="❌  **A mensagem é muito grande**\n\n",
-                                  color=discord.Color.red())
-
-            await ctx.send(embed=embed)
+            await DiscordUtilities.send_message(ctx, "Uso incorreto", "A mensagem é muito grande", '', True)
 
     @commands.command(name="contar_canal", aliases=("channel_count", "ct"))
-    async def channel_count(self, ctx, target):
+    async def channel_count(self, ctx, target) -> None:
         '''
         Conta quantas vezes a mensagem apareceu no canal
         '''
@@ -222,32 +202,25 @@ class TextCog(commands.Cog):
         print(f"[{datetime.now()}][Comando]: <contar_canal> (Autor: {ctx.author.name})")
 
         if target is None:
-            embed = discord.Embed(description="❌  **Uso incorreto*\n\n",
-                                  color=discord.Color.red())
-            await ctx.send(embed=embed)
+            await DiscordUtilities.send_message(ctx, "Uso incorreto", '', '', True)
             return
 
-        embed = discord.Embed(description="❱❱❱ **Aguarde o processo**",
-                              color=discord.Color.dark_blue())
-        await ctx.send(embed=embed)
+        await DiscordUtilities.send_message(ctx, "Aguarde", '', '')
 
         try:
-            message_history = await ctx.channel.history(limit=None).flatten()
+            messages = [message async for message in ctx.channel.history(limit=None)]
         except HTTPException:
-
             print(f"[{datetime.now()}][Comando]: Erro HTTP, mensagens não carregadas.")
-
-            embed = discord.Embed(description="❌  **Erro de conexão**\n\n",
-                                  color=discord.Color.red())
-            await ctx.send(embed=embed)
+            await DiscordUtilities.send_message(ctx, "Erro de conexão", '', '', True)
             return
 
         count = 0
 
-        for message in message_history:
+        for message in messages:
             count += message.content.count(target)
 
-        embed = discord.Embed(description=f"❱❱❱ **O string {target} foi encontrada {count}"
-                              f" vezes no texto. {len(message_history)} mensagens foram analisadas**",
-                              color=discord.Color.dark_blue())
-        await ctx.send(embed=embed)
+        await DiscordUtilities.send_message(ctx,
+                                            "Contagem",
+                                            f"**O string \"{target}\" foi encontrada {count}"
+                                            f" vezes no texto. {len(messages)} mensagens foram analisadas**",
+                                            '')

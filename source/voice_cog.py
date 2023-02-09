@@ -13,6 +13,7 @@ from os.path import isfile, join
 import discord
 
 from discord.ext import commands
+from discpybotframe.utilities import DiscordUtilities
 
 
 class VoiceCog(commands.Cog):
@@ -21,14 +22,14 @@ class VoiceCog(commands.Cog):
     Cog dos comandos de voz
     '''
 
-    def __init__(self, bot):
+    _bot: None
 
-        self.bot = bot
-
+    def __init__(self, bot) -> None:
+        self._bot = bot
         print(f"[{datetime.now()}][Voz]: Sistema de comandos de voz inicializado")
 
     @commands.command(name="conectar", aliases=("connect", "entrar", "join"))
-    async def join(self, ctx):
+    async def join(self, ctx) -> None:
         '''
         Entra em uma chamada
         '''
@@ -38,50 +39,23 @@ class VoiceCog(commands.Cog):
         voice_channel = ctx.message.author.voice.channel
 
         if voice_channel is not None:
-
-            if ctx.voice_client is None or not ctx.voice_client.is_connected():
-
-                embed = discord.Embed(description="❱❱❱ **Entrando**",
-                                      color=discord.Color.dark_blue())
-
-                await ctx.send(embed=embed)
-
-                await voice_channel.connect()
-            else:
-
-                embed = discord.Embed(description="❌  **Já estou conectado**",
-                                      color=discord.Color.red())
-
-                await ctx.send(embed=embed)
+            self._bot.voice_controller.connect(voice_channel)
+            await DiscordUtilities.send_message(ctx, "Conectado", '', '')
         else:
-
-            embed = discord.Embed(description="❌  **Não tenho nenhum canal pra me conectar**",
-                                  color=discord.Color.red())
-            await ctx.send(embed=embed)
+            await DiscordUtilities.send_message(ctx, "Canal não encontrado", '', '', True)
 
     @commands.command(name="desconectar", aliases=("disconnect", "sair", "leave"))
-    async def leave(self, ctx):
+    async def leave(self, ctx) -> None:
         '''
         Sai da chamada
         '''
 
         print(f"[{datetime.now()}][Voz]: <desconectar> (Autor: {ctx.message.author.name})")
 
-        if ctx.voice_client is not None and ctx.voice_client.is_connected():
+        self._bot.voice_controller.disconnect()
+        await DiscordUtilities.send_message(ctx, "Desconectado", '', '')
 
-            embed = discord.Embed(description="❱❱❱ **Saindo**",
-                                  color=discord.Color.dark_blue())
-
-            await ctx.send(embed=embed)
-
-            await ctx.voice_client.disconnect()
-        else:
-
-            embed = discord.Embed(description="❌  **Não estou conectado**",
-                                  color=discord.Color.red())
-
-            await ctx.send(embed=embed)
-
+    # TODO: Refatorar daqui pra baixo
     @commands.command(name="tocar", aliases=("play", 'p'))
     async def play(self, ctx, audio=None):
         '''
