@@ -7,9 +7,8 @@ Módulo para a cog dos comandos de rpg
 from datetime import datetime
 from random import randint
 
-import discord
-
 from discord.ext import commands
+from discpybotframe.utilities import DiscordUtilities
 
 
 class RPGCog(commands.Cog):
@@ -18,14 +17,14 @@ class RPGCog(commands.Cog):
     Cog dos comandos de rpg
     '''
 
-    def __init__(self, bot):
+    _bot: None
 
-        self.bot = bot
-
+    def __init__(self, bot) -> None:
+        self._bot = bot
         print(f"[{datetime.now()}][RPG]: Sistema de comandos de rpg inicializado")
 
     @commands.command(name="dado", aliases=('d', "dice"))
-    async def dice(self, ctx, *args):
+    async def dice(self, ctx, *args) -> None:
         '''
         Rola um dado
         '''
@@ -33,7 +32,7 @@ class RPGCog(commands.Cog):
         print(f"[{datetime.now()}][RPG]: <dice> (Autor: {ctx.author.name})")
 
         valid = True
-        result = "🎲  **Dados jogados**\n\n"
+        result = ''
 
         if len(args) > 0:
 
@@ -70,13 +69,11 @@ class RPGCog(commands.Cog):
             valid = False
 
         if valid:
-
-            embed = discord.Embed(description=result, color=discord.Color.dark_blue())
-            await ctx.send(embed=embed)
+            await DiscordUtilities.send_message(ctx, "🎲 Dados jogados", result, '')
         else:
-
-            embed = discord.Embed(description="❌  **Comando inválido**\n\n"
-                                  "*Uso correto*\n"
-                                  "~dado <Lista de dados; Ex: 2d8 4d6>",
-                                  color=discord.Color.red())
-            await ctx.send(embed=embed)
+            await DiscordUtilities.send_message(ctx,
+                                                "Comando inválido",
+                                                "*Uso correto*\n"
+                                                "~dado <Lista de dados; Ex: 2d8 4d6>",
+                                                '',
+                                                True)
