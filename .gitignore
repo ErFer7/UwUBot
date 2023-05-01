@@ -140,3 +140,4 @@ audio
 logs
 .vscode
 ffmpeg.exe
+*.sqlite
