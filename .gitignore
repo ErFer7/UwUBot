@@ -141,3 +141,4 @@ logs
 .vscode
 ffmpeg.exe
 *.sqlite
+scripts/server_login.txt
